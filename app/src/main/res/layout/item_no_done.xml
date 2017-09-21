@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_marginLeft="8dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/itemNoDone_Button_date"
+        android:text="11.01.2017"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:layout_gravity="center_vertical"
+        android:text="100"
+        android:id="@+id/itemNoDone_TextView_many"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:layout_gravity="center_vertical"
+        android:text="Описание"
+        android:id="@+id/itemNoDone_TextView_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:alpha=".5"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/itemNoDone_Button_th"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@mipmap/ic_restore_black_36dp"/>
+    <Button
+        android:alpha=".5"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/itemNoDone_Button_ok"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@mipmap/ic_done_black_36dp"/>
+
+</LinearLayout>

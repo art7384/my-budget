@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="app_name">Мой бюджет</string>
+
+    <string name="dell_item_menu_transaction">Удалить</string>
+    <string name="update_item_menu_transaction">Изменить</string>
+    <string name="move_item_menu_transaction">Перенисти</string>
+    <string name="perform_item_menu_transaction">Выполнено</string>
+
+    <string-array name="interval">
+        <item>Одноразово</item>
+        <item>Каждый месяц</item>
+        <item>Каждую неделю</item>
+        <item>Каждый день</item>
+        <item>Каждый раб.день</item>
+    </string-array>
+
+</resources>

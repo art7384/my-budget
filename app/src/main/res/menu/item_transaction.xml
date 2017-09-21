@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/itemTransport_item_update"
+        android:title="@string/update_item_menu_transaction" />
+
+    <item android:id="@+id/itemTransport_item_move"
+        android:visible="false"
+        android:title="@string/move_item_menu_transaction" />
+
+    <item android:id="@+id/itemTransport_item_dell"
+        android:title="@string/dell_item_menu_transaction" />
+
+    <item android:id="@+id/itemTransport_item_perfom"
+        android:checkable="true"
+        android:checked="true"
+        android:title="@string/perform_item_menu_transaction" />
+
+</menu>

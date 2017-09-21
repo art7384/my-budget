@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/callCaldroid_View_border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"/>
+
+    <LinearLayout
+        android:layout_margin="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#fff">
+
+        <TextView
+            android:id="@+id/callCaldroid_TextView_day"
+            style="@style/TxtDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="2dp"
+            android:text="89" />
+
+        <TextView
+            android:id="@+id/callCaldroid_TextView_many_pl"
+            style="@style/TxtMany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="2dp"
+            android:text="+18000"
+            android:textColor="@color/many_pl" />
+
+        <TextView
+            android:id="@+id/callCaldroid_TextView_many_mn"
+            style="@style/TxtMany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="2dp"
+            android:text="-9000" />
+
+        <TextView
+            android:id="@+id/callCaldroid_TextView_many"
+            style="@style/TxtSum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
+            android:text="-300" />
+    </LinearLayout>
+
+</FrameLayout>

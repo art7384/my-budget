@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#00B0FF</color>
+
+    <color name="day">#333</color>
+    <color name="day_p">#BDBDBD</color>
+    <color name="many_pl">#BDBDBD</color>
+    <color name="many_mn">#FF6E40</color>
+    <!--<color name="many_sum_pl">#00C853</color>-->
+    <color name="many_sum_pl">@color/colorAccent</color>
+    <color name="many_sum_mn">#FF3D00</color>
+    <color name="many_sum">#333</color>
+
+</resources>
