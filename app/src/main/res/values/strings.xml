@@ -1,11 +1,29 @@
 <resources>
 
-    <string name="app_name">Мой бюджет</string>
+    <string name="app_name">В кармане</string>
 
     <string name="dell_item_menu_transaction">Удалить</string>
     <string name="update_item_menu_transaction">Изменить</string>
     <string name="move_item_menu_transaction">Перенисти</string>
     <string name="perform_item_menu_transaction">Выполнено</string>
+
+    <string name="bt_email_in">Войти по почте</string>
+    <string name="bt_ok">Ок</string>
+
+    <string name="et_email">Эл. почта</string>
+    <string name="et_password">Пароль</string>
+
+    <string name="income">Доход</string>
+    <string name="consumption">Расход</string>
+    <string name="select_category">Выбор категории</string>
+    <string name="add_category">Добавить категорию</string>
+    <string name="add_note">Добавте заметку</string>
+
+    <string name="already_spent_received">Уже потрачено / получено</string>
+    <string name="already_received">Уже получено</string>
+    <string name="already_spent">Уже потрачено</string>
+
+    <string name="change_category">Изменить категорию</string>
 
     <string-array name="interval">
         <item>Одноразово</item>
@@ -13,6 +31,41 @@
         <item>Каждую неделю</item>
         <item>Каждый день</item>
         <item>Каждый раб.день</item>
+    </string-array>
+
+    <string-array name="days">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресение</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>января</item>
+        <item>февраля</item>
+        <item>марта</item>
+        <item>апреля</item>
+        <item>мая</item>
+        <item>июня</item>
+        <item>июля</item>
+        <item>августа</item>
+        <item>сентебря</item>
+        <item>октября</item>
+        <item>ноября</item>
+        <item>декабря</item>
+    </string-array>
+
+    <string-array name="weekday">
+        <item>Вс</item>
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
     </string-array>
 
 </resources>

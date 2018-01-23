@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Button.Cal" parent="@style/Button.Cal.Base">
+        <item name="android:colorAccent">@color/colorPA200</item>
+    </style>
+</resources>

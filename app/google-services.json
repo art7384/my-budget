@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "948471596417",
+    "firebase_url": "https://budget-be16e.firebaseio.com",
+    "project_id": "budget-be16e",
+    "storage_bucket": "budget-be16e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948471596417:android:40858f46c0087795",
+        "android_client_info": {
+          "package_name": "com.itechmobile.budget"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948471596417-bpvjo8f4shc4bmumvosa8uha3f7f7j65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCGPSo_nGd9H6jWXZp-B7upF9XQcGKVwo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <Button
+        android:fontFamily="@font/roboto_regular"
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
         android:id="@+id/itemNoDone_Button_date"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:fontFamily="@font/roboto_regular"
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
         android:text="100"

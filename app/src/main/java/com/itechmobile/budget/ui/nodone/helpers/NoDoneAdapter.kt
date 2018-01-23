@@ -39,12 +39,12 @@ class NoDoneAdapter(private var mCnx: Context,
         val txtMany = v.findViewById<TextView>(R.id.itemNoDone_TextView_many)
         val txtName = v.findViewById<TextView>(R.id.itemNoDone_TextView_name)
 
-        if (item.many < 0) {
+        if (item.money < 0) {
             txtMany.setTextColor(App.instance.resources.getColor(R.color.many_sum_mn))
-            txtMany.text = item.many.toString()
+            txtMany.text = item.money.toString()
         } else {
             txtMany.setTextColor(App.instance.resources.getColor(R.color.many_sum_pl))
-            txtMany.text = "+" + item.many.toString()
+            txtMany.text = "+" + item.money.toString()
         }
 
         txtName.text = item.name

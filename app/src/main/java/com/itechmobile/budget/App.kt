@@ -1,14 +1,25 @@
 package com.itechmobile.budget
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.database.sqlite.SQLiteDatabase
 import com.itechmobile.budget.logick.datebase.DBHelper
-
-
+import com.itechmobile.budget.logick.service.AnalyticsService
 
 
 /**
  * Created by artem on 24.07.17.
+ *
+ * Analytics tracking ID: UA-106039074-1
+ * Google Analytics Account: art7384@gmail.com Apps
+ * Analytics Property: Default Demo App Android: com.itechmobile.budget
+ *
+ * Firebaze
+ * Название проекта: Budget
+ * Общедоступное название (public-facing name): project-948471596417
+ * Идентификатор проекта: budget-be16e
+ * Ключ API для веб-приложения: AIzaSyBZqqYvfgtcHtzF3UhXspJlAljQZtRd9eY
+ *
  */
 class App : Application() {
 
@@ -25,8 +36,12 @@ class App : Application() {
         val instance: App by lazy { Holder.instance }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onCreate() {
         super.onCreate()
+
+        AnalyticsService.INSTANCE.init(this)
+
         mSQLiteDatabase = DBHelper(this).writableDatabase
         Holder.instance = this
     }

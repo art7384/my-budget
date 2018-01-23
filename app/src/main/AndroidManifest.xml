@@ -10,16 +10,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.calendar.MainActivity">
+        <activity
+            android:name=".ui.calendar.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.day.DayActivity"/>
-        <activity android:name=".ui.transaction.TransactionActivity"/>
-        <activity android:name=".ui.nodone.NoDoneActivity"/>
+        <activity
+            android:name=".ui.authorization.AuthorizationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.authorization.EmailAuthorizationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.day.DayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.editor.TransactionEditorActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoActionBar" />
+        <activity
+            android:name=".ui.nodone.NoDoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.editor.category.CategoryEditorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.editor.category.CategorysActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.editor.ManyEditorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.editor.category.EmojiCategoryActivity"
+            android:screenOrientation="portrait" />
     </application>
-
 </manifest>

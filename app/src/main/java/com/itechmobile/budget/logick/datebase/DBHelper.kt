@@ -15,37 +15,74 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         private val LOG_TAG = "DBHelper"
 
-        private val DB_VER = 1
+        private val DB_VER = 2
         private val DB_NAME = "budgetDB.db"
 
-        val TABLE_MANY = "table_many"
-
-        private val CREATE_TABLE_MANY = "create table " + TABLE_MANY + " (" +
-                ManyKey.ID + " integer primary key autoincrement, " +
-                ManyKey.NAME + " text, " +
-                ManyKey.MANY + " integer, " +
-                ManyKey.TIME + " integer, " +
-                ManyKey.IS_DONE + " integer" +
+        private val CREATE_TABLE_TRANSACTION = "create table " + TableName.TRANSACTION + " (" +
+                TransactionKey._ID + " integer primary key autoincrement, " +
+                TransactionKey.NAME + " text, " +
+                TransactionKey.MONEY + " integer, " +
+                TransactionKey.TIME + " integer, " +
+                TransactionKey.IS_DONE + " integer, " +
+                TransactionKey.IS_DELL + " integer, " +
+                TransactionKey.IS_SYNCH + " integer, " +
+                TransactionKey.TAG_ID + " integer, " +
+                TransactionKey.CATEGORY + " text, " +
+                TransactionKey.BUDGET_ID + " integer" +
                 ");"
 
+        private val CREATE_TABLE_CATEGORY = "create table " + TableName.CATEGORY + " (" +
+                CategoryKey._ID + " integer primary key autoincrement, " +
+                CategoryKey.NAME + " text, " +
+                CategoryKey.ICO_NAME + " text, " +
+                CategoryKey.IS_INCOME + " integer" +
+                ");"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        Log.d(LOG_TAG, CREATE_TABLE_MANY)
-        db.execSQL(CREATE_TABLE_MANY)
+        Log.d(LOG_TAG, "Create table: ${TableName.TRANSACTION}")
+        db.execSQL(CREATE_TABLE_TRANSACTION)
+        db.execSQL(CREATE_TABLE_CATEGORY)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-
+        Log.d(LOG_TAG, "UPGRADE oldVersion: $oldVersion, newVersion: $newVersion")
+        if(oldVersion < 2){
+            db.execSQL("ALTER TABLE ${TableName.TRANSACTION} ADD ${TransactionKey.CATEGORY} text default \uD83D\uDCA9")
+        }
     }
 
-    class ManyKey {
+    class TableName {
         companion object {
-            val ID = "_id"
+            val USER = "user"
+            val BUDGET = "budget"
+            val TRANSACTION = "transact"
+            val INVITE = "invite"
+            val CATEGORY = "category"
+        }
+    }
+
+    class CategoryKey {
+        companion object {
+            val _ID = "_id"
             val NAME = "name"
-            val MANY = "many"
+            val ICO_NAME = "ico_name"
+            val IS_INCOME = "is_income"
+        }
+    }
+
+    class TransactionKey {
+        companion object {
+            val _ID = "_id"
+            val MONEY = "money"
             val TIME = "time"
-            val IS_DONE = "isDone"
+            val IS_DONE = "is_done"
+            val IS_SYNCH = "is_synch"
+            val IS_DELL = "is_dell"
+            val TAG_ID = "tag_id"
+            val BUDGET_ID = "budget_id"
+            val NAME = "name"
+            val CATEGORY = "category"
         }
     }
 

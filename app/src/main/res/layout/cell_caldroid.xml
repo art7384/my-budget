@@ -20,15 +20,17 @@
         android:background="#fff">
 
         <TextView
+            android:fontFamily="@font/roboto_regular"
             android:id="@+id/callCaldroid_TextView_day"
             style="@style/TxtDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="2dp"
+            android:layout_marginRight="2dp"
             android:text="89" />
 
         <TextView
+            android:fontFamily="@font/roboto_regular"
             android:id="@+id/callCaldroid_TextView_many_pl"
             style="@style/TxtMany"
             android:layout_width="wrap_content"
@@ -39,6 +41,7 @@
             android:textColor="@color/many_pl" />
 
         <TextView
+            android:fontFamily="@font/roboto_regular"
             android:id="@+id/callCaldroid_TextView_many_mn"
             style="@style/TxtMany"
             android:layout_width="wrap_content"
@@ -48,11 +51,12 @@
             android:text="-9000" />
 
         <TextView
+            android:fontFamily="@font/roboto_regular"
             android:id="@+id/callCaldroid_TextView_many"
             style="@style/TxtSum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginBottom="1dp"
             android:gravity="center"
             android:textColor="@color/colorAccent"
             android:text="-300" />

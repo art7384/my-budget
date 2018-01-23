@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#607D8B</color>
-    <color name="colorPrimaryDark">#263238</color>
-    <color name="colorAccent">#00B0FF</color>
+    <color name="colorPrimary">@color/color700</color>
+    <color name="colorPrimaryDark">@color/color800</color>
+    <color name="colorAccent">@color/colorA100</color>
+
+    <!--<color name="primaryRed">#E83600</color>-->
+    <!--<color name="primaryDarkRed">#c9360c</color>-->
+    <!--<color name="accentRed">#fb410c</color>-->
+
+    <!--<color name="primaryBlu">#158ebd</color>-->
+    <!--<color name="primaryDarkBlu">#106787</color>-->
+    <!--<color name="accentBlu">#51a4ca</color>-->
 
     <color name="day">#333</color>
     <color name="day_p">#BDBDBD</color>
     <color name="many_pl">#BDBDBD</color>
     <color name="many_mn">#FF6E40</color>
     <!--<color name="many_sum_pl">#00C853</color>-->
-    <color name="many_sum_pl">@color/colorAccent</color>
-    <color name="many_sum_mn">#FF3D00</color>
+    <color name="many_sum_pl">@color/colorA700</color>
+    <color name="many_sum_mn">#f00</color>
     <color name="many_sum">#333</color>
+
+    <color name="color50">#E8F5E9</color>
+    <color name="color100">#C8E6C9</color>
+    <color name="color200">#A5D6A7</color>
+    <color name="color300">#81C784</color>
+    <color name="color400">#66BB6A</color>
+    <color name="color500">#4CAF50</color>
+    <color name="color600">#43A047</color>
+    <color name="color700">#388E3C</color>
+    <color name="color800">#2E7D32</color>
+    <color name="color900">#1B5E20</color>
+
+    <color name="colorPA100">#B9F6CA</color>
+    <color name="colorPA200">#69F0AE</color>
+    <color name="colorPA400">#00E676</color>
+    <color name="colorPA700">#00C853</color>
+
+    <color name="colorA100">#82B1FF</color>
+    <color name="colorA200">#448AFF</color>
+    <color name="colorA400">#2979FF</color>
+    <color name="colorA700">#2962FF</color>
 
 </resources>

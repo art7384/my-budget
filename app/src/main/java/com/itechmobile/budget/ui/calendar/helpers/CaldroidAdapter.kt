@@ -33,8 +33,7 @@ class CaldroidAdapter(context: Context,
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val cellView: View
 
-        if (convertView == null) cellView = inflater.inflate(R.layout.cell_caldroid, null)
-        else cellView = convertView
+        cellView = convertView ?: inflater.inflate(R.layout.cell_caldroid, null)
 
         val txtDay = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_day)
         val txtMany = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_many)
@@ -42,7 +41,7 @@ class CaldroidAdapter(context: Context,
         val txtManyMn = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_many_mn)
         val border = cellView.findViewById<View>(R.id.callCaldroid_View_border)
 
-        val date = this.datetimeList.get(position)
+        val date = this.datetimeList[position]
 
         txtDay.text = "" + date.day
 
@@ -54,7 +53,7 @@ class CaldroidAdapter(context: Context,
         txtManyMn.text = ""
 
         if(month == date.month) {
-            txtDay.setTextColor(App.instance.getColor(R.color.day))
+            txtDay.setTextColor(App.instance.resources.getColor(R.color.day))
             if(thisDate.year == d.year && thisDate.date == d.date){
                 if(border.visibility != View.VISIBLE){
                     border.visibility = View.VISIBLE
@@ -65,7 +64,7 @@ class CaldroidAdapter(context: Context,
                 }
             }
         } else {
-            txtDay.setTextColor(App.instance.getColor(R.color.day_p))
+            txtDay.setTextColor(App.instance.resources.getColor(R.color.day_p))
             txtMany.alpha = .4f
             txtManyPl.alpha = .4f
             txtManyMn.alpha = .4f
@@ -74,32 +73,12 @@ class CaldroidAdapter(context: Context,
         val handler = Handler()
         Thread{
 
-            val manyModels = TransactionService.INSTANCE.get(d.time)
-
-            var pl = 0
-            var mn = 0
-
-            for (model in manyModels) {
-                if(model.many < 0){
-                    mn += model.many
-                } else {
-                    pl += model.many
-                }
-            }
-
-            var strMn = ""
-            if(mn != 0) {
-                strMn = mn.toString()
-            }
-
-            var strPl = ""
-            if(pl != 0) {
-                strPl = "+" + pl.toString()
-            }
+            val pl = TransactionService.INSTANCE.getDayPl(d.time)
+            val mn = TransactionService.INSTANCE.getDayMn(d.time)
 
             handler.post {
-                txtManyPl.text = strPl
-                txtManyMn.text = strMn
+                txtManyPl.text = if(pl != 0) "+$pl" else ""
+                txtManyMn.text = if(mn != 0) "$mn" else ""
 
             }
         }.start()
@@ -112,9 +91,9 @@ class CaldroidAdapter(context: Context,
                 val n = Math.floor(sum.toDouble() / 100) / 10
                 strSum = n.toString() + " т"
             }
-            var color = App.instance.getColor(R.color.many_sum_pl)
+            var color = App.instance.resources.getColor(R.color.many_sum_pl)
             if(sum < 0){
-                color = App.instance.getColor(R.color.many_sum_mn)
+                color = App.instance.resources.getColor(R.color.many_sum_mn)
             }
 
             handler.post {

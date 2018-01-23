@@ -12,9 +12,8 @@ import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.TracsationModel
 import com.itechmobile.budget.ui.calendar.MainActivity
 import com.itechmobile.budget.ui.day.helpers.TransactionListAdapter
-import com.itechmobile.budget.ui.transaction.TransactionActivity
+import com.itechmobile.budget.ui.editor.TransactionEditorActivity
 import java.util.*
-
 
 /**
  * Created by artem on 24.07.17.
@@ -35,19 +34,23 @@ class DayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_day)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.mipmap.ic_clear_white_24dp)
 
         mList = findViewById(R.id.activityDay_ListView_list)
-
         mTime = intent.getLongExtra(EXTTRA_DATA, 0)
 
+        if(TransactionService.INSTANCE.getDay(mTime).isEmpty()) {
+            addMany()
+        }
+
+        createList(mList)
         updateTitle(mTime)
-        createList(mTime)
 
     }
 
     override fun onResume() {
         super.onResume()
-        updateList(mTime)
+        updateList(mList, mTime)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,12 +78,11 @@ class DayActivity : AppCompatActivity() {
                     if (data == null) {
                         return
                     }
-                    mTime = data.getLongExtra(TransactionActivity.EXTTRA_DATA, 0)
+                    mTime = data.getLongExtra(TransactionEditorActivity.EXTTRA_DATA, 0)
                     updateTitle(mTime)
-                    updateList(mTime)
+                    updateList(mList, mTime)
                 } else {
-                    val tracsationModels: List<TracsationModel> = TransactionService.INSTANCE.get(mTime)
-                    if (tracsationModels.isEmpty()) {
+                    if (TransactionService.INSTANCE.getDay(mTime).isEmpty()) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -91,14 +93,14 @@ class DayActivity : AppCompatActivity() {
     }
 
     private fun addMany() {
-        val intent = Intent(this, TransactionActivity::class.java)
-        intent.putExtra(TransactionActivity.EXTTRA_DATA, mTime)
+        val intent = Intent(this, TransactionEditorActivity::class.java)
+        intent.putExtra(TransactionEditorActivity.EXTTRA_DATA, mTime)
         startActivityForResult(intent, REQUEST_CODE_ADD_MANY_ACTIVITY)
     }
 
     private fun updateMany(model: TracsationModel) {
-        val intent = Intent(this, TransactionActivity::class.java)
-        intent.putExtra(TransactionActivity.EXTTRA_MANY_ID, model.id)
+        val intent = Intent(this, TransactionEditorActivity::class.java)
+        intent.putExtra(TransactionEditorActivity.EXTTRA_MANY_ID, model.id)
         startActivity(intent)
     }
 
@@ -112,46 +114,38 @@ class DayActivity : AppCompatActivity() {
 
     }
 
-    private fun move(model: TracsationModel) {
-        //ojkhgkjhkj
-    }
-
-    private fun createList(time: Long) {
+    private fun createList(list: ListView) {
         val items: MutableList<TracsationModel> = ArrayList()
         val adapter = TransactionListAdapter(this, items, MyOnItemClicksListern(this))
-        mList.adapter = adapter
+        list.adapter = adapter
     }
 
     private fun updateTitle(time: Long) {
         val date = Date(time)
-        val strMonth: String?
-        if (date.month < 9) {
-            strMonth = "0" + (date.month + 1)
-        } else {
-            strMonth = "" + (date.month + 1)
-        }
-
+        val strMonth = if (date.month < 9) "0" + (date.month + 1) else "" + (date.month + 1)
         supportActionBar!!.title = date.date.toString() + "." + strMonth + "." + (date.year + 1900).toString()
-
     }
 
-    private fun updateList(time: Long) {
-        val adapter = mList.adapter as TransactionListAdapter
-        val tracsationModels: List<TracsationModel> = TransactionService.INSTANCE.get(time)
+    private fun updateList(list: ListView, time: Long) {
+        val adapter = list.adapter as TransactionListAdapter
+        val tracsationModels: List<TracsationModel> = TransactionService.INSTANCE.getDay(time)
         adapter.updateList(tracsationModels)
     }
 
     private class MyOnItemClicksListern(private val DAY_ACTIVITY: DayActivity) : TransactionListAdapter.OnItemClicksListern {
-        override fun onClickDell(adapter: TransactionListAdapter, model: TracsationModel) {
-            TransactionService.INSTANCE.dell(model.id)
-            adapter.remove(model)
-        }
+        override fun onClickMenu(adapter: TransactionListAdapter, model: TracsationModel) {
 
-        override fun onCheckedChanged(adapter: TransactionListAdapter, model: TracsationModel, isCheck: Boolean) {
-            model.isDone = isCheck
-            TransactionService.INSTANCE.update(model)
-            adapter.update(model)
         }
+//        override fun onClickDell(adapter: TransactionListAdapter, model: TracsationModel) {
+//            TransactionService.INSTANCE.dell(model.id)
+//            adapter.remove(model)
+//        }
+//
+//        override fun onCheckedChanged(adapter: TransactionListAdapter, model: TracsationModel, isCheck: Boolean) {
+//            model.isDone = isCheck
+//            TransactionService.INSTANCE.update(model)
+//            adapter.update(model)
+//        }
 
         override fun onClickItem(model: TracsationModel) {
             DAY_ACTIVITY.updateMany(model)

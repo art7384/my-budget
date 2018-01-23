@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/activityTransactionEditor_ImageButton_clear"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@mipmap/ic_clear_white_24dp" />
+
+            <TextView
+                android:id="@+id/activityTransactionEditor_TextView_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="11dp"
+                android:layout_weight="1"
+                android:lines="1"
+                android:text="Title"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/activityTransactionEditor_ImageButton_today"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@mipmap/ic_today_white_24dp" />
+
+            <ImageButton
+                android:id="@+id/activityTransactionEditor_ImageButton_delete"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@mipmap/ic_delete_white_24dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/activityTransactionEditor_TextView_znak"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="44dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="#fff"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/activityTransactionEditor_TextView_many"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="0"
+                android:textColor="#fff"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/activityTransactionEditor_ImageButton_dell"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="6dp"
+                android:src="@mipmap/ic_backspace_black_24dp" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/helper"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:textCursorDrawable="@drawable/cursor_invisible" />
+
+        <EditText
+            android:id="@+id/activityTransactionEditor_EditText_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/pl_txt_note"
+            android:hint="@string/add_note"
+            android:imeOptions="actionDone"
+            android:inputType="textCapWords"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:textColor="#fff"
+            android:textColorHint="#66ffffff"
+            android:textCursorDrawable="@drawable/cursor" />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:visibility="gone"
+        android:id="@+id/activityTransactionEditor_CheckBox_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="-16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="-16dp"
+        android:text="@string/already_spent_received" />
+
+    <include layout="@layout/layaut_keyboard" />
+
+    <include layout="@layout/layaut_kategory" />
+
+
+</LinearLayout>

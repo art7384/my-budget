@@ -9,10 +9,9 @@ import com.roomorama.caldroid.CaldroidGridAdapter
  */
 
 class MyCaldroidFragment : CaldroidFragment() {
-
     override fun getNewDatesGridAdapter(month: Int, year: Int): CaldroidGridAdapter {
         // TODO Auto-generated method stub
-        return CaldroidAdapter(getActivity(), month, year,
+        return CaldroidAdapter(activity, month, year,
                 getCaldroidData(), extraData)
     }
 }
