@@ -60,17 +60,16 @@ class CategoryService private constructor() {
             СategoryTableOperation.add(CategoryModel("Продукты", "\uD83C\uDF56", false))//🍖
             СategoryTableOperation.add(CategoryModel("Дом", "\uD83C\uDFE0", false))//🏠
             СategoryTableOperation.add(CategoryModel("Авто", "\uD83D\uDE97", false))//🚗
-            СategoryTableOperation.add(CategoryModel("Развлечения", "\uD83C\uDF89", false))//🎉
+            СategoryTableOperation.add(CategoryModel("Развлечения", "\uD83C\uDFB3", false))//🎳
         }
         if (СategoryTableOperation.getAll(true).size < 1) {
             СategoryTableOperation.add(CategoryModel("Прочие доходы", "\uD83C\uDF81", true))//🎁
-            СategoryTableOperation.add(CategoryModel("Зарплата", "\uD83D\uDCB5", true))//💵
-            СategoryTableOperation.add(CategoryModel("Премия", "\uD83D\uDCB0", true))//💰
+            СategoryTableOperation.add(CategoryModel("Зароботок", "\uD83D\uDCB5", true))//💰
         }
         category = СategoryTableOperation.getAll()[0]
     }
 
-    fun choiceCategory(id: Long): CategoryModel {
+    fun get(id: Long): CategoryModel {
         category = СategoryTableOperation.get(id)
         return category
     }
@@ -84,7 +83,7 @@ class CategoryService private constructor() {
     }
 
     fun dell(id: Long){
-        //СategoryTableOperation.dell(id)
+        СategoryTableOperation.dell(id)
     }
 
 }

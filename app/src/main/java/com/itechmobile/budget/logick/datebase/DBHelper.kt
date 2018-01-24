@@ -15,7 +15,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         private val LOG_TAG = "DBHelper"
 
-        private val DB_VER = 2
+        private val DB_VER = 3
         private val DB_NAME = "budgetDB.db"
 
         private val CREATE_TABLE_TRANSACTION = "create table " + TableName.TRANSACTION + " (" +
@@ -27,7 +27,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                 TransactionKey.IS_DELL + " integer, " +
                 TransactionKey.IS_SYNCH + " integer, " +
                 TransactionKey.TAG_ID + " integer, " +
-                TransactionKey.CATEGORY + " text, " +
+                TransactionKey.CATEGORY_ID + " integer, " +
                 TransactionKey.BUDGET_ID + " integer" +
                 ");"
 
@@ -47,8 +47,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         Log.d(LOG_TAG, "UPGRADE oldVersion: $oldVersion, newVersion: $newVersion")
-        if(oldVersion < 2){
-            db.execSQL("ALTER TABLE ${TableName.TRANSACTION} ADD ${TransactionKey.CATEGORY} text default \uD83D\uDCA9")
+        if(oldVersion < 3){
+            db.execSQL("ALTER TABLE ${TableName.TRANSACTION} ADD ${TransactionKey.CATEGORY_ID} text default -1")
         }
     }
 
@@ -82,7 +82,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
             val TAG_ID = "tag_id"
             val BUDGET_ID = "budget_id"
             val NAME = "name"
-            val CATEGORY = "category"
+            val CATEGORY_ID = "category_id"
         }
     }
 

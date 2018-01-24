@@ -19,6 +19,10 @@ class СategoryTableOperation {
             return model
         }
 
+        fun dell(id: Long){
+            App.instance.database.delete(DBHelper.TableName.CATEGORY, "${DBHelper.CategoryKey._ID}=$id", null)
+        }
+
         fun getAll(): ArrayList<CategoryModel> = reyuest(null, null)
 
         fun getAll(isIncome: Boolean): ArrayList<CategoryModel>{
@@ -32,7 +36,8 @@ class СategoryTableOperation {
             val selection = DBHelper.CategoryKey._ID + " = ?"
             val selectionArgs = arrayOf(id.toString())
             val models = reyuest(selection, selectionArgs)
-            return models[0]
+            if(models.size > 0) return models[0]
+            return CategoryModel("???", "\uD83D\uDC7B", true)
 
         }
 

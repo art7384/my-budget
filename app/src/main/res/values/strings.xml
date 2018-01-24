@@ -24,6 +24,10 @@
     <string name="already_spent">Уже потрачено</string>
 
     <string name="change_category">Изменить категорию</string>
+    <string name="no_imput_name_category">Не заполнено название категории.</string>
+    <string name="dialog_dell_category">Вы действительно хотите удалить категорию?</string>
+    <string name="dialog_button_dell">Удалить</string>
+    <string name="dialog_button_concel">Отмена</string>
 
     <string-array name="interval">
         <item>Одноразово</item>

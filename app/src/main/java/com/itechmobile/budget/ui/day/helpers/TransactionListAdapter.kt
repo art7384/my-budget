@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.itechmobile.budget.App
 import com.itechmobile.budget.R
+import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.model.TracsationModel
 
 
@@ -44,7 +45,7 @@ class TransactionListAdapter(private var mCnx: Context, private var mItems: Muta
             txtMoney.text = "+" + item.money.toString()
         }
 
-        txtCategory.text = item.category
+        txtCategory.text = CategoryService.INSTANCE.get(item.idCategory).icoName
 
         if (item.isDone) {
         } else {

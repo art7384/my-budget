@@ -2,7 +2,6 @@ package com.itechmobile.budget.logick.datebase
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.util.Log
 import com.itechmobile.budget.App
 import com.itechmobile.budget.model.TracsationModel
 import java.util.*
@@ -139,7 +138,6 @@ class TransactionTableOperation private constructor() {
                 sum = c.getInt(0)
             }
 
-            Log.d("Sum", "${c.count} ${c.getInt(0)}")
             c.close()
             return sum
         }
@@ -167,7 +165,7 @@ class TransactionTableOperation private constructor() {
             cv.put(DBHelper.TransactionKey.MONEY, model.money)
             cv.put(DBHelper.TransactionKey.NAME, model.name)
             cv.put(DBHelper.TransactionKey.TIME, Math.ceil(model.time.toDouble() / 1000)) //в базе храним секунды, а не миллисекунды
-            cv.put(DBHelper.TransactionKey.CATEGORY, model.category)
+            cv.put(DBHelper.TransactionKey.CATEGORY_ID, model.idCategory)
             if (model.isDone) {
                 cv.put(DBHelper.TransactionKey.IS_DONE, 1)
             } else {
@@ -185,18 +183,18 @@ class TransactionTableOperation private constructor() {
             val nameColIndex = c.getColumnIndex(DBHelper.TransactionKey.NAME)
             val timeColIndex = c.getColumnIndex(DBHelper.TransactionKey.TIME)
             val isDoneColIndex = c.getColumnIndex(DBHelper.TransactionKey.IS_DONE)
-            val categoryColIndex = c.getColumnIndex(DBHelper.TransactionKey.CATEGORY)
+            val categoryIdColIndex = c.getColumnIndex(DBHelper.TransactionKey.CATEGORY_ID)
 
-            val id = c.getInt(idColIndex)
+            val id = c.getLong(idColIndex)
             val many = c.getInt(manyColIndex)
             val name = c.getString(nameColIndex)
             val time = c.getLong(timeColIndex) * 1000
             val isDone = c.getInt(isDoneColIndex) == 1
-            val category = c.getString(categoryColIndex)
+            val categoryId = c.getLong(categoryIdColIndex)
 
-            val model = TracsationModel(many, name, time, category)
+            val model = TracsationModel(many, name, time, categoryId)
             model.isDone = isDone
-            model.id = id.toLong()
+            model.id = id
 
             return model
 

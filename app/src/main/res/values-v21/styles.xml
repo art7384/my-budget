@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Button.Cal" parent="@style/Button.Cal.Base">
+    <style name="Button.Cal" parent="@style/Button.Cal.Base" tools:ignore="ResourceCycle">
         <item name="android:colorAccent">@color/colorPA200</item>
     </style>
 </resources>

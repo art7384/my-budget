@@ -2,6 +2,7 @@ package com.itechmobile.budget.ui.editor
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -19,10 +20,8 @@ import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.CategoryModel
 import com.itechmobile.budget.model.TracsationModel
-import com.itechmobile.budget.ui.editor.category.EmojiCategoryActivity
-import com.itechmobile.budget.ui.editor.helpers.EmojiGridAdapter
+import com.itechmobile.budget.ui.editor.category.helpers.CategoryAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -44,11 +43,11 @@ class TransactionEditorActivity : AppCompatActivity() {
     private lateinit var mCategoryTxt: TextView
 
     private lateinit var mTracsationModel: TracsationModel
-    private lateinit var mDate: Date
     private var isAdd = true
     private var isUpdate = false
 
     companion object {
+        private val LOG_TAG = "TransactionEditorActivity"
         val EXTTRA_DATA = "EXTTRA_DATA"
         val EXTTRA_MANY_ID = "EXTTRA_MANY_ID"
     }
@@ -63,7 +62,8 @@ class TransactionEditorActivity : AppCompatActivity() {
         initCategory()
 
         val d = Date(intent.getLongExtra(EXTTRA_DATA, 0))
-        val time = Date(d.year, d.month, d.date).time
+        val date = Date(d.year, d.month, d.date)
+        val time = date.time
         val manyId = intent.getLongExtra(EXTTRA_MANY_ID, -1)
 
         if (manyId >= 0) {
@@ -75,6 +75,10 @@ class TransactionEditorActivity : AppCompatActivity() {
             isUpdate = false
             initAdd(time)
         }
+        val thisData = Date()
+        if(thisData.year == date.year && thisData.month == date.month && thisData.date == date.date){
+            mDoneCb.visibility = View.VISIBLE
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,13 +87,15 @@ class TransactionEditorActivity : AppCompatActivity() {
         if(requestCode == 222){
             if(resultCode == Activity.RESULT_OK){
                 val imoji = data!!.getStringExtra(EmojiCategoryActivity.EXTRA_EMOJI)
-                CategoryService.INSTANCE.add(CategoryModel("", imoji, mZnakTxt.text == "+"))
+                val name = data.getStringExtra(EmojiCategoryActivity.EXTRA_NAME)
+                CategoryService.INSTANCE.add(CategoryModel(name, imoji, mZnakTxt.text == "+"))
                 updateCategorisList()
             }
         }
     }
 
     private fun init() {
+
         mCategoryTxt = findViewById(R.id.activityTransactionEditor_TextView_category)
         mCategory = findViewById(R.id.layautCategory_LinearLayout_content)
         mManyTxt = findViewById(R.id.activityTransactionEditor_TextView_many)
@@ -101,14 +107,19 @@ class TransactionEditorActivity : AppCompatActivity() {
         mDelete.setOnClickListener { dellTransaction() }
         findViewById<ImageButton>(R.id.activityTransactionEditor_ImageButton_dell).setOnClickListener { dellKey() }
         findViewById<ImageButton>(R.id.activityTransactionEditor_ImageButton_today).setOnClickListener { showDateDialog() }
-        findViewById<ImageButton>(R.id.activityTransactionEditor_ImageButton_clear).setOnClickListener { finish() }
-
+        findViewById<ImageButton>(R.id.activityTransactionEditor_ImageButton_clear).setOnClickListener {
+            finish()
+        }
+        mDoneCb.setOnCheckedChangeListener { buttonView, isChecked ->
+            updateTransaction()
+        }
         mNoteEt.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(mNoteEt.windowToken, 0)
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
                 findViewById<EditText>(R.id.helper).requestFocus()
+                updateTransaction()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -125,9 +136,9 @@ class TransactionEditorActivity : AppCompatActivity() {
     private fun initUpdata(manyId: Long) {
         mTracsationModel = TransactionService.INSTANCE.getFoeId(manyId)
         mDoneCb.isChecked = mTracsationModel.isDone
-        mCategoryTxt.text = mTracsationModel.category
+        mCategoryTxt.text = CategoryService.INSTANCE.get(mTracsationModel.idCategory).icoName
         mSelectCategoryBt.text = getString(R.string.change_category)
-        updateDate(mTracsationModel.time)
+        updateDate()
         var money = mTracsationModel.money
         if (money < 0) {
             mZnakTxt.text = "-"
@@ -147,20 +158,18 @@ class TransactionEditorActivity : AppCompatActivity() {
     }
 
     private fun initAdd(time: Long) {
-        updateDate(time)
+        mTracsationModel = TracsationModel(0, "", time, -1)
+        updateDate()
 
         val intervalArr = resources.getStringArray(R.array.interval)
         val adapterInterval = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intervalArr)
         adapterInterval.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        val d = Date()
-        val date = Date(d.year, d.month, d.date)
-
-        if (mDate.time < date.time) {
-            mDoneCb.isChecked = true
-        } else if (mDate.time > date.time) {
-            mDoneCb.isChecked = false
-        }
+        val myDate = Date(mTracsationModel.time)
+        val thisDate = Date()
+        val myDateTime = Date(myDate.year, myDate.month, myDate.date).time
+        val thisDateTime = Date(thisDate.year, thisDate.month, thisDate.date).time
+        mDoneCb.isChecked = myDateTime < thisDateTime
     }
 
     private fun initKeybord() {
@@ -181,39 +190,23 @@ class TransactionEditorActivity : AppCompatActivity() {
         mSelectCategoryBt.setOnClickListener {
             updateCategorisList()
             selectCategory()
-//            if (isUpdate) {
-//                //save(mCategoryTxt.text.toString())
-//                updateCategorisList()
-//                selectCategory()
-//            } else {
-//                updateCategorisList()
-//                selectCategory()
-//            }
         }
-        mZnakBt.setOnClickListener { clickZnak() }
+        mZnakBt.setOnClickListener {
+            clickZnak()
+            updateTransaction()
+            updateTransaction()
+        }
     }
 
     private fun updateCategorisList() {
-        mCategoryList
         val categorys = if (mZnakTxt.text == "+") {
             CategoryService.INSTANCE.incomeCategorys
         } else {
             CategoryService.INSTANCE.expenseCategorys
         }
-        val emojis = ArrayList<String>()
-        categorys.mapTo(emojis) { it.icoName }
 
-        (mCategoryList.adapter as EmojiGridAdapter).newEmoji(emojis.toTypedArray())
+        (mCategoryList.adapter as CategoryAdapter).update(categorys)
 
-        mCategoryList.setOnItemClickListener { parent, view, position, id ->
-            if (isUpdate) {
-                mCategoryTxt.text = categorys[position].icoName
-                selectKeybord()
-            } else {
-                save(categorys[position].icoName)
-            }
-
-        }
     }
 
     private fun initCategory() {
@@ -228,59 +221,88 @@ class TransactionEditorActivity : AppCompatActivity() {
         } else {
             CategoryService.INSTANCE.expenseCategorys
         }
-        val emojis = ArrayList<String>()
-        categorys.mapTo(emojis) { it.icoName }
 
-        mCategoryList.adapter = EmojiGridAdapter(emojis)
+        mCategoryList.adapter = CategoryAdapter(categorys)
+        mCategoryList.setOnItemLongClickListener { parent, view, position, id ->
+            startDialogDellCategory(CategoryService.INSTANCE.get(id))
+            return@setOnItemLongClickListener true
+        }
         mCategoryList.setOnItemClickListener { parent, view, position, id ->
+            mTracsationModel.idCategory = id
             if (isUpdate) {
-                mCategoryTxt.text = categorys[position].icoName
+                mCategoryTxt.text = CategoryService.INSTANCE.get(id).icoName
                 selectKeybord()
+                updateTransaction()
             } else {
-                save(categorys[position].icoName)
+                save()
             }
-
         }
     }
 
-    private fun save(category: String) {
+    private fun startDialogDellCategory(category: CategoryModel){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("${category.icoName} ${category.name}")
+        builder.setMessage(R.string.dialog_dell_category)
+        builder.setPositiveButton(R.string.dialog_button_dell, {dialog, which ->
+            CategoryService.INSTANCE.dell(category.id)
+            updateCategorisList()
+        })
+        builder.setNegativeButton(R.string.dialog_button_concel, null)
+        builder.show()
+    }
+
+    private fun updateTransaction(){
+
+        var many = mManyTxt.text.toString().toInt()
+        if(many == 0) return
+        if (mZnakTxt.text != "+") {
+            many *= -1
+        }
+        mTracsationModel.money = many
+        mTracsationModel.name = mNoteEt.text.toString()
+        mTracsationModel.isDone = mDoneCb.isChecked
+        if (isUpdate) {
+            TransactionService.INSTANCE.update(mTracsationModel)
+            setResult(Activity.RESULT_OK)
+        }
+    }
+
+    private fun save() {
         var many = mManyTxt.text.toString().toInt()
         if (mZnakTxt.text != "+") {
             many *= -1
         }
-        val model = TracsationModel(many,
-                mNoteEt.text.toString(),
-                mDate.time,
-                category)
-        model.isDone = mDoneCb.isChecked
+        mTracsationModel.money = many
+        mTracsationModel.name = mNoteEt.text.toString()
+        mTracsationModel.isDone = mDoneCb.isChecked
         if (isAdd) {
-            TransactionService.INSTANCE.save(model)
+            TransactionService.INSTANCE.save(mTracsationModel)
             // Возвращаем результат в виде даты (чтоб открылся тот день на который мы добавили новую транзакцию)
             val intent = Intent()
-            intent.putExtra(EXTTRA_DATA, mDate.time)
+            intent.putExtra(EXTTRA_DATA, mTracsationModel.time)
             setResult(Activity.RESULT_OK, intent)
         } else {
-            model.id = mTracsationModel.id
-            TransactionService.INSTANCE.update(model)
+            TransactionService.INSTANCE.update(mTracsationModel)
             setResult(Activity.RESULT_OK)
         }
         finish()
     }
 
     private fun showDateDialog() {
+        val date = Date(mTracsationModel.time)
         DatePickerDialog(this,
                 MyOnDateSetListener(this),
-                mDate.year + 1900,
-                mDate.month,
-                mDate.date).show()
+                date.year + 1900,
+                date.month,
+                date.date).show()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateDate(time: Long) {
-        mDate = Date(time)
+    private fun updateDate() {
+        val date = Date(mTracsationModel.time)
         val days = resources.getStringArray(R.array.days)
         val months = resources.getStringArray(R.array.months)
-        mTitle.text = "${days[mDate.day]}, ${mDate.date} ${months[mDate.month]}"
+        mTitle.text = "${days[date.day]}, ${date.date} ${months[date.month]}"
     }
 
     private fun dellTransaction() {
@@ -295,6 +317,7 @@ class TransactionEditorActivity : AppCompatActivity() {
         } else {
             mManyTxt.text = "${mManyTxt.text}$i"
         }
+        updateTransaction()
     }
 
     private fun dellKey() {
@@ -304,6 +327,7 @@ class TransactionEditorActivity : AppCompatActivity() {
         } else {
             mManyTxt.text = "0"
         }
+        updateTransaction()
     }
 
     private fun selectKeybord() {
@@ -315,8 +339,6 @@ class TransactionEditorActivity : AppCompatActivity() {
     }
 
     private fun selectCategory() {
-        mCategoryTxt.visibility = View.VISIBLE
-        mDoneCb.visibility = View.GONE
         val many = mManyTxt.text.toString().toInt()
         if (many == 0) {
             mManyTxt.setTextColor(resources.getColor(R.color.colorAccent))
@@ -326,6 +348,8 @@ class TransactionEditorActivity : AppCompatActivity() {
                 mZnakTxt.setTextColor(Color.WHITE)
             }, 300)
         } else {
+            mCategoryTxt.visibility = View.VISIBLE
+            mDoneCb.visibility = View.GONE
             mKeybord.visibility = View.GONE
         }
     }
@@ -340,12 +364,15 @@ class TransactionEditorActivity : AppCompatActivity() {
             mZnakBt.setText(R.string.income)
             mDoneCb.setText(R.string.already_spent)
         }
+        updateTransaction()
     }
 
     private class MyOnDateSetListener(private val myActivityEditor: TransactionEditorActivity) : DatePickerDialog.OnDateSetListener {
         override fun onDateSet(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
             val date = Date(year - 1900, monthOfYear, dayOfMonth)
-            myActivityEditor.updateDate(date.time)
+            myActivityEditor.mTracsationModel.time = date.time
+            myActivityEditor.updateDate()
+            myActivityEditor.updateTransaction()
         }
     }
 

@@ -21,10 +21,6 @@ class EmojiService private constructor() {
         get() = emoji[Math.ceil((emoji.size - 2) * Math.random()).toInt()]
 
     private val emoji = arrayOf(
-            "\uD83D\uDCA9",//💩
-            "\uD83D\uDC80",//💀
-            "\uD83D\uDC7B",//👻
-            "\uD83D\uDC7D",//👽
             "\uD83D\uDC76",//👶
             "\uD83D\uDC66",//👦
             "\uD83D\uDC67",//👧
@@ -32,6 +28,8 @@ class EmojiService private constructor() {
             "\uD83D\uDC69",//👩
             "\uD83D\uDC75",//👵
             "\uD83D\uDC68",//👨
+            "\uD83D\uDC80",//💀
+            "\uD83D\uDC7D",//👽
             "\uD83C\uDF93",//🎓
             "\uD83D\uDD27",//🔧
             "\uD83D\uDD2C",//🔬
