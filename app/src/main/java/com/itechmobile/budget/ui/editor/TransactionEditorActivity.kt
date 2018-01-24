@@ -194,7 +194,6 @@ class TransactionEditorActivity : AppCompatActivity() {
         mZnakBt.setOnClickListener {
             clickZnak()
             updateTransaction()
-            updateTransaction()
         }
     }
 
@@ -341,8 +340,8 @@ class TransactionEditorActivity : AppCompatActivity() {
     private fun selectCategory() {
         val many = mManyTxt.text.toString().toInt()
         if (many == 0) {
-            mManyTxt.setTextColor(resources.getColor(R.color.colorAccent))
-            mZnakTxt.setTextColor(resources.getColor(R.color.colorAccent))
+            mManyTxt.setTextColor(Color.RED)
+            mZnakTxt.setTextColor(Color.RED)
             Handler().postDelayed({
                 mManyTxt.setTextColor(Color.WHITE)
                 mZnakTxt.setTextColor(Color.WHITE)
