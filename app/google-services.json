@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "948471596417",
-    "firebase_url": "https://budget-be16e.firebaseio.com",
-    "project_id": "budget-be16e",
-    "storage_bucket": "budget-be16e.appspot.com"
+    "project_number": "985467021520",
+    "firebase_url": "https://budget-b2921.firebaseio.com",
+    "project_id": "budget-b2921",
+    "storage_bucket": "budget-b2921.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:948471596417:android:40858f46c0087795",
+        "mobilesdk_app_id": "1:985467021520:android:1cc33afba9bbf8ef",
         "android_client_info": {
           "package_name": "com.karbon.budget"
         }
       },
       "oauth_client": [
         {
-          "client_id": "948471596417-bpvjo8f4shc4bmumvosa8uha3f7f7j65.apps.googleusercontent.com",
+          "client_id": "985467021520-ui775c9joqhffhhcag9m65v8qomp6gj0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCCGPSo_nGd9H6jWXZp-B7upF9XQcGKVwo"
+          "current_key": "AIzaSyALiH95GCO0Ga8TvNFO6PAERyqzCxgPg04"
         }
       ],
       "services": {
