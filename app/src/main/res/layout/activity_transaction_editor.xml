@@ -64,22 +64,10 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/activityTransactionEditor_TextView_znak"
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="44dp"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="#fff"
-                android:textSize="40dp"
-                android:textStyle="bold" />
-
-            <TextView
+                android:layout_marginLeft="50dp"
                 android:id="@+id/activityTransactionEditor_TextView_many"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="24dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="0"
                 android:textColor="#fff"

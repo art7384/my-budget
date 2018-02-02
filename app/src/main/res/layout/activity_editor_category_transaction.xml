@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <TextView
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/activityEditorCategory_TextView_emoji"
             android:layout_gravity="center_vertical"
             android:gravity="center"

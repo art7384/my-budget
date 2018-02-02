@@ -42,10 +42,6 @@ class TransactionService private constructor(){
         return TransactionTableOperation.getSumMn(startTime, stopTime)
     }
 
-//    fun get(time: Long): List<TracsationModel> {
-//        return TransactionTableOperation.get(time)
-//    }
-
     fun getDay(time: Long): List<TracsationModel> {
         val d = Date(time)
         val startTime = Date(d.year, d.month, d.date).time

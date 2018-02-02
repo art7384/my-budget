@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:layout_margin="8dp"
         android:id="@+id/itemEmojis_TextView_txt"
         android:layout_gravity="center"

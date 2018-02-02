@@ -3,6 +3,8 @@ package com.itechmobile.budget
 import android.annotation.SuppressLint
 import android.app.Application
 import android.database.sqlite.SQLiteDatabase
+import android.support.text.emoji.EmojiCompat
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig
 import com.itechmobile.budget.logick.datebase.DBHelper
 import com.itechmobile.budget.logick.service.AnalyticsService
 
@@ -41,6 +43,7 @@ class App : Application() {
         super.onCreate()
 
         AnalyticsService.INSTANCE.init(this)
+        EmojiCompat.init(BundledEmojiCompatConfig(this))
 
         mSQLiteDatabase = DBHelper(this).writableDatabase
         Holder.instance = this

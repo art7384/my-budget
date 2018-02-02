@@ -21,9 +21,9 @@
         <TableRow>
 
             <Button
-                android:padding="0dp"
                 android:id="@+id/layautKeybord_Button_1"
                 style="@style/Button.Cal"
+                android:padding="0dp"
                 android:text="1" />
 
             <Button
@@ -79,17 +79,11 @@
         <TableRow>
 
             <ImageButton
-                android:visibility="invisible"
                 android:id="@+id/layautKeybord_ImageButton_del"
                 style="@style/Button.Cal"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_backspace_black_24dp" />
-
-            <!--ImageButton
-                android:id="@+id/activityManyEditor_ImageButton_p"
-                style="@style/Button.Cal"
-                android:layout_height="44dp"
-                android:src="@mipmap/ic_add_black_24dp" /-->
+                android:src="@mipmap/ic_backspace_black_24dp"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/layautKeybord_Button_0"
@@ -97,16 +91,13 @@
                 android:text="0" />
 
             <Button
-
+                android:visibility="invisible"
                 android:id="@+id/layautKeybord_Button_znak"
                 style="@style/Button.Cal"
+                android:layout_height="match_parent"
                 android:text="@string/income"
-                android:textSize="16dp"
-                android:layout_height="match_parent"/>
-
-
+                android:textSize="16dp" />
         </TableRow>
-
     </TableLayout>
 
     <View
@@ -115,35 +106,36 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp">
-        <TextView
-            android:visibility="gone"
-            android:layout_marginTop="-4dp"
+        android:orientation="horizontal">
+
+        <android.support.text.emoji.widget.EmojiTextView
             android:id="@+id/activityTransactionEditor_TextView_category"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="-4dp"
             android:minHeight="10dp"
             android:minWidth="10dp"
             android:paddingHorizontal="4dp"
             android:text="A"
             android:textSize="28dp"
-            android:layout_marginRight="8dp"/>
+            android:visibility="gone" />
+
         <Button
-            android:layout_gravity="center_vertical"
-            style="@style/MyButtonStyle.Colored"
             android:id="@+id/layautKeybord_Button_selectCategory"
+            style="@style/MyButtonStyle.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/select_category"/>
+            android:layout_gravity="center_vertical"
+            android:text="@string/select_category" />
     </LinearLayout>
-
 
 
 </LinearLayout>

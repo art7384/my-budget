@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/itemCategory_TextView_emogi"
         android:layout_gravity="center_horizontal"
         android:textSize="40sp"

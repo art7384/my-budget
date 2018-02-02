@@ -2,8 +2,8 @@ package com.itechmobile.budget.ui.calendar.helpers
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
-import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,6 @@ import com.itechmobile.budget.logick.service.TransactionService
 import com.roomorama.caldroid.CaldroidGridAdapter
 import java.util.*
 
-
 /**
  * Created by artem on 24.07.17.
  */
@@ -25,8 +24,18 @@ class CaldroidAdapter(context: Context,
                       caldroidData: Map<String, Any>,
                       extraData: Map<String, Any>) : CaldroidGridAdapter(context, month, year, caldroidData, extraData) {
 
+    var activeTime: Long
+        get() = sActiveTime
+        set(value) {
+            sActiveTime = value
+        }
+
+    companion object {
+        private var sActiveTime = Date().time
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val inflater = context
@@ -35,76 +44,70 @@ class CaldroidAdapter(context: Context,
 
         cellView = convertView ?: inflater.inflate(R.layout.cell_caldroid, null)
 
+        val txtDay2 = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_day2)
         val txtDay = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_day)
         val txtMany = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_many)
-        val txtManyPl = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_many_pl)
-        val txtManyMn = cellView.findViewById<TextView>(R.id.callCaldroid_TextView_many_mn)
-        val border = cellView.findViewById<View>(R.id.callCaldroid_View_border)
+        val read = cellView.findViewById<View>(R.id.callCaldroid_View_read)
+        val green = cellView.findViewById<View>(R.id.callCaldroid_View_green)
+        val content = cellView.findViewById<View>(R.id.callCaldroid_View_content)
 
-        val date = this.datetimeList[position]
+        val da = this.datetimeList[position]
 
-        txtDay.text = "" + date.day
+        txtDay.text = "" + da.day
+        txtDay2.text = da.day.toString()
 
-        val d = Date(date.year - 1900, date.month - 1, date.day)
-        val thisDate = Date()
+        val date = Date(da.year - 1900, da.month - 1, da.day)
 
         txtMany.text = ""
-        txtManyPl.text = ""
-        txtManyMn.text = ""
 
-        if(month == date.month) {
-            txtDay.setTextColor(App.instance.resources.getColor(R.color.day))
-            if(thisDate.year == d.year && thisDate.date == d.date){
-                if(border.visibility != View.VISIBLE){
-                    border.visibility = View.VISIBLE
-                }
-            } else {
-                if(border.visibility != View.GONE){
-                    border.visibility = View.GONE
-                }
-            }
+        if (TransactionService.INSTANCE.getDayPl(date.time) != 0) {
+            if (green.visibility != View.VISIBLE) green.visibility = View.VISIBLE
         } else {
-            txtDay.setTextColor(App.instance.resources.getColor(R.color.day_p))
-            txtMany.alpha = .4f
-            txtManyPl.alpha = .4f
-            txtManyMn.alpha = .4f
+            if (green.visibility != View.GONE) green.visibility = View.GONE
         }
 
-        val handler = Handler()
-        Thread{
+        if (TransactionService.INSTANCE.getDayMn(date.time) != 0) {
+            if (read.visibility != View.VISIBLE) read.visibility = View.VISIBLE
+        } else {
+            if (read.visibility != View.GONE) read.visibility = View.GONE
+        }
 
-            val pl = TransactionService.INSTANCE.getDayPl(d.time)
-            val mn = TransactionService.INSTANCE.getDayMn(d.time)
+        if (month != date.month + 1) {
+            txtDay.alpha = .4f
+            txtMany.alpha = .4f
+            read.alpha = .4f
+            green.alpha = .4f
+        }
 
-            handler.post {
-                txtManyPl.text = if(pl != 0) "+$pl" else ""
-                txtManyMn.text = if(mn != 0) "$mn" else ""
+        val sum = TransactionService.INSTANCE.getSumTo(date.time)
+        var strSum = sum.toString()
 
-            }
-        }.start()
+        if (sum >= 1000 || sum <= -1000) {
+            val n = Math.floor(sum.toDouble() / 100) / 10
+            strSum = n.toString() + " т"
+        }
+        var colorManyTxt = App.instance.resources.getColor(R.color.many_sum_pl)
+        if (sum < 0) {
+            colorManyTxt = App.instance.resources.getColor(R.color.many_sum_mn)
+        }
 
-        Thread{
-            val sum =  TransactionService.INSTANCE.getSumTo(d.time)
-            var strSum = sum.toString()
+        txtMany.text = strSum
+        if (sum == 0L) {
+            txtMany.text = ""
+        } else if (txtMany.textColors.defaultColor != colorManyTxt) {
+            txtMany.setTextColor(colorManyTxt)
+        }
 
-            if(sum >= 1000 || sum <= -1000){
-                val n = Math.floor(sum.toDouble() / 100) / 10
-                strSum = n.toString() + " т"
-            }
-            var color = App.instance.resources.getColor(R.color.many_sum_pl)
-            if(sum < 0){
-                color = App.instance.resources.getColor(R.color.many_sum_mn)
-            }
+        val activeDate = Date(sActiveTime)
 
-            handler.post {
-                txtMany.text = strSum
-                if(sum == 0L){
-                    txtMany.text = ""
-                } else if(txtMany.textColors.defaultColor != color) {
-                    txtMany.setTextColor(color)
-                }
-            }
-        }.start()
+        if (activeDate.year == date.year && activeDate.month == date.month && activeDate.date == date.date) {
+            content.setBackgroundColor(resources.getColor(R.color.colorAccent))
+            txtDay2.visibility = View.VISIBLE
+        } else {
+            if (txtDay2.visibility != View.INVISIBLE) txtDay2.visibility = View.INVISIBLE
+            content.setBackgroundColor(Color.WHITE)
+            txtMany.setTextColor(colorManyTxt)
+        }
 
         return cellView
     }

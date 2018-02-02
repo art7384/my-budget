@@ -3,51 +3,43 @@ package com.itechmobile.budget.ui.calendar
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
-import com.itechmobile.budget.App
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.logick.service.UserService
-import com.itechmobile.budget.ui.day.DayActivity
+import com.itechmobile.budget.model.TracsationModel
+import com.itechmobile.budget.ui.calendar.helpers.TransactionListAdapter
 import com.itechmobile.budget.ui.editor.TransactionEditorActivity
 import com.itechmobile.budget.ui.nodone.NoDoneActivity
-import com.roomorama.caldroid.CaldroidFragment
-import com.roomorama.caldroid.CaldroidListener
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val mCaldroidFragment = MyCaldroidFragment()
     private lateinit var mTxt: TextView
-    private lateinit var mAddBt: ImageButton
+    private lateinit var mListTransactions: ListView
+    private var mTime = 0L
 
     companion object {
         private val LOG_TAG = "MainActivity"
     }
-
-    private val CALDROID_LISTENER = MyCaldroidListener(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mTxt = findViewById(R.id.activityMain_TextView_many)
-        mAddBt = findViewById(R.id.activityMain_ImageButton_add)
-
-        mAddBt.setOnClickListener {
-            val intent = Intent(this, TransactionEditorActivity::class.java)
-            intent.putExtra(TransactionEditorActivity.EXTTRA_DATA, Date().time)
-            startActivity(intent)
-        }
+        mListTransactions = findViewById(R.id.activityMain_ListView_transaction)
+        findViewById<ImageButton>(R.id.activityMain_ImageButton_pl).setOnClickListener { addMany(true) }
+        findViewById<ImageButton>(R.id.activityMain_ImageButton_mn).setOnClickListener { addMany(false) }
 
         UserService.INSTANCE.appStart()
         initCalendar()
         showNoDone()
+        createListTransactions()
 
         val models = TransactionService.INSTANCE.getNoDone(Date().time)
         if (!models.isEmpty()) {
@@ -55,18 +47,28 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val args = Bundle()
-        args.putInt(CaldroidFragment.THEME_RESOURCE, com.caldroid.R.style.CaldroidDefaultDark)
-        mCaldroidFragment.arguments = args
+        mTime = Date().time
 
     }
 
     override fun onResume() {
         super.onResume()
+        updateListTransactions()
+        mTxt.text = TransactionService.INSTANCE.getSumTo(mTime).toString()
 
-        mCaldroidFragment.refreshView()
-        mTxt.text = TransactionService.INSTANCE.getDoneSumTo(Date().time).toString()
+    }
 
+    private fun addMany(isPl: Boolean) {
+        val intent = Intent(this, TransactionEditorActivity::class.java)
+        intent.putExtra(TransactionEditorActivity.EXTTRA_DATA, mTime)
+        intent.putExtra(TransactionEditorActivity.EXTTRA_IS_PL, isPl)
+        startActivity(intent)
+    }
+
+    private fun updateMany(model: TracsationModel) {
+        val intent = Intent(this, TransactionEditorActivity::class.java)
+        intent.putExtra(TransactionEditorActivity.EXTTRA_MANY_ID, model.id)
+        startActivity(intent)
     }
 
     private fun showNoDone() {
@@ -74,74 +76,59 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initCalendar() {
-
-        val cal = Calendar.getInstance()
-        val args = Bundle()
-        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1)
-        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR))
-
-        mCaldroidFragment.arguments = args
-
         val t = supportFragmentManager.beginTransaction()
-        t.replace(R.id.activityMain_FrameLayout_calendar, mCaldroidFragment)
+        val fragment = MyCaldroidFragment()
+        fragment.onSelectDateListner = { date ->
+            mTime = date.time
+            updateListTransactions()
+            mTxt.text = TransactionService.INSTANCE.getSumTo(mTime).toString()
+        }
+        t.replace(R.id.activityMain_FrameLayout_calendar, fragment)
         t.commit()
-
-        mCaldroidFragment.caldroidListener = CALDROID_LISTENER
-
     }
 
-    private class MyCaldroidListener(val cnx: MainActivity) : CaldroidListener() {
-
-        override fun onSelectDate(date: Date?, view: View?) {
-            val intent = Intent(cnx, DayActivity::class.java)
-            if (date != null) {
-                intent.putExtra(DayActivity.EXTTRA_DATA, date.time)
-            }
-            cnx.startActivity(intent)
-        }
-
-        override fun onCaldroidViewCreated() {
-
-            cnx.mCaldroidFragment.weekdayGridView.adapter = WeekdayAdapter()
-
-            val leftButton = cnx.mCaldroidFragment.leftArrowButton
-            val rightButton = cnx.mCaldroidFragment.rightArrowButton
-
-            leftButton.setBackgroundResource(R.mipmap.ic_navigate_before_white_48dp)
-            rightButton.setBackgroundResource(R.mipmap.ic_navigate_next_white_48dp)
-
-        }
+    private fun createListTransactions() {
+        val items: MutableList<TracsationModel> = ArrayList()
+        val adapter = TransactionListAdapter(this, items, MyOnItemClicksListern(this))
+        mListTransactions.adapter = adapter
     }
 
-    private class WeekdayAdapter : BaseAdapter() {
-
-        val items: Array<out String> = App.instance.resources.getStringArray(R.array.weekday)!!
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var view = convertView
-            if (view == null) {
-                view = LayoutInflater.from(parent!!.context).inflate(R.layout.item_weekday, parent, false)
-            }
-
-            val txt = view!!.findViewById<TextView>(R.id.itemWeekday_TextView_txt)
-            txt.text = getItem(position) as String
-
-            return view
-        }
-
-        override fun getItem(position: Int): Any {
-            return items[position]
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        override fun getCount(): Int {
-            return items.size
-        }
-
+    private fun updateListTransactions() {
+        val adapter = mListTransactions.adapter as TransactionListAdapter
+        val tracsationModels: List<TracsationModel> = TransactionService.INSTANCE.getDay(mTime)
+        adapter.updateList(tracsationModels)
+        setListViewHeight()
     }
 
+    private fun setListViewHeight() {
+        val listAdapter = mListTransactions.adapter
+        val desiredWidth = View.MeasureSpec.makeMeasureSpec(mListTransactions.width, View.MeasureSpec.UNSPECIFIED)
+        var totalHeight = 0
+        var view: View? = null
+        for (i in 0 until listAdapter.count) {
+            view = listAdapter.getView(i, view, mListTransactions)
+            if (i == 0) view.layoutParams = ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+            totalHeight += view.measuredHeight
+        }
+
+        val params: ViewGroup.LayoutParams = mListTransactions.layoutParams
+
+        params.height = totalHeight + (mListTransactions.dividerHeight * (listAdapter.count - 1))
+
+        mListTransactions.layoutParams = params
+        mListTransactions.requestLayout()
+    }
+
+    private class MyOnItemClicksListern(private val activity: MainActivity) : TransactionListAdapter.OnItemClicksListern {
+        override fun onClickMenu(adapter: TransactionListAdapter, model: TracsationModel) {
+            //activity.updateMany(model)
+        }
+
+        override fun onClickItem(model: TracsationModel) {
+            activity.updateMany(model)
+        }
+    }
 
 }

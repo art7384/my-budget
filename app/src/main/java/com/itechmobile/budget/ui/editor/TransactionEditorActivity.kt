@@ -30,8 +30,6 @@ import java.util.*
 class TransactionEditorActivity : AppCompatActivity() {
 
     private lateinit var mManyTxt: TextView
-    private lateinit var mZnakTxt: TextView
-    private lateinit var mZnakBt: Button
     private lateinit var mSelectCategoryBt: Button
     private lateinit var mDoneCb: CheckBox
     private lateinit var mNoteEt: EditText
@@ -43,6 +41,7 @@ class TransactionEditorActivity : AppCompatActivity() {
     private lateinit var mCategoryTxt: TextView
 
     private lateinit var mTracsationModel: TracsationModel
+    private var mIsPl = false
     private var isAdd = true
     private var isUpdate = false
 
@@ -50,6 +49,7 @@ class TransactionEditorActivity : AppCompatActivity() {
         private val LOG_TAG = "TransactionEditorActivity"
         val EXTTRA_DATA = "EXTTRA_DATA"
         val EXTTRA_MANY_ID = "EXTTRA_MANY_ID"
+        val EXTTRA_IS_PL = "EXTTRA_IS_PL"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +65,7 @@ class TransactionEditorActivity : AppCompatActivity() {
         val date = Date(d.year, d.month, d.date)
         val time = date.time
         val manyId = intent.getLongExtra(EXTTRA_MANY_ID, -1)
+        mIsPl = intent.getBooleanExtra(EXTTRA_IS_PL, false)
 
         if (manyId >= 0) {
             isAdd = false
@@ -76,7 +77,7 @@ class TransactionEditorActivity : AppCompatActivity() {
             initAdd(time)
         }
         val thisData = Date()
-        if(thisData.year == date.year && thisData.month == date.month && thisData.date == date.date){
+        if (thisData.year == date.year && thisData.month == date.month && thisData.date == date.date) {
             mDoneCb.visibility = View.VISIBLE
         }
     }
@@ -84,22 +85,20 @@ class TransactionEditorActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 222){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == 222) {
+            if (resultCode == Activity.RESULT_OK) {
                 val imoji = data!!.getStringExtra(EmojiCategoryActivity.EXTRA_EMOJI)
                 val name = data.getStringExtra(EmojiCategoryActivity.EXTRA_NAME)
-                CategoryService.INSTANCE.add(CategoryModel(name, imoji, mZnakTxt.text == "+"))
+                CategoryService.INSTANCE.add(CategoryModel(name, imoji, mIsPl))
                 updateCategorisList()
             }
         }
     }
 
     private fun init() {
-
         mCategoryTxt = findViewById(R.id.activityTransactionEditor_TextView_category)
         mCategory = findViewById(R.id.layautCategory_LinearLayout_content)
         mManyTxt = findViewById(R.id.activityTransactionEditor_TextView_many)
-        mZnakTxt = findViewById(R.id.activityTransactionEditor_TextView_znak)
         mDoneCb = findViewById<CheckBox>(R.id.activityTransactionEditor_CheckBox_done)
         mNoteEt = findViewById(R.id.activityTransactionEditor_EditText_note)
         mTitle = findViewById(R.id.activityTransactionEditor_TextView_title)
@@ -124,12 +123,10 @@ class TransactionEditorActivity : AppCompatActivity() {
             }
             return@setOnEditorActionListener false
         }
-
         mCategoryTxt.setOnClickListener {
             updateCategorisList()
             selectCategory()
         }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -139,18 +136,17 @@ class TransactionEditorActivity : AppCompatActivity() {
         mCategoryTxt.text = CategoryService.INSTANCE.get(mTracsationModel.idCategory).icoName
         mSelectCategoryBt.text = getString(R.string.change_category)
         updateDate()
+
         var money = mTracsationModel.money
         if (money < 0) {
-            mZnakTxt.text = "-"
-            mZnakBt.setText(R.string.income)
+            mIsPl = false
             money *= -1
             mDoneCb.setText(R.string.already_spent)
         } else {
-            mZnakTxt.text = "+"
-            mZnakBt.setText(R.string.consumption)
+            mIsPl = true
             mDoneCb.setText(R.string.already_received)
         }
-        mManyTxt.text = "$money"
+        mManyTxt.text = money.toString()
         mNoteEt.setText(mTracsationModel.name)
         mDoneCb.visibility = View.VISIBLE
         mCategoryTxt.visibility = View.VISIBLE
@@ -169,7 +165,7 @@ class TransactionEditorActivity : AppCompatActivity() {
         val thisDate = Date()
         val myDateTime = Date(myDate.year, myDate.month, myDate.date).time
         val thisDateTime = Date(thisDate.year, thisDate.month, thisDate.date).time
-        mDoneCb.isChecked = myDateTime < thisDateTime
+        mDoneCb.isChecked = myDateTime <= thisDateTime
     }
 
     private fun initKeybord() {
@@ -186,26 +182,15 @@ class TransactionEditorActivity : AppCompatActivity() {
         findViewById<Button>(R.id.layautKeybord_Button_0).setOnClickListener { addKey(0) }
         findViewById<Button>(R.id.layautKeybord_Button_selectCategory)
         mSelectCategoryBt = findViewById(R.id.layautKeybord_Button_selectCategory)
-        mZnakBt = findViewById(R.id.layautKeybord_Button_znak)
         mSelectCategoryBt.setOnClickListener {
             updateCategorisList()
             selectCategory()
         }
-        mZnakBt.setOnClickListener {
-            clickZnak()
-            updateTransaction()
-        }
     }
 
     private fun updateCategorisList() {
-        val categorys = if (mZnakTxt.text == "+") {
-            CategoryService.INSTANCE.incomeCategorys
-        } else {
-            CategoryService.INSTANCE.expenseCategorys
-        }
-
+        val categorys = if (mIsPl) CategoryService.INSTANCE.incomeCategorys else CategoryService.INSTANCE.expenseCategorys
         (mCategoryList.adapter as CategoryAdapter).update(categorys)
-
     }
 
     private fun initCategory() {
@@ -215,7 +200,7 @@ class TransactionEditorActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, EmojiCategoryActivity::class.java), 222)
         }
 
-        val categorys = if (mZnakTxt.text == "+") {
+        val categorys = if (mIsPl) {
             CategoryService.INSTANCE.incomeCategorys
         } else {
             CategoryService.INSTANCE.expenseCategorys
@@ -238,11 +223,11 @@ class TransactionEditorActivity : AppCompatActivity() {
         }
     }
 
-    private fun startDialogDellCategory(category: CategoryModel){
+    private fun startDialogDellCategory(category: CategoryModel) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("${category.icoName} ${category.name}")
         builder.setMessage(R.string.dialog_dell_category)
-        builder.setPositiveButton(R.string.dialog_button_dell, {dialog, which ->
+        builder.setPositiveButton(R.string.dialog_button_dell, { dialog, which ->
             CategoryService.INSTANCE.dell(category.id)
             updateCategorisList()
         })
@@ -250,11 +235,10 @@ class TransactionEditorActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun updateTransaction(){
-
+    private fun updateTransaction() {
         var many = mManyTxt.text.toString().toInt()
-        if(many == 0) return
-        if (mZnakTxt.text != "+") {
+        if (many == 0) return
+        if (!mIsPl) {
             many *= -1
         }
         mTracsationModel.money = many
@@ -268,7 +252,7 @@ class TransactionEditorActivity : AppCompatActivity() {
 
     private fun save() {
         var many = mManyTxt.text.toString().toInt()
-        if (mZnakTxt.text != "+") {
+        if (!mIsPl) {
             many *= -1
         }
         mTracsationModel.money = many
@@ -341,29 +325,14 @@ class TransactionEditorActivity : AppCompatActivity() {
         val many = mManyTxt.text.toString().toInt()
         if (many == 0) {
             mManyTxt.setTextColor(Color.RED)
-            mZnakTxt.setTextColor(Color.RED)
             Handler().postDelayed({
                 mManyTxt.setTextColor(Color.WHITE)
-                mZnakTxt.setTextColor(Color.WHITE)
             }, 300)
         } else {
             mCategoryTxt.visibility = View.VISIBLE
             mDoneCb.visibility = View.GONE
             mKeybord.visibility = View.GONE
         }
-    }
-
-    private fun clickZnak() {
-        if (mZnakTxt.text != "+") {
-            mZnakTxt.text = "+"
-            mZnakBt.setText(R.string.consumption)
-            mDoneCb.setText(R.string.already_received)
-        } else {
-            mZnakTxt.text = "-"
-            mZnakBt.setText(R.string.income)
-            mDoneCb.setText(R.string.already_spent)
-        }
-        updateTransaction()
     }
 
     private class MyOnDateSetListener(private val myActivityEditor: TransactionEditorActivity) : DatePickerDialog.OnDateSetListener {

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.itechmobile.budget">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -26,9 +29,6 @@
             android:name=".ui.authorization.EmailAuthorizationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.day.DayActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.editor.TransactionEditorActivity"
             android:windowSoftInputMode="stateHidden"
             android:descendantFocusability="beforeDescendants"
@@ -43,6 +43,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.editor.EmojiCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.statistick.StatistickActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>
