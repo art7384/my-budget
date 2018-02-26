@@ -28,7 +28,7 @@ class CategoryService private constructor() {
     val categoryEmojis: Array<String>
     get() {
         val emojis = ArrayList<String>()
-        val arr = categorys
+        val arr = visibleCategorys
         arr.mapTo(emojis) { it.icoName }
         return emojis.toTypedArray()
     }
@@ -45,13 +45,22 @@ class CategoryService private constructor() {
             return category
         }
 
-    val categorys: ArrayList<CategoryModel>
+    val visibleCategorys: ArrayList<CategoryModel>
+        get() = СategoryTableOperation.getVisible() //arr.add(CategoryModel("Новая категория", "➕", true))
+
+    val visibleExpenseCategorys: ArrayList<CategoryModel>
+        get() = СategoryTableOperation.getVisible(false)
+
+    val visibleIncomeCategorys: ArrayList<CategoryModel>
+        get() = СategoryTableOperation.getVisible(true)
+
+    val allCategorys: ArrayList<CategoryModel>
         get() = СategoryTableOperation.getAll() //arr.add(CategoryModel("Новая категория", "➕", true))
 
-    val expenseCategorys: ArrayList<CategoryModel>
+    val allExpenseCategorys: ArrayList<CategoryModel>
         get() = СategoryTableOperation.getAll(false)
 
-    val incomeCategorys: ArrayList<CategoryModel>
+    val allIncomeCategorys: ArrayList<CategoryModel>
         get() = СategoryTableOperation.getAll(true)
 
     init {
@@ -75,15 +84,21 @@ class CategoryService private constructor() {
     }
 
     fun add(categoryModel: CategoryModel){
-        СategoryTableOperation.add(categoryModel)//
+        СategoryTableOperation.add(categoryModel)
     }
 
     fun update(categoryModel: CategoryModel){
-        //СategoryTableOperation.update(categoryModel)//
+        СategoryTableOperation.update(categoryModel)
     }
 
+    /**
+     * <p>"Удаление" категории</p>
+     * <p>Категория не удаляется, а становится скрытой, для дольнейшего отображения в истории и статистики</p>
+     */
     fun dell(id: Long){
-        СategoryTableOperation.dell(id)
+        val model = get(id)
+        model.isVisible = false
+        update(model)
     }
 
 }

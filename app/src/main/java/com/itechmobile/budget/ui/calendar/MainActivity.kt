@@ -15,6 +15,7 @@ import com.itechmobile.budget.model.TracsationModel
 import com.itechmobile.budget.ui.calendar.helpers.TransactionListAdapter
 import com.itechmobile.budget.ui.editor.TransactionEditorActivity
 import com.itechmobile.budget.ui.nodone.NoDoneActivity
+import com.itechmobile.budget.ui.statistick.StatistickActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         mListTransactions = findViewById(R.id.activityMain_ListView_transaction)
         findViewById<ImageButton>(R.id.activityMain_ImageButton_pl).setOnClickListener { addMany(true) }
         findViewById<ImageButton>(R.id.activityMain_ImageButton_mn).setOnClickListener { addMany(false) }
+        findViewById<View>(R.id.activityMain_ImageButton_statistick).setOnClickListener { startActivity(Intent(this, StatistickActivity::class.java)) }
 
         UserService.INSTANCE.appStart()
         initCalendar()

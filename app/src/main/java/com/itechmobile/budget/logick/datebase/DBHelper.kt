@@ -15,7 +15,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         private val LOG_TAG = "DBHelper"
 
-        private val DB_VER = 3
+        private val DB_VER = 4
         private val DB_NAME = "budgetDB.db"
 
         private val CREATE_TABLE_TRANSACTION = "create table " + TableName.TRANSACTION + " (" +
@@ -36,6 +36,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                 CategoryKey.NAME + " text, " +
                 CategoryKey.ICO_NAME + " text, " +
                 CategoryKey.IS_INCOME + " integer" +
+                CategoryKey.IS_VISIBLE + " integer" +
                 ");"
     }
 
@@ -49,6 +50,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         Log.d(LOG_TAG, "UPGRADE oldVersion: $oldVersion, newVersion: $newVersion")
         if(oldVersion < 3){
             db.execSQL("ALTER TABLE ${TableName.TRANSACTION} ADD ${TransactionKey.CATEGORY_ID} text default -1")
+        }
+        if(oldVersion < 4){
+            db.execSQL("ALTER TABLE ${TableName.CATEGORY} ADD ${CategoryKey.IS_VISIBLE} integer default 1")
         }
     }
 
@@ -68,6 +72,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
             val NAME = "name"
             val ICO_NAME = "ico_name"
             val IS_INCOME = "is_income"
+            val IS_VISIBLE = "is_visible"// удаленная категория
         }
     }
 

@@ -131,7 +131,7 @@ class TransactionEditorActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initUpdata(manyId: Long) {
-        mTracsationModel = TransactionService.INSTANCE.getFoeId(manyId)
+        mTracsationModel = TransactionService.INSTANCE.get(manyId)
         mDoneCb.isChecked = mTracsationModel.isDone
         mCategoryTxt.text = CategoryService.INSTANCE.get(mTracsationModel.idCategory).icoName
         mSelectCategoryBt.text = getString(R.string.change_category)
@@ -189,7 +189,7 @@ class TransactionEditorActivity : AppCompatActivity() {
     }
 
     private fun updateCategorisList() {
-        val categorys = if (mIsPl) CategoryService.INSTANCE.incomeCategorys else CategoryService.INSTANCE.expenseCategorys
+        val categorys = if (mIsPl) CategoryService.INSTANCE.visibleIncomeCategorys else CategoryService.INSTANCE.visibleExpenseCategorys
         (mCategoryList.adapter as CategoryAdapter).update(categorys)
     }
 
@@ -201,9 +201,9 @@ class TransactionEditorActivity : AppCompatActivity() {
         }
 
         val categorys = if (mIsPl) {
-            CategoryService.INSTANCE.incomeCategorys
+            CategoryService.INSTANCE.visibleIncomeCategorys
         } else {
-            CategoryService.INSTANCE.expenseCategorys
+            CategoryService.INSTANCE.visibleExpenseCategorys
         }
 
         mCategoryList.adapter = CategoryAdapter(categorys)

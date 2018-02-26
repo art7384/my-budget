@@ -1,10 +1,13 @@
 package com.itechmobile.budget.logick.datebase
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.database.Cursor
 import com.itechmobile.budget.App
 import com.itechmobile.budget.model.TracsationModel
 import java.util.*
+import kotlin.collections.HashMap
+
 
 /**
  * Created by artem on 22.08.17.
@@ -99,6 +102,42 @@ class TransactionTableOperation private constructor() {
             }
             c.close()
             return sum
+        }
+
+        @SuppressLint("LongLogTag")
+        fun getCategorySum(startTime: Long, stopTime: Long): HashMap<Int, Long> {
+
+            val result = HashMap<Int, Long>()
+            val startTimeStr = Math.ceil(startTime.toDouble() / 1000).toString()
+            val stopTimeStr = Math.ceil(stopTime.toDouble() / 1000).toString()
+
+            val selection = "${DBHelper.TransactionKey.TIME} >= ? and ${DBHelper.TransactionKey.TIME} < ? and ${DBHelper.TransactionKey.IS_DONE} = ?"
+            val selectionArgs = arrayOf(startTimeStr, stopTimeStr, "1")
+
+            val db = App.instance.database
+
+            val columns = arrayOf(DBHelper.TransactionKey.CATEGORY_ID, "SUM(${DBHelper.TransactionKey.MONEY})")
+            val groupBy = DBHelper.TransactionKey.CATEGORY_ID
+            val c = db.query(DBHelper.TableName.TRANSACTION, columns, selection, selectionArgs, groupBy, null, null)
+
+            if (c != null) {
+                if (c.moveToFirst()) {
+                    do {
+                        var categoryId = -1
+                        var money = 0L
+                        for (cn in c.columnNames) {
+                            if (cn == DBHelper.TransactionKey.CATEGORY_ID) {
+                                categoryId = c.getInt(c.getColumnIndex(cn))
+                            } else {
+                                money = c.getLong(c.getColumnIndex(cn))
+                            }
+                        }
+                        result[categoryId] = money
+                    } while (c.moveToNext())
+                }
+                c.close()
+            }
+            return result
         }
 
         fun getSumTo(time: Long): Long {

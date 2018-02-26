@@ -19,8 +19,29 @@ class СategoryTableOperation {
             return model
         }
 
+        fun update(model:CategoryModel): Int {
+            val cv = parsContentValues(model)
+            val db = App.instance.database
+            // обновляем по id
+            return db.update(DBHelper.TableName.CATEGORY, cv, DBHelper.CategoryKey._ID + " = ?",
+                    arrayOf<String>(model.id.toString()))
+        }
+
         fun dell(id: Long){
             App.instance.database.delete(DBHelper.TableName.CATEGORY, "${DBHelper.CategoryKey._ID}=$id", null)
+        }
+
+        fun getVisible(): ArrayList<CategoryModel>{
+            val selection = DBHelper.CategoryKey.IS_VISIBLE + " = ?"
+            val selectionArgs = arrayOf("1")
+            val models = reyuest(selection, selectionArgs)
+            return models
+        }
+        fun getVisible(isIncome: Boolean): ArrayList<CategoryModel>{
+            val selection = DBHelper.CategoryKey.IS_INCOME + " = ? and " + DBHelper.CategoryKey.IS_VISIBLE + " = ?"
+            val selectionArgs = arrayOf(if(isIncome) "1" else "0", "1")
+            val models = reyuest(selection, selectionArgs)
+            return models
         }
 
         fun getAll(): ArrayList<CategoryModel> = reyuest(null, null)
@@ -63,6 +84,7 @@ class СategoryTableOperation {
             cv.put(DBHelper.CategoryKey.ICO_NAME, model.icoName)
             cv.put(DBHelper.CategoryKey.NAME, model.name)
             cv.put(DBHelper.CategoryKey.IS_INCOME, if(model.isIncome) 1 else 0)
+            cv.put(DBHelper.CategoryKey.IS_VISIBLE, if(model.isVisible) 1 else 0)
             return cv
         }
 
@@ -73,14 +95,17 @@ class СategoryTableOperation {
             val icoNameColIndex = c.getColumnIndex(DBHelper.CategoryKey.ICO_NAME)
             val nameColIndex = c.getColumnIndex(DBHelper.CategoryKey.NAME)
             val isIncomeIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_INCOME)
+            val isVisibleIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_VISIBLE)
 
             val id = c.getInt(idColIndex)
             val icoName = c.getString(icoNameColIndex)
             val name = c.getString(nameColIndex)
             val isIncome = c.getInt(isIncomeIndex)
+            val isVisible = c.getInt(isVisibleIndex)
 
             val model = CategoryModel(name, icoName, isIncome == 1)
             model.id = id.toLong()
+            model.isVisible = isVisible == 1
 
             return model
 
