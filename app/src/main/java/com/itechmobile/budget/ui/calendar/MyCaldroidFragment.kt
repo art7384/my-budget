@@ -18,7 +18,6 @@ import java.util.*
 
 class MyCaldroidFragment : CaldroidFragment() {
 
-
     var onSelectDateListner: ((date: Date) -> Unit)? = null
     private lateinit var mCalendarAdapter: CaldroidAdapter
 

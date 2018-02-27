@@ -38,12 +38,11 @@
         <activity
             android:name=".ui.nodone.NoDoneActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.editor.ManyEditorActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.editor.EmojiCategoryActivity"
             android:screenOrientation="portrait" />
+
         <activity android:name=".ui.statistick.StatistickActivity"
             android:screenOrientation="portrait" />
     </application>

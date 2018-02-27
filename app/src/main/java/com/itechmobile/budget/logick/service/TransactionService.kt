@@ -28,6 +28,10 @@ class TransactionService private constructor(){
         return TransactionTableOperation.add(model)
     }
 
+    fun getStartTime(): Long{
+        return TransactionTableOperation.getStartTime() * 1000
+    }
+
     fun getDoneSumTo(time: Long):Long{
         val d = Date(time)
         val t = Date(d.year, d.month, d.date).time + 24 * 60 * 60 * 1000
@@ -102,7 +106,7 @@ class TransactionService private constructor(){
      * @param stopTime конечный день
      * @return HashMap<category_id, sum>
      */
-    fun getCategorySum(startTime: Long, stopTime: Long): HashMap<Int, Long> {
+    fun getCategorySum(startTime: Long, stopTime: Long): HashMap<Long, Long> {
         return TransactionTableOperation.getCategorySum(startTime, stopTime)
     }
 

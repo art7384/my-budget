@@ -44,4 +44,11 @@
     <color name="colorA400">#FF3D00</color>
     <color name="colorA700">#DD2C00</color>
 
+
+    <color name="pie_chart_color1">#ffd228</color>
+    <color name="pie_chart_color2">#67e667</color>
+    <color name="pie_chart_color3">#e969b2</color>
+    <color name="pie_chart_color4">#68d1fd</color>
+    <color name="pie_chart_color5">#ff5a5a</color>
+
 </resources>

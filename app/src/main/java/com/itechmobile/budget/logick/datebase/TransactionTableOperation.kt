@@ -34,6 +34,25 @@ class TransactionTableOperation private constructor() {
             return model
         }
 
+        @SuppressLint("LongLogTag")
+        fun getStartTime():Long {
+
+            val db = App.instance.database
+
+            val c = db.query(DBHelper.TableName.TRANSACTION, arrayOf("MIN(${DBHelper.TransactionKey.TIME})"), null, null, null, null, null)
+            var time = 0L
+            if (c.moveToFirst()) {
+                do {
+                    for (cn in c.columnNames) {
+                        time = c.getLong(c.getColumnIndex(cn))
+                    }
+                } while (c.moveToNext())
+            }
+            c.close()
+
+            return time
+        }
+
         fun getSumPl(startTime: Long, stopTime: Long): Int {
             val startTimeStr = Math.ceil(startTime.toDouble() / 1000).toString()
             val stopTimeStr = Math.ceil(stopTime.toDouble() / 1000).toString()
@@ -105,9 +124,9 @@ class TransactionTableOperation private constructor() {
         }
 
         @SuppressLint("LongLogTag")
-        fun getCategorySum(startTime: Long, stopTime: Long): HashMap<Int, Long> {
+        fun getCategorySum(startTime: Long, stopTime: Long): HashMap<Long, Long> {
 
-            val result = HashMap<Int, Long>()
+            val result = HashMap<Long, Long>()
             val startTimeStr = Math.ceil(startTime.toDouble() / 1000).toString()
             val stopTimeStr = Math.ceil(stopTime.toDouble() / 1000).toString()
 
@@ -123,11 +142,11 @@ class TransactionTableOperation private constructor() {
             if (c != null) {
                 if (c.moveToFirst()) {
                     do {
-                        var categoryId = -1
+                        var categoryId = -1L
                         var money = 0L
                         for (cn in c.columnNames) {
                             if (cn == DBHelper.TransactionKey.CATEGORY_ID) {
-                                categoryId = c.getInt(c.getColumnIndex(cn))
+                                categoryId = c.getLong(c.getColumnIndex(cn))
                             } else {
                                 money = c.getLong(c.getColumnIndex(cn))
                             }
@@ -181,7 +200,7 @@ class TransactionTableOperation private constructor() {
             return sum
         }
 
-        private fun reyuest(selection: String, selectionArgs: Array<String>): ArrayList<TracsationModel> {
+        private fun reyuest(selection: String, selectionArgs: Array<String>?): ArrayList<TracsationModel> {
 
             val moels = ArrayList<TracsationModel>()
             val db = App.instance.database

@@ -9,8 +9,8 @@ android {
         applicationId "com.karbon.budget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 5
-        versionName "1.5.0"
+        versionCode 6
+        versionName "1.6.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -39,6 +39,7 @@ dependencies {
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:26.0.1'
+    implementation 'com.android.support:design:26.0.1'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.roomorama:caldroid:3.0.1'

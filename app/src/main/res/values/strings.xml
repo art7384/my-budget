@@ -62,6 +62,21 @@
         <item>декабря</item>
     </string-array>
 
+    <string-array name="months_">
+        <item>январь</item>
+        <item>февраль</item>
+        <item>март</item>
+        <item>апрель</item>
+        <item>май</item>
+        <item>июнь</item>
+        <item>июль</item>
+        <item>август</item>
+        <item>сентебрь</item>
+        <item>октябрь</item>
+        <item>ноябрь</item>
+        <item>декабрь</item>
+    </string-array>
+
     <string-array name="weekday">
         <item>Пн</item>
         <item>Вт</item>
