@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -135,11 +134,18 @@ private constructor() : Fragment() {
 
     private fun createPieDataSet(entries: ArrayList<PieEntry>): PieDataSet {
         val dataSet = PieDataSet(entries, "") // add entries to dataset
-        dataSet.setColors(resources.getColor(R.color.pie_chart_color1),
-                resources.getColor(R.color.pie_chart_color2),
-                resources.getColor(R.color.pie_chart_color3),
-                resources.getColor(R.color.pie_chart_color4),
-                resources.getColor(R.color.pie_chart_color5))
+        dataSet.setColors(resources.getColor(R.color.pie_chart_1),
+                resources.getColor(R.color.pie_chart_2),
+                resources.getColor(R.color.pie_chart_3),
+                resources.getColor(R.color.pie_chart_4),
+                resources.getColor(R.color.pie_chart_5),
+                resources.getColor(R.color.pie_chart_6),
+                resources.getColor(R.color.pie_chart_7),
+                resources.getColor(R.color.pie_chart_8),
+                resources.getColor(R.color.pie_chart_9),
+                resources.getColor(R.color.pie_chart_10),
+                resources.getColor(R.color.pie_chart_11),
+                resources.getColor(R.color.pie_chart_12))
         dataSet.valueTextColor = Color.WHITE
         return dataSet
     }
