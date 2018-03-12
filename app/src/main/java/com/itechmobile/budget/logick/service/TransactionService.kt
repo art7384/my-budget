@@ -9,9 +9,11 @@ import java.util.*
  * Created by artem on 25.07.17.
  */
 
-class TransactionService private constructor(){
+class TransactionService private constructor() {
 
-    private object Holder { val INSTANCE = TransactionService() }
+    private object Holder {
+        val INSTANCE = TransactionService()
+    }
 
     companion object {
         private val LOG_TAG = "TransactionService"
@@ -19,128 +21,79 @@ class TransactionService private constructor(){
     }
 
     /**
-     * <p>Сохраняем транзакцию</p>
-     *
-     * @param model Мдель транзакции
-     * @return модель транзакции
+     * <p>Количество записей в базе</p>
      */
-    fun save(model: TracsationModel): TracsationModel {
-        return TransactionTableOperation.add(model)
-    }
+    val size: Int = TransactionTableOperation.size
 
-    fun getStartTime(): Long{
-        return TransactionTableOperation.getStartTime() * 1000
-    }
+    /**
+     * <p>Возвращаем дату первой транзакции</p>
+     */
+    val startDate: Date = TransactionTableOperation.startDate
 
-    fun getDoneSumTo(time: Long):Long{
-        val d = Date(time)
-        val t = Date(d.year, d.month, d.date).time + 24 * 60 * 60 * 1000
-        return TransactionTableOperation.getDoneSumTo(t)
-    }
+    /**
+     * <p>Сохраняем транзакцию</p>
+     */
+    fun save(model: TracsationModel) = TransactionTableOperation.add(model)
 
     /**
      * <p>Вычисляем сумму доходов за день</p>
-     *
-     * @param time день
-     * @return сумма доходов за день
      */
-    fun getDayPl(time: Long):Int{
-        val d = Date(time)
-        val startTime = Date(d.year, d.month, d.date).time
-        val stopTime = Date(d.year, d.month, d.date).time + 24 * 60 * 60 * 1000
-        return TransactionTableOperation.getSumPl(startTime, stopTime)
-    }
+    fun getDayPl(date: Date): Int = TransactionTableOperation.getSumPl(
+            Date(date.year, date.month, date.date),
+            Date(date.year, date.month, date.date + 1))
 
     /**
      * <p>Вычисляем сумму расходов за день</p>
-     *
-     * @param time день
-     * @return сумма расходов за день
      */
-    fun getDayMn(time: Long):Int{
-        val d = Date(time)
-        val startTime = Date(d.year, d.month, d.date).time
-        val stopTime = Date(d.year, d.month, d.date).time + 24 * 60 * 60 * 1000
-        return TransactionTableOperation.getSumMn(startTime, stopTime)
-    }
+    fun getDayMn(date: Date): Int = TransactionTableOperation.getSumMn(
+            Date(date.year, date.month, date.date),
+            Date(date.year, date.month, date.date + 1))
 
     /**
      * <p>Список транзакций за день</p>
-     *
-     * @param time день
-     * @return массив моделей транзакций
      */
-    fun getDay(time: Long): List<TracsationModel> {
-        val d = Date(time)
-        val startTime = Date(d.year, d.month, d.date).time
-        val stopTime = Date(d.year, d.month, d.date).time + 24 * 60 * 60 * 1000
-        return TransactionTableOperation.get(startTime, stopTime)
-    }
+    fun getDay(date: Date): List<TracsationModel> =
+            TransactionTableOperation.get(
+                    Date(date.year, date.month, date.date),
+                    Date(date.year, date.month, date.date + 1))
 
     /**
      * <p>Возвращет модель транзакции</p>
-     *
-     * @param id id транзакции
-     * @return модель транзакции
      */
-    fun get(id: Long): TracsationModel {
-        return TransactionTableOperation.getFoeId(id)
-    }
+    fun get(id: Long): TracsationModel = TransactionTableOperation.getId(id)
+            ?: TracsationModel(0, "???", Date(), -1)
 
     /**
      * <p>Сумма всех транзакций до даты</p>
-     *
-     * @param time день
-     * @return сумма транзакций
      */
-    fun getSumTo(time: Long): Long {
-        val d = Date(time)
-        val t = Date(d.year, d.month, d.date).time
-        return TransactionTableOperation.getSumTo(t)
-    }
+    fun getSumTo(date: Date): Int = TransactionTableOperation.getSumTo(Date(date.year, date.month, date.date))
 
     /**
      * <p>Сумма на каждую категорию</p>
      *
-     * @param startTime начальный день
-     * @param stopTime конечный день
      * @return HashMap<category_id, sum>
      */
-    fun getCategorySum(startTime: Long, stopTime: Long): HashMap<Long, Long> {
-        return TransactionTableOperation.getCategorySum(startTime, stopTime)
-    }
+    fun getCategorySum(startDate: Date, stopDate: Date): HashMap<Long, Int> = TransactionTableOperation.getCategorySum(startDate, stopDate)
 
     /**
      * <p>Удаляем транзакцию</p>
-     *
-     * @param id id удоляемой транзакции
-     * @return id удаленной транзакции
      */
-    fun dell(id: Long) : Int {
-        return TransactionTableOperation.dell(id)
-    }
+    fun dell(id: Long) = TransactionTableOperation.dell(id)
 
     /**
      * <p>Изменение транзакции</p>
-     *
-     * @param model модель транзакции с изменениями
-     * @return модель изменненой транзакции
      */
-    fun update(model: TracsationModel) : Int{
-        return TransactionTableOperation.update(model)
-    }
+    fun update(model: TracsationModel) = TransactionTableOperation.update(model)
 
     /**
      * <p>Список не реализованных транзакций</p>
-     * <p>Транзакция может быть запланированна, а через кокоето время реализована</p>
+     * <p>Транзакция может быть запланированна, а через кокоето время реализована.
+     * Тоесть пользователь планирует покупку (не реализованная транзакция), а когда приходит
+     * время покупает (реализует транзакцию)</p>
      *
-     * @param time день до которого возвращать транзакции
-     * @return список транзакций
+     * @param date день до которого возвращать транзакции
+     *
      */
-    fun getNoDone(time: Long) : List<TracsationModel> {
-        val d = Date(time)
-        val t = Date(d.year, d.month, d.date).time
-        return TransactionTableOperation.getNoDone(t)
-    }
+    fun getNoDone(date: Date): List<TracsationModel> = TransactionTableOperation.getNoDone(Date(date.year, date.month, date.date))
 
 }

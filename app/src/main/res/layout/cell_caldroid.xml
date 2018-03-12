@@ -6,58 +6,43 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="32dp"/>
-
-    <View
-        android:id="@+id/callCaldroid_View_read"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="2dp"
-        android:background="@drawable/oval_red" />
-
-    <View
-        android:id="@+id/callCaldroid_View_green"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/oval_green" />
+        android:layout_height="32dp"
+        android:background="@android:color/white"/>
 
     <TextView
-        android:layout_alignParentRight="true"
-        android:id="@+id/callCaldroid_TextView_day"
+        android:id="@+id/date"
         style="@style/TxtDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_centerInParent="true"
         android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
         android:text="89" />
 
-    <TextView
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/callCaldroid_TextView_many"
-        style="@style/TxtSum"
+    <LinearLayout
+        android:id="@+id/containerMarker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:fontFamily="@font/roboto_regular"
-        android:text="-300"
-        android:textColor="@color/colorAccent" />
+        android:layout_below="@+id/date"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
 
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/callCaldroid_TextView_day2"
-        style="@style/TxtDay"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:gravity="center"
-        android:fontFamily="@font/roboto_regular"
-        android:text="89"
-        android:textSize="16sp"
-        android:textColor="#fff"
-        android:background="@color/color700"/>
+        <View
+            android:id="@+id/income"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/oval_green" />
+
+        <View
+            android:id="@+id/flow"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/oval_red" />
+    </LinearLayout>
 
 </RelativeLayout>

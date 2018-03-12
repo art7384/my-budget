@@ -52,7 +52,7 @@ class EmailAuthorizationActivity : AppCompatActivity() {
                 val user = mAuth.currentUser
                 updateUI(user)
             } else {
-                // If sign in fails, display a message to the user.
+                // If sign in fails, display a message from the user.
                 Log.w(LOG_TAG, "signInWithEmail:failure", task.getException())
                 Toast.makeText(this@EmailAuthorizationActivity, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -68,7 +68,7 @@ class EmailAuthorizationActivity : AppCompatActivity() {
                 Log.d(LOG_TAG, "name: $displayName")
                 Log.d(LOG_TAG, "email: $email")
                 Log.d(LOG_TAG, "photoUrl: $photoUrl")
-                // The user's ID, unique to the Firebase project. Do NOT use this value to
+                // The user's ID, unique from the Firebase project. Do NOT use this value from
                 // authenticate with your backend server, if you have one. Use
                 // FirebaseUser.getToken() instead.
                 Log.d(LOG_TAG, "uid: $uid")

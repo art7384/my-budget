@@ -24,16 +24,16 @@ class StatistickActivity : AppCompatActivity() {
         setContentView(R.layout.activity_statistick)
 
         val thisDate = Date()
-        val startDate = Date(TransactionService.INSTANCE.getStartTime())
+        val startDate = TransactionService.INSTANCE.startDate
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val months = resources.getStringArray(R.array.months_)
-        supportActionBar!!.title = "Статистика ${months[thisDate.month]}"
+//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+//        val months = resources.getStringArray(R.array.months_)
+//        supportActionBar!!.title = "Статистика ${months[thisDate.month]}"
 
         val listDate = ArrayList<Date>()
 
         var itemDate = Date(startDate.year, startDate.month, 1)
-        while (itemDate.time < thisDate.time){
+        while (itemDate.time < thisDate.time) {
             listDate.add(itemDate)
             itemDate = Date(itemDate.year, itemDate.month + 1, 1)
         }
@@ -45,11 +45,11 @@ class StatistickActivity : AppCompatActivity() {
 
     }
 
-    inner class SectionsPagerAdapter(fm: FragmentManager, val items:ArrayList<Date>) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter(fm: FragmentManager, val items: ArrayList<Date>) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             val item = items[position]
-            return StatistickFragment.create(item.time, Date(item.year, item.month + 1, 1).time)
+            return StatistickFragment.create(item, Date(item.year, item.month + 1, 1))
         }
 
         override fun getCount(): Int {
@@ -57,7 +57,7 @@ class StatistickActivity : AppCompatActivity() {
         }
     }
 
-    class MyOnPageChangeListener(val activity: StatistickActivity, val items: ArrayList<Date>): ViewPager.OnPageChangeListener {
+    class MyOnPageChangeListener(val activity: StatistickActivity, val items: ArrayList<Date>) : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
 
         }

@@ -7,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.itechmobile.budget.App
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.model.TracsationModel
+import java.util.*
 
 
 /**
  * Created by artem on 27.07.17.
  */
-class TransactionListAdapter(private var mCnx: Context, private var mItems: MutableList<TracsationModel>, private val mOnItemClicksListern: OnItemClicksListern) : BaseAdapter() {
+class TransactionListAdapter(private val mCnx: Context) : BaseAdapter() {
+
+    private var mItems: MutableList<TracsationModel> = ArrayList()
 
     @SuppressLint("SetTextI18n")
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
@@ -29,36 +31,24 @@ class TransactionListAdapter(private var mCnx: Context, private var mItems: Muta
             v = li.inflate(R.layout.item_transaction, viewGroup, false)
         }
 
-        val txtMoney = v!!.findViewById<TextView>(R.id.itemTransaction_TextView_money)
-        val txtName = v.findViewById<TextView>(R.id.itemTransaction_TextView_name)
-        val txtCategory = v.findViewById<TextView>(R.id.itemTransaction_TextView_category)
-        val btOk = v.findViewById<View>(R.id.itemTransaction_View_ok)
-        //val cbDone = v.findViewById<CheckBox>(R.id.itemTransaction_CheckBox_done)
+        val txtSumm = v!!.findViewById<TextView>(R.id.summ)
+        val txtDdescription = v.findViewById<TextView>(R.id.description)
+        val txtCategory = v.findViewById<TextView>(R.id.category)
+        val mMarker = v.findViewById<View>(R.id.marker)
 
-        txtName.text = item.name
-
+        txtDdescription.text = item.name
         if (item.money < 0) {
-            txtMoney.setTextColor(App.instance.resources.getColor(R.color.many_sum_mn))
-            txtMoney.text = item.money.toString()
+            txtSumm.text = (item.money * (-1)).toString()
+            mMarker.setBackgroundColor(mCnx.resources.getColor(R.color.yellow))
         } else {
-            txtMoney.setTextColor(App.instance.resources.getColor(R.color.many_sum_pl))
-            txtMoney.text = "+" + item.money.toString()
+            txtSumm.text = item.money.toString()
+            mMarker.setBackgroundColor(mCnx.resources.getColor(R.color.green))
         }
 
-        txtCategory.text = CategoryService.INSTANCE.get(item.idCategory).icoName
+        txtCategory.text = CategoryService.INSTANCE.get(item.idCategory)?.icoName
 
         if (item.isDone) {
         } else {
-        }
-
-
-        // Реакция на клик
-        txtMoney.setOnClickListener {
-            mOnItemClicksListern.onClickMenu(this, item)
-        }
-
-        btOk.setOnClickListener {
-            mOnItemClicksListern.onClickItem(item)
         }
 
         return v
@@ -83,7 +73,7 @@ class TransactionListAdapter(private var mCnx: Context, private var mItems: Muta
                 item.isDone = model.isDone
                 item.name = model.name
                 item.money = model.money
-                item.time = model.time
+                item.date = model.date
                 notifyDataSetChanged()
                 return
             }
@@ -99,13 +89,6 @@ class TransactionListAdapter(private var mCnx: Context, private var mItems: Muta
         mItems.clear()
         mItems.addAll(items)
         notifyDataSetChanged()
-    }
-
-    interface OnItemClicksListern {
-        fun onClickMenu(adapter: TransactionListAdapter, model: TracsationModel)
-        //        fun onClickDell(adapter: TransactionListAdapter, model: TracsationModel)
-        fun onClickItem(model: TracsationModel)
-//        fun onCheckedChanged(adapter: TransactionListAdapter, model: TracsationModel, isCheck: Boolean)
     }
 
 }

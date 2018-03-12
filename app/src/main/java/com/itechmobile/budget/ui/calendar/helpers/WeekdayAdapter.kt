@@ -13,7 +13,7 @@ import com.itechmobile.budget.R
  */
 class WeekdayAdapter : BaseAdapter() {
 
-    val items: Array<out String> = App.instance.resources.getStringArray(R.array.weekday)!!
+    private val items: Array<out String> = App.instance.resources.getStringArray(R.array.weekday)!!
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = convertView

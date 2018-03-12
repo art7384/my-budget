@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 26
@@ -24,28 +25,31 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "com.android.support:support-emoji-appcompat:26.0.1"
-    implementation "com.android.support:support-emoji-bundled:26.0.1"
+    implementation "com.android.support:support-emoji-appcompat:26.1.0"
+    implementation "com.android.support:support-emoji-bundled:26.1.0"
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
-    implementation 'com.google.firebase:firebase-core:11.2.0'
-//    implementation 'com.google.firebase:firebase-database:11.2.0'
-    implementation 'com.google.firebase:firebase-ads:11.2.0'
-    compile 'com.google.firebase:firebase-auth:11.2.0'
-    compile 'com.google.android.gms:play-services-auth:11.2.0'
+    implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation 'com.google.firebase:firebase-ads:11.8.0'
+    compile 'com.google.firebase:firebase-auth:11.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
+
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.0.1'
-    implementation 'com.android.support:design:26.0.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.roomorama:caldroid:3.0.1'
     compile 'com.yandex.android:mobmetricalib:2.80'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'com.github.vicpinm:krealmextensions:1.1.1'
 
 }
 

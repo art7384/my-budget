@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/actionBarBlue">
+
+        <TextView
+            style="@style/EpsilTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:text="@string/now_in_poket" />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/summ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:digits="1234567890"
+        android:hint="Сумма"
+        android:imeOptions="actionGo"
+        android:inputType="phone"
+        android:lines="1" />
+
+</LinearLayout>

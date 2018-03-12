@@ -12,6 +12,7 @@ import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.logick.service.TransactionService
@@ -24,14 +25,14 @@ class StatistickFragment
 @SuppressLint("ValidFragment")
 private constructor() : Fragment() {
 
-    private var mStartLong = 0L
-    private var mStopLong = 0L
+    private var mStartDate = Date()
+    private var mStopDate = Date()
 
     companion object {
-        fun create(startLong: Long, stopLong: Long): StatistickFragment {
+        fun create(start: Date, stop: Date): StatistickFragment {
             val f = StatistickFragment()
-            f.mStartLong = startLong
-            f.mStopLong = stopLong
+            f.mStartDate = start
+            f.mStopDate = stop
             return f
         }
     }
@@ -63,7 +64,7 @@ private constructor() : Fragment() {
         setingpieChart(pieChart)
     }
 
-    private fun setingpieChart(pieChart: PieChart){
+    private fun setingpieChart(pieChart: PieChart) {
 
         val desc = Description()
         desc.text = ""
@@ -75,19 +76,24 @@ private constructor() : Fragment() {
 
     }
 
-    private fun getSumAll(isMn: Boolean): Long{
-        val sumHasMap = TransactionService.INSTANCE.getCategorySum(mStartLong, mStopLong)
+    private fun getSumAll(isMn: Boolean): Int {
+        val sumHasMap = TransactionService.INSTANCE.getCategorySum(mStartDate, mStopDate)
         val categoryIds = sumHasMap.keys
-        return categoryIds
-                .mapNotNull { sumHasMap[it] }
-                .filter { if(isMn)  it < 0 else it > 0} // если расход или доход
-                .sum()
+        var sum = 0
+        sumHasMap.map {
+            if (isMn && it.value < 0) {
+                sum += it.value
+            } else if (!isMn && it.value > 0) {
+                sum += it.value
+            }
+        }
+        return sum
     }
 
-    private fun getPieData(isMn: Boolean): PieData{
+    private fun getPieData(isMn: Boolean): PieData {
 
         val entries = ArrayList<PieEntry>()
-        val sumHasMap = TransactionService.INSTANCE.getCategorySum(mStartLong, mStopLong)
+        val sumHasMap = TransactionService.INSTANCE.getCategorySum(mStartDate, mStopDate)
         val categoryIds = sumHasMap.keys
 
         // находим сумму всех транзакций
@@ -102,7 +108,7 @@ private constructor() : Fragment() {
             val categoryModel = CategoryService.INSTANCE.get(categoryId)
             if (many != null) {
                 val k = many.toFloat() / sum.toFloat()
-                if(isMn) { // если расходы
+                if (isMn) { // если расходы
                     if (many < 0L) {
                         if (k < .07) { //меньше 7% (<.1) объединяем
                             sumOther += (many * -1).toFloat()
@@ -129,11 +135,11 @@ private constructor() : Fragment() {
 
         val dataSet = createPieDataSet(entries)
 
-        return PieData(dataSet)
+        return PieData(dataSet as IPieDataSet?)
     }
 
     private fun createPieDataSet(entries: ArrayList<PieEntry>): PieDataSet {
-        val dataSet = PieDataSet(entries, "") // add entries to dataset
+        val dataSet = PieDataSet(entries, "") // add entries from dataset
         dataSet.setColors(resources.getColor(R.color.pie_chart_1),
                 resources.getColor(R.color.pie_chart_2),
                 resources.getColor(R.color.pie_chart_3),

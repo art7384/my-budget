@@ -1,7 +1,7 @@
 package com.itechmobile.budget.logick.service
 
+import com.itechmobile.budget.logick.datebase.TransactionTableOperation
 import com.itechmobile.budget.logick.datebase.СategoryTableOperation
-import com.itechmobile.budget.logick.persisten.UserPersisten
 import com.itechmobile.budget.model.CategoryModel
 
 /**
@@ -19,40 +19,14 @@ class CategoryService private constructor() {
 
     }
 
-    var category: CategoryModel
-        get() = СategoryTableOperation.get(UserPersisten.categoryId)
-        set(value) {
-            UserPersisten.categoryId = value.id
-        }
-
-    val categoryEmojis: Array<String>
-    get() {
-        val emojis = ArrayList<String>()
-        val arr = visibleCategorys
-        arr.mapTo(emojis) { it.icoName }
-        return emojis.toTypedArray()
-    }
-
-    val expenseCategory: CategoryModel
-        get() {
-            if (category.isIncome) category = СategoryTableOperation.getAll(false)[0]
-            return category
-        }
-
-    val incomeCategory: CategoryModel
-        get() {
-            if (!category.isIncome) category = СategoryTableOperation.getAll(true)[0]
-            return category
-        }
-
     val visibleCategorys: ArrayList<CategoryModel>
-        get() = СategoryTableOperation.getVisible() //arr.add(CategoryModel("Новая категория", "➕", true))
+        get() = СategoryTableOperation.get() //arr.add(CategoryModel("Новая категория", "➕", true))
 
     val visibleExpenseCategorys: ArrayList<CategoryModel>
-        get() = СategoryTableOperation.getVisible(false)
+        get() = СategoryTableOperation.get(false)
 
     val visibleIncomeCategorys: ArrayList<CategoryModel>
-        get() = СategoryTableOperation.getVisible(true)
+        get() = СategoryTableOperation.get(true)
 
     val allCategorys: ArrayList<CategoryModel>
         get() = СategoryTableOperation.getAll() //arr.add(CategoryModel("Новая категория", "➕", true))
@@ -72,33 +46,31 @@ class CategoryService private constructor() {
             СategoryTableOperation.add(CategoryModel("Развлечения", "\uD83C\uDFB3", false))//🎳
         }
         if (СategoryTableOperation.getAll(true).size < 1) {
-            СategoryTableOperation.add(CategoryModel("Прочие доходы", "\uD83C\uDF81", true))//🎁
+            СategoryTableOperation.add(CategoryModel("Прочие доходы", "\uD83D\uDCB5️", true))//💵️
             СategoryTableOperation.add(CategoryModel("Зароботок", "\uD83D\uDCB5", true))//💰
         }
-        category = СategoryTableOperation.getAll()[0]
+        //category = СategoryTableOperation.getAll()[0]
     }
 
-    fun get(id: Long): CategoryModel {
-        category = СategoryTableOperation.get(id)
-        return category
-    }
+    fun get(id: Long): CategoryModel = СategoryTableOperation.get(id)?: CategoryModel("???", "\uD83D\uDC7B", true)//👻
 
-    fun add(categoryModel: CategoryModel){
-        СategoryTableOperation.add(categoryModel)
-    }
+    fun add(categoryModel: CategoryModel) = СategoryTableOperation.add(categoryModel)
 
-    fun update(categoryModel: CategoryModel){
-        СategoryTableOperation.update(categoryModel)
-    }
+    fun update(categoryModel: CategoryModel) = СategoryTableOperation.update(categoryModel)
 
     /**
      * <p>"Удаление" категории</p>
-     * <p>Категория не удаляется, а становится скрытой, для дольнейшего отображения в истории и статистики</p>
+     * <p>Проверяем связана ли категория с транзакциями, если не связана то удаляем,
+     * иначе ставим флаг "isDell"=true</p>
      */
-    fun dell(id: Long){
-        val model = get(id)
-        model.isVisible = false
-        update(model)
+    fun dell(id: Long) {
+        val model = get(id) ?: return
+        if (TransactionTableOperation.getForCategorySize(id) > 0) {
+            model.isDell = true
+            СategoryTableOperation.update(model)
+        } else {
+            СategoryTableOperation.dell(id)
+        }
     }
 
 }

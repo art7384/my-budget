@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.itechmobile.budget.App
 import com.itechmobile.budget.R
 import com.itechmobile.budget.model.TracsationModel
-import java.util.*
 
 /**
  * Created by artem on 31.07.17.
@@ -49,12 +48,11 @@ class NoDoneAdapter(private var mCnx: Context,
 
         txtName.text = item.name
 
-        val date = Date(item.time)
-        var strMonth = "" + (date.month + 1)
+        var strMonth = "${item.date.month + 1}"
         if (strMonth.length == 1) {
-            strMonth = "0" + strMonth
+            strMonth = "0$strMonth"
         }
-        btDate.text = "" + date.date + "." + strMonth + "." + (date.year + 1900)
+        btDate.text = "" + item.date.date + "." + strMonth + "." + (item.date.year + 1900)
         btDate.setOnClickListener { mOnClickButtonListner.onClickDate(item) }
 
         btOk.setOnClickListener { mOnClickButtonListner.onClickOk(item) }
@@ -88,10 +86,10 @@ class NoDoneAdapter(private var mCnx: Context,
         notifyDataSetChanged()
     }
 
-    fun remove(model: TracsationModel){
+    fun remove(model: TracsationModel) {
         var i = 0
         while (i < mItems.size) {
-            if(mItems[i].id == model.id) {
+            if (mItems[i].id == model.id) {
                 mItems.remove(mItems[i])
                 break
             }

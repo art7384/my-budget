@@ -1,9 +1,8 @@
 package com.itechmobile.budget.logick.datebase
 
-import android.content.ContentValues
-import android.database.Cursor
-import com.itechmobile.budget.App
+import com.itechmobile.budget.logick.parsers.СategoryParser
 import com.itechmobile.budget.model.CategoryModel
+import com.vicpin.krealmextensions.*
 
 /**
  * Created by artem on 17.11.17.
@@ -12,105 +11,54 @@ class СategoryTableOperation {
 
     companion object {
 
-        fun add(model:CategoryModel): CategoryModel {
-            val cv = parsContentValues(model)
-            val db = App.instance.database
-            model.id = db.insert(DBHelper.TableName.CATEGORY, null, cv)
-            return model
-        }
+        fun add(models: List<CategoryModel>) = СategoryParser.toRealm(models).saveAll()
 
-        fun update(model:CategoryModel): Int {
-            val cv = parsContentValues(model)
-            val db = App.instance.database
-            // обновляем по id
-            return db.update(DBHelper.TableName.CATEGORY, cv, DBHelper.CategoryKey._ID + " = ?",
-                    arrayOf<String>(model.id.toString()))
-        }
+        fun add(model: CategoryModel) = СategoryParser.toRealm(model).save()
 
-        fun dell(id: Long){
-            App.instance.database.delete(DBHelper.TableName.CATEGORY, "${DBHelper.CategoryKey._ID}=$id", null)
-        }
+        fun update(model: CategoryModel) {
 
-        fun getVisible(): ArrayList<CategoryModel>{
-            val selection = DBHelper.CategoryKey.IS_VISIBLE + " = ?"
-            val selectionArgs = arrayOf("1")
-            val models = reyuest(selection, selectionArgs)
-            return models
-        }
-        fun getVisible(isIncome: Boolean): ArrayList<CategoryModel>{
-            val selection = DBHelper.CategoryKey.IS_INCOME + " = ? and " + DBHelper.CategoryKey.IS_VISIBLE + " = ?"
-            val selectionArgs = arrayOf(if(isIncome) "1" else "0", "1")
-            val models = reyuest(selection, selectionArgs)
-            return models
-        }
-
-        fun getAll(): ArrayList<CategoryModel> = reyuest(null, null)
-
-        fun getAll(isIncome: Boolean): ArrayList<CategoryModel>{
-            val selection = DBHelper.CategoryKey.IS_INCOME + " = ?"
-            val selectionArgs = arrayOf(if(isIncome) "1" else "0")
-            val models = reyuest(selection, selectionArgs)
-            return models
-        }
-
-        fun get(id: Long): CategoryModel {
-            val selection = DBHelper.CategoryKey._ID + " = ?"
-            val selectionArgs = arrayOf(id.toString())
-            val models = reyuest(selection, selectionArgs)
-            if(models.size > 0) return models[0]
-            return CategoryModel("???", "\uD83D\uDC7B", true)
-
-        }
-
-        private fun reyuest(selection: String?, selectionArgs: Array<String>?): ArrayList<CategoryModel> {
-
-            val moels = ArrayList<CategoryModel>()
-            val db = App.instance.database
-
-            val c = db.query(DBHelper.TableName.CATEGORY, null, selection, selectionArgs, null, null, DBHelper.CategoryKey._ID)
-            if (c.moveToFirst()) {
-                do {
-                    val model = parsModel(c)
-                    moels.add(model)
-                } while (c.moveToNext())
+            val table = CategoryTable().queryFirst {
+                it.equalTo("id", model.id)
             }
-            c.close()
-
-            return moels
+            if (table != null) {
+                table.name = model.name
+                table.icoName = model.icoName
+                table.isDell = model.isDell
+                table.isIncome = model.isIncome
+                table.save()
+            }
         }
 
-        private fun parsContentValues(model: CategoryModel) : ContentValues {
-            val cv = ContentValues()
-            cv.put(DBHelper.CategoryKey.ICO_NAME, model.icoName)
-            cv.put(DBHelper.CategoryKey.NAME, model.name)
-            cv.put(DBHelper.CategoryKey.IS_INCOME, if(model.isIncome) 1 else 0)
-            cv.put(DBHelper.CategoryKey.IS_VISIBLE, if(model.isVisible) 1 else 0)
-            return cv
-        }
+        fun dell(id: Long) = CategoryTable().queryFirst {
+            it.equalTo("id", id)
+        }?.deleteFromRealm()
 
-        private fun parsModel(c : Cursor) : CategoryModel {
+        fun get(): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
+            it.equalTo("isDell", false)
+        })
 
-            // определяем номера столбцов по имени в выборке
-            val idColIndex = c.getColumnIndex(DBHelper.CategoryKey._ID)
-            val icoNameColIndex = c.getColumnIndex(DBHelper.CategoryKey.ICO_NAME)
-            val nameColIndex = c.getColumnIndex(DBHelper.CategoryKey.NAME)
-            val isIncomeIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_INCOME)
-            val isVisibleIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_VISIBLE)
+        fun get(isIncome: Boolean): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
+            it.equalTo("isDell", false)
+            it.equalTo("isIncome", isIncome)
+        })
 
-            val id = c.getInt(idColIndex)
-            val icoName = c.getString(icoNameColIndex)
-            val name = c.getString(nameColIndex)
-            val isIncome = c.getInt(isIncomeIndex)
-            val isVisible = c.getInt(isVisibleIndex)
+        fun getAll(): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().queryAll())
 
-            val model = CategoryModel(name, icoName, isIncome == 1)
-            model.id = id.toLong()
-            model.isVisible = isVisible == 1
+        fun getAll(isIncome: Boolean): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
+            it.equalTo("isIncome", isIncome)
+        })
 
-            return model
+        fun get(id: Long): CategoryModel? {
+
+            val table = CategoryTable().queryFirst {
+                it.equalTo("id", id)
+            } ?: return null
+
+            return СategoryParser.from(table)
 
         }
 
     }
 
 }
+

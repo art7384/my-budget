@@ -1,5 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+
+
+    <style name="AppTheme.Launcher" parent="Theme.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <!-- для Android 5+ вы можете поменять цвет colorPrimaryDark, чтобы соответствовать цвету windowBackground -->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -11,6 +19,7 @@
     </style>
 
     <style name="Theme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/big_screen</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -18,11 +27,31 @@
         <item name="android:buttonStyle">@style/MyButtonStyle</item>
     </style>
 
+    <style name="AppThemeGreen" parent="@style/Theme.NoActionBar">
+        <item name="android:windowBackground">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <!-- для Android 5+ вы можете поменять цвет colorPrimaryDark, чтобы соответствовать цвету windowBackground -->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
+    </style>
+
+    <style name="AppThemeYellow" parent="@style/Theme.NoActionBar">
+        <item name="android:windowBackground">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/yellow</item>
+        <!-- для Android 5+ вы можете поменять цвет colorPrimaryDark, чтобы соответствовать цвету windowBackground -->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="EpsilTitle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/epsil</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="TxtDay" parent="android:Widget.TextView">
-        <item name="android:textSize">10sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="TxtSum" parent="android:Widget.TextView">
@@ -50,34 +79,43 @@
     <style name="Button.Cal.Base" parent="@style/MyButtonStyle.Borderless">
         <item name="android:padding">0dp</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/text_cal</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="Button.Cal.Operation.Base" parent="@style/Button.Cal.Base">
+        <item name="android:padding">0dp</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/colorPA700</item>
         <item name="android:textSize">28dp</item>
-        <item name="android:fontFamily">@font/segoe_ui_light</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
     </style>
 
     <style name="Button.Cal" parent="@style/Button.Cal.Base" tools:ignore="ResourceCycle" />
 
+
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">#333</item>
-        <item name="android:fontFamily">@font/segoe_ui_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="MyButtonStyle" parent="@style/Widget.AppCompat.Button">
-        <item name="android:fontFamily">@font/segoe_ui_regular</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MyButtonStyle.Colored" parent="@style/Widget.AppCompat.Button.Colored">
-        <item name="android:fontFamily">@font/segoe_ui_regular</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MyButtonStyle.Borderless" parent="@style/Widget.AppCompat.Button.Borderless">
-        <item name="android:fontFamily">@font/segoe_ui_regular</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="MyButtonStyle.Borderless.Colored" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
-        <item name="android:fontFamily">@font/segoe_ui_regular</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 
     <!-- Dark theme. -->
@@ -90,24 +128,26 @@
     </style>
 
     <style name="CaldroidDefaultDarkCalendarViewLayout">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">#fff</item>
     </style>
 
     <style name="CaldroidDefaultDarkMonthName" parent="CaldroidDefaultMonthName">
-        <item name="android:textColor">#fff</item>
+        <item name="android:textColor">@color/text</item>
+        <!--item name="android:fontFamily">@font/roboto_regular</item-->
+        <!--item name="textSize">15sp</item-->
     </style>
 
     <style name="CaldroidDefaultDarkGridView" parent="CaldroidDefaultGridView">
-        <item name="android:background">#eee</item>
+        <item name="android:background">#fff</item>
     </style>
 
     <style name="CaldroidDefaultDarkCell" parent="CaldroidDefaultCell">
-        <item name="android:textColor">@color/cell_text_color_dark</item>
+        <item name="android:textColor">#000</item>
         <item name="android:background">#fff</item>
     </style>
 
     <style name="CaldroidDefaultDarkNormalCell" parent="CaldroidDefaultDarkCell">
-        <item name="android:padding">1dp</item>
+        <item name="android:padding">0dp</item>
     </style>
 
     <style name="CaldroidDefaultDarkSquareCell" parent="CaldroidDefaultDarkCell" />

@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/color700</color>
-    <color name="colorPrimaryDark">@color/color800</color>
-    <color name="colorAccent">@color/colorA100</color>
+    <color name="colorPrimary">@color/actionBarBlue</color>
+    <color name="colorPrimaryDark">@color/navigationBarBlue</color>
+    <color name="colorAccent">@color/accent</color>
 
-    <!--<color name="primaryRed">#E83600</color>-->
-    <!--<color name="primaryDarkRed">#c9360c</color>-->
-    <!--<color name="accentRed">#fb410c</color>-->
+    <color name="navigationBarGreen">#7FD700</color>
+    <color name="navigationBarYellow">#E0B400</color>
+    <color name="navigationBarBlue">#467EF7</color>
 
-    <!--<color name="primaryBlu">#158ebd</color>-->
-    <!--<color name="primaryDarkBlu">#106787</color>-->
-    <!--<color name="accentBlu">#51a4ca</color>-->
+    <color name="actionBarGreen">#97FF00</color>
+    <color name="actionBarYellow">#FFCD00</color>
+    <color name="actionBarBlue">#518AFF</color>
+
+    <color name="green">#2DBF00</color>
+    <color name="yellow">#FFCD00</color>
+    <color name="accent">#F00A6B</color>
+    <color name="dark">#0D1D3E</color>
+
+    <color name="bg">#F9F9FA</color>
+
+    <color name="text">#3E3E3E</color>
+    <color name="text_gray">#B9B9B9</color>
+    <color name="text_pale_gray">#BABABA</color>
+    <color name="text_cal">#E9E6E6</color>
+
+    <color name="pie_chart_1">#E100BD</color>
+    <color name="pie_chart_2">#FDCF41</color>
+    <color name="pie_chart_3">#00E178</color>
+    <color name="pie_chart_4">#FF434C</color>
+    <color name="pie_chart_5">#7E00E1</color>
+    <color name="pie_chart_6">#056D0E</color>
+    <color name="pie_chart_7">#FF7A00</color>
+    <color name="pie_chart_8">#0400E1</color>
+    <color name="pie_chart_9">#FE006C</color>
+    <color name="pie_chart_10">#00B7DF</color>
+    <color name="pie_chart_11">#B24103</color>
+    <color name="pie_chart_12">#24D607</color>
+
+    /*--------/
+    /   OLD   /
+    /--------*/
 
     <color name="day">#333</color>
     <color name="day_p">#BDBDBD</color>
@@ -44,18 +73,5 @@
     <color name="colorA200">#FF6E40</color>
     <color name="colorA400">#FF3D00</color>
     <color name="colorA700">#DD2C00</color>
-
-    <color name="pie_chart_1">#E100BD</color>
-    <color name="pie_chart_2">#FDCF41</color>
-    <color name="pie_chart_3">#00E178</color>
-    <color name="pie_chart_4">#FF434C</color>
-    <color name="pie_chart_5">#7E00E1</color>
-    <color name="pie_chart_6">#056D0E</color>
-    <color name="pie_chart_7">#FF7A00</color>
-    <color name="pie_chart_8">#0400E1</color>
-    <color name="pie_chart_9">#FE006C</color>
-    <color name="pie_chart_10">#00B7DF</color>
-    <color name="pie_chart_11">#B24103</color>
-    <color name="pie_chart_12">#24D607</color>
 
 </resources>

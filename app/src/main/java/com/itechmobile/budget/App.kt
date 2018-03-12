@@ -47,6 +47,7 @@ class App : Application() {
 
         mSQLiteDatabase = DBHelper(this).writableDatabase
         Holder.instance = this
+
     }
 
 }

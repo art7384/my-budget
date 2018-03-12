@@ -2,6 +2,9 @@
 
     <string name="app_name">В кармане</string>
 
+    <string name="now_in_poket">Сколько сейчас у Вас в кармане?</string>
+    <string name="in_poket_">В кармане:</string>
+
     <string name="dell_item_menu_transaction">Удалить</string>
     <string name="update_item_menu_transaction">Изменить</string>
     <string name="move_item_menu_transaction">Перенисти</string>
@@ -9,6 +12,7 @@
 
     <string name="bt_email_in">Войти по почте</string>
     <string name="bt_ok">Ок</string>
+    <string name="schedule_expenses">Запланируй расходы:\n 1. Выбери число.\n2. Жми «-»</string>
 
     <string name="et_email">Эл. почта</string>
     <string name="et_password">Пароль</string>
@@ -19,9 +23,9 @@
     <string name="add_category">Добавить категорию</string>
     <string name="add_note">Добавте заметку</string>
 
-    <string name="already_spent_received">Уже потрачено / получено</string>
-    <string name="already_received">Уже получено</string>
-    <string name="already_spent">Уже потрачено</string>
+    <string name="already_spent_received">Потрачено / получено</string>
+    <string name="already_received">Получено</string>
+    <string name="already_spent">Потрачено</string>
 
     <string name="change_category">Изменить категорию</string>
     <string name="no_imput_name_category">Не заполнено название категории.</string>

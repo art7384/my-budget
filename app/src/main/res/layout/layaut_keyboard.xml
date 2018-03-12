@@ -1,141 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layautKeyboard_LinearLayout_cont"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contener"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:background="@color/dark"
+    android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
+    <LinearLayout
+        android:id="@+id/contOpiration"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#33ffffff"
+        android:orientation="vertical">
 
-    <TableLayout
-        android:layout_width="match_parent"
+        <Button
+            android:id="@+id/c"
+            style="@style/Button.Cal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="0dp"
+            android:text="c"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/delit"
+            style="@style/Button.Cal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="0dp"
+            android:text="÷"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/mult"
+            style="@style/Button.Cal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="0dp"
+            android:text="×"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/min"
+            style="@style/Button.Cal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="0dp"
+            android:text="-"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/cplus"
+            style="@style/Button.Cal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="0dp"
+            android:text="+"
+            android:textSize="22sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="84dp" />
+
+    </LinearLayout>
+
+    <!--CheckBox
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/already_spent_received"
+        android:textColor="@color/text_cal" /-->
 
-        <TableRow>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/done"
+        android:layout_toLeftOf="@+id/contOpiration"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/layautKeybord_Button_7"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="7" />
+
+            <Button
+                android:id="@+id/layautKeybord_Button_8"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/layautKeybord_Button_9"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="9" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/layautKeybord_Button_4"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="4" />
+
+            <Button
+                android:id="@+id/layautKeybord_Button_5"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="5" />
+
+            <Button
+                android:id="@+id/layautKeybord_Button_6"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/layautKeybord_Button_1"
                 style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:padding="0dp"
                 android:text="1" />
 
             <Button
                 android:id="@+id/layautKeybord_Button_2"
                 style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
                 android:text="2" />
 
             <Button
                 android:id="@+id/layautKeybord_Button_3"
                 style="@style/Button.Cal"
-                android:text="3" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <Button
-                android:id="@+id/layautKeybord_Button_4"
-                style="@style/Button.Cal"
-                android:text="4" />
-
-            <Button
-                android:id="@+id/layautKeybord_Button_5"
-                style="@style/Button.Cal"
-                android:text="5" />
-
-            <Button
-                android:id="@+id/layautKeybord_Button_6"
-                style="@style/Button.Cal"
-                android:text="6" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <Button
-                android:id="@+id/layautKeybord_Button_7"
-                style="@style/Button.Cal"
-                android:text="7" />
-
-            <Button
-                android:id="@+id/layautKeybord_Button_8"
-                style="@style/Button.Cal"
-                android:text="8" />
-
-            <Button
-                android:id="@+id/layautKeybord_Button_9"
-                style="@style/Button.Cal"
-                android:text="9" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <ImageButton
-                android:id="@+id/layautKeybord_ImageButton_del"
-                style="@style/Button.Cal"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_backspace_black_24dp"
-                android:visibility="invisible" />
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/layautKeybord_Button_zp"
+                style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="," />
 
             <Button
                 android:id="@+id/layautKeybord_Button_0"
                 style="@style/Button.Cal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
                 android:text="0" />
 
             <Button
-                android:visibility="invisible"
-                android:id="@+id/layautKeybord_Button_znak"
+                android:id="@+id/layautKeybord_Button_rav"
                 style="@style/Button.Cal"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/income"
-                android:textSize="16dp" />
-        </TableRow>
-    </TableLayout>
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="=" />
+        </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal">
-
-        <android.support.text.emoji.widget.EmojiTextView
-            android:id="@+id/activityTransactionEditor_TextView_category"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="-4dp"
-            android:minHeight="10dp"
-            android:minWidth="10dp"
-            android:paddingHorizontal="4dp"
-            android:text="A"
-            android:textSize="28dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/layautKeybord_Button_selectCategory"
-            style="@style/MyButtonStyle.Colored"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/select_category" />
+            android:layout_height="84dp" />
+
     </LinearLayout>
 
+    <Button
+        android:id="@+id/selectCategory"
+        style="@style/MyButtonStyle.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="32dp"
+        android:text="@string/select_category" />
 
-</LinearLayout>
+
+</RelativeLayout>

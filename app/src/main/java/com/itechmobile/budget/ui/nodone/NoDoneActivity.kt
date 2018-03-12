@@ -25,7 +25,7 @@ class NoDoneActivity : AppCompatActivity() {
     }
 
     private fun createList() {
-        val manyModels = TransactionService.INSTANCE.getNoDone(Date().time)
+        val manyModels = TransactionService.INSTANCE.getNoDone(Date())
         val items: MutableList<TracsationModel> = ArrayList()
         items.addAll(manyModels)
         val adapter = NoDoneAdapter(this, items, OnClickBtListListner(this))
@@ -51,11 +51,10 @@ class NoDoneActivity : AppCompatActivity() {
         override fun onClickTh(model: TracsationModel) {
             val adapter = noDoneActivity.mListView.adapter as NoDoneAdapter
             val d = Date()
-            val date = Date(d.year, d.month, d.date)
-            model.time = date.time
+            model.date = Date(d.year, d.month, d.date)
             TransactionService.INSTANCE.update(model)
             adapter.remove(model)
-            if(adapter.getCount() == 0){
+            if(adapter.count == 0){
                 noDoneActivity.finish()
             }
         }

@@ -22,9 +22,7 @@ class MyCaldroidFragment : CaldroidFragment() {
     private lateinit var mCalendarAdapter: CaldroidAdapter
 
     override fun getNewDatesGridAdapter(month: Int, year: Int): CaldroidGridAdapter {
-        // TODO Auto-generated method stub
-        mCalendarAdapter = CaldroidAdapter(activity, month, year,
-                getCaldroidData(), extraData)
+        mCalendarAdapter = CaldroidAdapter(activity, month, year, getCaldroidData(), extraData)
         return mCalendarAdapter
     }
 
@@ -51,7 +49,7 @@ class MyCaldroidFragment : CaldroidFragment() {
     private class MyCaldroidListener(val fragment: MyCaldroidFragment) : CaldroidListener() {
 
         override fun onSelectDate(date: Date?, view: View?) {
-            if(date != null && view != null) {
+            if (date != null && view != null) {
 //                view.findViewById<View>(R.id.callCaldroid_View_content).setBackgroundColor(App.Companion.instance.resources.getColor(R.color.color700))
 //                view.findViewById<TextView>(R.id.callCaldroid_TextView_day).setTextColor(Color.WHITE)
 //                view.findViewById<TextView>(R.id.callCaldroid_TextView_many).setTextColor(Color.WHITE)
