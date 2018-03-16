@@ -45,13 +45,13 @@ class TransactionTableOperation private constructor() {
 
         fun getId(id: Long): TracsationModel? {
             val trTb = TransactionTable().queryFirst {
-                it.equalTo("id", id)
+                this.equalTo("id", id)
             } ?: return null
             return TransactionParser.from(trTb)
         }
 
         fun getForCategorySize(categoryId: Long): Int = TransactionTable().query {
-            it.equalTo("categoryId", categoryId)
+            this.equalTo("categoryId", categoryId)
         }.size
 
         fun getNoDone(date: Date): ArrayList<TracsationModel> = TransactionParser.from(TransactionTable().queryAll().filter {
@@ -81,12 +81,12 @@ class TransactionTableOperation private constructor() {
         }.sumBy { it.money }
 
         fun dell(id: Long) = TransactionTable().queryFirst {
-            it.equalTo("id", id)
+            this.equalTo("id", id)
         }?.deleteFromRealm()
 
         fun update(model: TracsationModel) {
             val table = TransactionTable().queryFirst {
-                it.equalTo("id", model.id)
+                this.equalTo("id", model.id)
             }
             if (table != null) {
                 table.name = model.name

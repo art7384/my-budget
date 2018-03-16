@@ -13,6 +13,7 @@ android {
         versionCode 6
         versionName "1.6.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -49,7 +50,12 @@ dependencies {
     compile 'com.yandex.android:mobmetricalib:2.80'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    compile 'com.github.vicpinm:krealmextensions:1.1.1'
+    //compile 'com.github.vicpinm:krealmextensions:1.1.1'
+
+    compile "com.github.vicpinm:krealmextensions:2.1.3"
+    //For Single and Flowable queries:
+    compile 'io.reactivex.rxjava2:rxjava:2.1.4'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
 }
 

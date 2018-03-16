@@ -18,7 +18,7 @@ class СategoryTableOperation {
         fun update(model: CategoryModel) {
 
             val table = CategoryTable().queryFirst {
-                it.equalTo("id", model.id)
+                this.equalTo("id", model.id)
             }
             if (table != null) {
                 table.name = model.name
@@ -30,28 +30,28 @@ class СategoryTableOperation {
         }
 
         fun dell(id: Long) = CategoryTable().queryFirst {
-            it.equalTo("id", id)
+            this.equalTo("id", id)
         }?.deleteFromRealm()
 
         fun get(): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
-            it.equalTo("isDell", false)
+            this.equalTo("isDell", false)
         })
 
         fun get(isIncome: Boolean): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
-            it.equalTo("isDell", false)
-            it.equalTo("isIncome", isIncome)
+            this.equalTo("isDell", false)
+            this.equalTo("isIncome", isIncome)
         })
 
         fun getAll(): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().queryAll())
 
         fun getAll(isIncome: Boolean): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
-            it.equalTo("isIncome", isIncome)
+            this.equalTo("isIncome", isIncome)
         })
 
         fun get(id: Long): CategoryModel? {
 
             val table = CategoryTable().queryFirst {
-                it.equalTo("id", id)
+                this.equalTo("id", id)
             } ?: return null
 
             return СategoryParser.from(table)
