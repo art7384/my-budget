@@ -7,6 +7,8 @@ import android.support.text.emoji.EmojiCompat
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig
 import com.itechmobile.budget.logick.datebase.DBHelper
 import com.itechmobile.budget.logick.service.AnalyticsService
+import io.realm.Realm
+import io.realm.RealmConfiguration
 
 
 /**
@@ -42,11 +44,21 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        Holder.instance = this
+
         AnalyticsService.INSTANCE.init(this)
         EmojiCompat.init(BundledEmojiCompatConfig(this))
 
+        initRealm()
         mSQLiteDatabase = DBHelper(this).writableDatabase
-        Holder.instance = this
+
+    }
+
+    private fun initRealm(){
+        Realm.init(this)
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build())
 
     }
 

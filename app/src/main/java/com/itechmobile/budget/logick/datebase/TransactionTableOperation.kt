@@ -18,13 +18,32 @@ class TransactionTableOperation private constructor() {
 
         private val LOG_TAG = "TransactionTableOperation"
 
-        val size: Int = TransactionTable().queryAll().size
+        val size: Int
+        get(){
+            val tt = TransactionTable().queryAll()
+            if(tt == null){
+                return 0
+            } else {
+                return tt.size
+            }
+        }
 
         val startDate: Date = TransactionTable().querySorted("date", Sort.ASCENDING).first().date
 
-        fun add(models: List<TracsationModel>) = TransactionParser.toRealm(models).saveAll()
+        fun add(models: List<TracsationModel>) {
+            var id = TransactionTable().queryAll().maxBy { it.id }?.id ?: 0L
+            models.map {
+                it.id = ++id
+            }
+            TransactionParser.toRealm(models).saveAll()
+        }
 
-        fun add(model: TracsationModel) = TransactionParser.toRealm(model).save()
+        fun add(model: TracsationModel): Long {
+            var id = TransactionTable().queryAll().maxBy { it.id }?.id ?: 0L
+            model.id = ++id
+            TransactionParser.toRealm(model).save()
+            return id
+        }
 
         fun getSumPl(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter { predicate ->
             predicate.date in startDate..stopDate && predicate.money > 0

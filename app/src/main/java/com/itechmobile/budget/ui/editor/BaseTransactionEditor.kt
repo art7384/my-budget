@@ -77,7 +77,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val imoji = data!!.getStringExtra(EmojiCategoryActivity.EXTRA_EMOJI)
                 val name = data.getStringExtra(EmojiCategoryActivity.EXTRA_NAME)
-                CategoryService.INSTANCE.add(CategoryModel(name, imoji, IS_INCOME))
+                CategoryService.INSTANCE.save(CategoryModel(name, imoji, IS_INCOME))
                 updateCategorisList()
             }
         }

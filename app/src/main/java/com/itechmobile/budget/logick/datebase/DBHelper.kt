@@ -4,8 +4,11 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.vicpin.krealmextensions.saveAll
+import com.itechmobile.budget.model.TracsationModel
+import com.vicpin.krealmextensions.queryAll
+import com.vicpin.krealmextensions.save
 import java.util.*
+import kotlin.collections.HashMap
 
 
 /**
@@ -62,8 +65,39 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
             db.execSQL("ALTER TABLE ${TableName.CATEGORY} ADD ${CategoryKey.IS_VISIBLE} integer default 1")
         }
         if (oldVersion < 5) {
-            val listTransactionTable = ArrayList<TransactionTable>()
-            var c = db.query(DBHelper.TableName.TRANSACTION, null, null, null, null, null, DBHelper.TransactionKey._ID)
+
+            /**
+             * <p>Переписываем базу на Realm</p>
+             * <p>В Realm строчки будут иметь другие id, необходимо сопоставить id катекгорий с
+             * транзакциями</p>
+             */
+
+            val hashMapIdCategory = HashMap<Long, Long>() //HashMap<id был, id стал>
+
+            var c = db.query(DBHelper.TableName.CATEGORY, null, null, null, null, null, DBHelper.CategoryKey._ID)
+            if (c.moveToFirst()) {
+                do {
+                    val idColIndex = c.getColumnIndex(DBHelper.CategoryKey._ID)
+                    val nameColIndex = c.getColumnIndex(DBHelper.CategoryKey.NAME)
+                    val icoNameColIndex = c.getColumnIndex(DBHelper.CategoryKey.ICO_NAME)
+                    val isIncomeColIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_INCOME)
+                    val isVisibleColIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_VISIBLE)
+
+                    val ct = CategoryTable(c.getString(nameColIndex),
+                            c.getString(icoNameColIndex),
+                            c.getInt(isIncomeColIndex) == 1,
+                            c.getInt(isVisibleColIndex) == 1)
+                    // запоминаем изменение id
+                    ct.id = CategoryTable().queryAll().maxBy { it.id }?.id ?: 0L
+                    ct.save()
+                    // запоминаем изменение id
+                    hashMapIdCategory[c.getLong(idColIndex)] = ct.id
+
+                } while (c.moveToNext())
+            }
+            c.close()
+
+            c = db.query(DBHelper.TableName.TRANSACTION, null, null, null, null, null, DBHelper.TransactionKey._ID)
             if (c.moveToFirst()) {
                 do {
                     // определяем номера столбцов по имени в выборке
@@ -74,43 +108,25 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                     val isDoneColIndex = c.getColumnIndex(DBHelper.TransactionKey.IS_DONE)
                     val categoryIdColIndex = c.getColumnIndex(DBHelper.TransactionKey.CATEGORY_ID)
 
-                    listTransactionTable.add(TransactionTable(c.getLong(idColIndex),
-                            c.getString(nameColIndex),
+                    val tt = TransactionTable(c.getString(nameColIndex),
                             c.getInt(manyColIndex),
                             Date(c.getLong(timeColIndex) * 1000),
                             c.getInt(isDoneColIndex) == 1,
-                            c.getLong(categoryIdColIndex))
-                    )
+                            hashMapIdCategory[c.getLong(categoryIdColIndex)] ?: 1)
+                    tt.id = TransactionTable().queryAll().maxBy { it.id }?.id ?: 0L
+                    tt.save()
 
-                } while (c.moveToNext())
-            }
-            c.close()
-            if (listTransactionTable.size > 0) {
-                listTransactionTable.saveAll()
-            }
-
-            val listCategoryTable = ArrayList<CategoryTable>()
-            c = db.query(DBHelper.TableName.CATEGORY, null, null, null, null, null, DBHelper.CategoryKey._ID)
-            if (c.moveToFirst()) {
-                do {
-                    val idColIndex = c.getColumnIndex(DBHelper.CategoryKey._ID)
-                    val nameColIndex = c.getColumnIndex(DBHelper.CategoryKey.NAME)
-                    val icoNameColIndex = c.getColumnIndex(DBHelper.CategoryKey.ICO_NAME)
-                    val isIncomeColIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_INCOME)
-                    val isVisibleColIndex = c.getColumnIndex(DBHelper.CategoryKey.IS_VISIBLE)
-
-                    listCategoryTable.add(CategoryTable(c.getLong(idColIndex),
+                    val tm = TracsationModel(c.getInt(manyColIndex),
                             c.getString(nameColIndex),
-                            c.getString(icoNameColIndex),
-                            c.getInt(isIncomeColIndex) == 1,
-                            c.getInt(isVisibleColIndex) == 1))
+                            Date(c.getLong(timeColIndex) * 1000),
+                            //записываем новый id категории
+                            hashMapIdCategory[c.getLong(categoryIdColIndex)] ?: 1)
+                    tm.isDone = c.getInt(isDoneColIndex) == 1
 
                 } while (c.moveToNext())
             }
             c.close()
-            if (listCategoryTable.size > 0) {
-                listCategoryTable.saveAll()
-            }
+
         }
         if (oldVersion < 6) {
             // TODO: удалить таблицы SQLite

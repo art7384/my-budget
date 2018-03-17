@@ -19,11 +19,12 @@ class СategoryParser {
         }
 
         fun toRealm(model: CategoryModel): CategoryTable {
-            return CategoryTable(model.id,
-                    model.name,
+            val ct = CategoryTable(model.name,
                     model.icoName,
                     model.isIncome,
                     model.isDell)
+            ct.id = model.id
+            return ct
         }
 
         fun from(list: List<CategoryTable>): ArrayList<CategoryModel> {

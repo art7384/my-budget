@@ -18,12 +18,15 @@ class TransactionParser {
         }
 
         fun toRealm(trMd: TracsationModel): TransactionTable {
-            return TransactionTable(trMd.id,
-                    trMd.name,
+
+            val tt = TransactionTable(trMd.name,
                     trMd.money,
                     trMd.date,
                     trMd.isDone,
                     trMd.idCategory)
+            tt.id = trMd.id
+
+            return tt
         }
 
         fun from(list: List<TransactionTable>): ArrayList<TracsationModel> {

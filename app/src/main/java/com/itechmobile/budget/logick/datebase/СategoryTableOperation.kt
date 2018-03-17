@@ -11,9 +11,20 @@ class СategoryTableOperation {
 
     companion object {
 
-        fun add(models: List<CategoryModel>) = СategoryParser.toRealm(models).saveAll()
+        fun add(models: List<CategoryModel>) {
+            var id = CategoryTable().queryAll().maxBy { it.id }?.id ?: 0L
+            models.map {
+                it.id = ++id
+            }
+            СategoryParser.toRealm(models).saveAll()
+        }
 
-        fun add(model: CategoryModel) = СategoryParser.toRealm(model).save()
+        fun add(model: CategoryModel): Long  {
+            var id = CategoryTable().queryAll().maxBy { it.id }?.id ?: 0L
+            model.id = ++id
+            СategoryParser.toRealm(model).save()
+            return id
+        }
 
         fun update(model: CategoryModel) {
 

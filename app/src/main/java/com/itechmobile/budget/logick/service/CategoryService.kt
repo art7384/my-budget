@@ -20,7 +20,7 @@ class CategoryService private constructor() {
     }
 
     val visibleCategorys: ArrayList<CategoryModel>
-        get() = СategoryTableOperation.get() //arr.add(CategoryModel("Новая категория", "➕", true))
+        get() = СategoryTableOperation.get() //arr.save(CategoryModel("Новая категория", "➕", true))
 
     val visibleExpenseCategorys: ArrayList<CategoryModel>
         get() = СategoryTableOperation.get(false)
@@ -29,7 +29,7 @@ class CategoryService private constructor() {
         get() = СategoryTableOperation.get(true)
 
     val allCategorys: ArrayList<CategoryModel>
-        get() = СategoryTableOperation.getAll() //arr.add(CategoryModel("Новая категория", "➕", true))
+        get() = СategoryTableOperation.getAll() //arr.save(CategoryModel("Новая категория", "➕", true))
 
     val allExpenseCategorys: ArrayList<CategoryModel>
         get() = СategoryTableOperation.getAll(false)
@@ -54,7 +54,7 @@ class CategoryService private constructor() {
 
     fun get(id: Long): CategoryModel = СategoryTableOperation.get(id)?: CategoryModel("???", "\uD83D\uDC7B", true)//👻
 
-    fun add(categoryModel: CategoryModel) = СategoryTableOperation.add(categoryModel)
+    fun save(categoryModel: CategoryModel): Long = СategoryTableOperation.add(categoryModel)
 
     fun update(categoryModel: CategoryModel) = СategoryTableOperation.update(categoryModel)
 

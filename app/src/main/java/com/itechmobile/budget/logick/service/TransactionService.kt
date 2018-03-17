@@ -33,7 +33,12 @@ class TransactionService private constructor() {
     /**
      * <p>Сохраняем транзакцию</p>
      */
-    fun save(model: TracsationModel) = TransactionTableOperation.add(model)
+    fun save(model: TracsationModel):Long = TransactionTableOperation.add(model)
+
+    /**
+     * <p>Сохраняем транзакциb</p>
+     */
+    fun save(models: List<TracsationModel>) = TransactionTableOperation.add(models)
 
     /**
      * <p>Вычисляем сумму доходов за день</p>

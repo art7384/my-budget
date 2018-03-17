@@ -5,5 +5,5 @@ package com.itechmobile.budget.model
  */
 data class CategoryModel(var name: String, var icoName: String, var isIncome: Boolean) {
     var id: Long = -1
-    var isDell = true// удаленная категория
+    var isDell = false// удаленная категория
 }

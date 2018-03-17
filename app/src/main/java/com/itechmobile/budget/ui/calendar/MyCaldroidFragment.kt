@@ -22,11 +22,11 @@ class MyCaldroidFragment : CaldroidFragment() {
     private lateinit var mCalendarAdapter: CaldroidAdapter
 
     override fun getNewDatesGridAdapter(month: Int, year: Int): CaldroidGridAdapter {
-        mCalendarAdapter = CaldroidAdapter(activity, month, year, getCaldroidData(), extraData)
+        mCalendarAdapter = CaldroidAdapter(activity!!, month, year, getCaldroidData(), extraData)
         return mCalendarAdapter
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val cal = Calendar.getInstance()
         val args = Bundle()
