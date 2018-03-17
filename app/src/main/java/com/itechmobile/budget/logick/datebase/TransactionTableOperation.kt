@@ -18,15 +18,7 @@ class TransactionTableOperation private constructor() {
 
         private val LOG_TAG = "TransactionTableOperation"
 
-        val size: Int
-        get(){
-            val tt = TransactionTable().queryAll()
-            if(tt == null){
-                return 0
-            } else {
-                return tt.size
-            }
-        }
+        val size: Int = TransactionTable().queryAll().size
 
         val startDate: Date = TransactionTable().querySorted("date", Sort.ASCENDING).first().date
 
@@ -45,17 +37,17 @@ class TransactionTableOperation private constructor() {
             return id
         }
 
-        fun getSumPl(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter { predicate ->
-            predicate.date in startDate..stopDate && predicate.money > 0
-        }.sumBy { it.money }
+        fun getSumPl(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter {
+                it.date.time in startDate.time until stopDate.time && it.money > 0
+            }.sumBy { it.money }
 
         fun getSumMn(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter {
-            it.date in startDate..stopDate && it.money < 0
+            it.date.time in startDate.time until stopDate.time && it.money < 0
         }.sumBy { it.money }
 
         fun get(startDate: Date, stopDate: Date): List<TracsationModel> = TransactionParser.from(
                 TransactionTable().queryAll().filter {
-                    it.date in startDate..stopDate
+                    it.date.time in startDate.time until stopDate.time
                 })
 
         fun get(date: Date): List<TracsationModel> = TransactionParser.from(TransactionTable().queryAll().filter {
@@ -87,7 +79,7 @@ class TransactionTableOperation private constructor() {
             val hashMap = HashMap<Long, Int>()
             TransactionTable().querySorted("categoryId", Sort.DESCENDING)
                     .filter {
-                        it.date in startDate..stopDate
+                        it.date.time in startDate.time until stopDate.time
                     }.map {
                         if (hashMap[it.categoryId] == null) hashMap[it.categoryId] = 0
                         hashMap[it.categoryId] = hashMap[it.categoryId]!! + it.money

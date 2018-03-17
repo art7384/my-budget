@@ -1,6 +1,5 @@
 package com.itechmobile.budget.logick.service
 
-import android.util.Log
 import com.itechmobile.budget.logick.datebase.TransactionTableOperation
 import com.itechmobile.budget.model.TracsationModel
 import java.util.*
@@ -46,31 +45,21 @@ class TransactionService private constructor() {
      */
     fun getDayPl(date: Date): Int = TransactionTableOperation.getSumPl(
             Date(date.year, date.month, date.date),
-            Date(date.year, date.month, date.date + 1))
+            Date(Date(date.year, date.month, date.date).time + 24 * 60 * 60 * 1000))
 
     /**
      * <p>Вычисляем сумму расходов за день</p>
      */
-    fun getDayMn(date: Date): Int {
-        val d = Date()
-        val result = TransactionTableOperation.getSumMn(
-                Date(date.year, date.month, date.date),
-                Date(d.year, d.month, d.date + 1))
-        Log.d(LOG_TAG, "Вычисляем сумму расходов за день time=${Date().time - date.time}")
-        return result
-    }
+    fun getDayMn(date: Date): Int = TransactionTableOperation.getSumMn(
+            Date(date.year, date.month, date.date),
+            Date(Date(date.year, date.month, date.date).time + 24 * 60 * 60 * 1000))
 
     /**
      * <p>Список транзакций за день</p>
      */
-    fun getDay(date: Date): List<TracsationModel> {
-        val date = Date()
-        val result = TransactionTableOperation.get(
-                Date(date.year, date.month, date.date),
-                Date(date.year, date.month, date.date + 1))
-        Log.d(LOG_TAG, "Список транзакций за день time=${Date().time - date.time}")
-        return result
-    }
+    fun getDay(date: Date): List<TracsationModel> = TransactionTableOperation.get(
+            Date(date.year, date.month, date.date),
+            Date(Date(date.year, date.month, date.date).time + 24 * 60 * 60 * 1000))
 
     /**
      * <p>Возвращет модель транзакции</p>
@@ -81,7 +70,8 @@ class TransactionService private constructor() {
     /**
      * <p>Сумма всех транзакций до даты</p>
      */
-    fun getSumTo(date: Date): Int = TransactionTableOperation.getSumTo(Date(date.year, date.month, date.date))
+    fun getSumTo(date: Date): Int = TransactionTableOperation.getSumTo(
+            Date(Date(date.year, date.month, date.date).time + 24 * 60 * 60 * 1000))
 
     /**
      * <p>Сумма на каждую категорию</p>

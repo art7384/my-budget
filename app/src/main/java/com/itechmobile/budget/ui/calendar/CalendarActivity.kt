@@ -94,9 +94,7 @@ class CalendarActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-
         updateTransaction(mDate)
-
     }
 
     private fun initCalendar() {
@@ -118,7 +116,6 @@ class CalendarActivity : AppCompatActivity() {
         if (tracsationModels.isNotEmpty()) {
             setListViewHeight()
         }
-
     }
 
     // Изменяем высату list view для того чтобы нормально работал скрол

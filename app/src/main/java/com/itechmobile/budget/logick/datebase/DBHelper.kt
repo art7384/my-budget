@@ -77,7 +77,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                     val ct = CategoryTable(c.getString(nameColIndex),
                             c.getString(icoNameColIndex),
                             c.getInt(isIncomeColIndex) == 1,
-                            c.getInt(isVisibleColIndex) == 1)
+                            c.getInt(isVisibleColIndex) == 0)
                     // запоминаем изменение id
                     ct.id = CategoryTable().queryAll().size.toLong()
                     ct.save()

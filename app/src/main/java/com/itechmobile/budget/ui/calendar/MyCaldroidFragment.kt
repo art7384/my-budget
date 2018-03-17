@@ -50,21 +50,12 @@ class MyCaldroidFragment : CaldroidFragment() {
 
         override fun onSelectDate(date: Date?, view: View?) {
             if (date != null && view != null) {
-//                view.findViewById<View>(R.id.callCaldroid_View_content).setBackgroundColor(App.Companion.instance.resources.getColor(R.color.color700))
-//                view.findViewById<TextView>(R.id.callCaldroid_TextView_day).setTextColor(Color.WHITE)
-//                view.findViewById<TextView>(R.id.callCaldroid_TextView_many).setTextColor(Color.WHITE)
-//                view.findViewById<View>(R.id.callCaldroid_View_read).visibility = View.GONE
-//                view.findViewById<View>(R.id.callCaldroid_View_green).visibility = View.GONE
                 fragment.mCalendarAdapter.activeTime = date.time
                 fragment.onSelectDateListner?.let { it(date) }
-                fragment.refreshView()
-            }
 
-//            val intent = Intent(fragment.activity, DayActivity::class.java)
-//            if (date != null) {
-//                intent.putExtra(DayActivity.EXTTRA_DATA, date.time)
-//            }
-//            fragment.activity.startActivity(intent)
+                fragment.mCalendarAdapter.setCellActiw(view, date)
+//                fragment.refreshView()
+            }
         }
 
         override fun onCaldroidViewCreated() {

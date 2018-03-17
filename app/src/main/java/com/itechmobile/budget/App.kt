@@ -52,6 +52,8 @@ class App : Application() {
         initRealm()
         mSQLiteDatabase = DBHelper(this).writableDatabase
 
+        //DBHelper.sqlMigrationReal(mSQLiteDatabase)
+
     }
 
     private fun initRealm(){

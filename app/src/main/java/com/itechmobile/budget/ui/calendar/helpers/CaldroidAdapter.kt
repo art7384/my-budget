@@ -24,22 +24,45 @@ class CaldroidAdapter(context: Context,
                       caldroidData: Map<String, Any>,
                       extraData: Map<String, Any>) : CaldroidGridAdapter(context, month, year, caldroidData, extraData) {
 
-    var activeTime: Long
-        get() = sActiveTime
+    var activeTime: Long = sActiveTime
         set(value) {
             sActiveTime = value
         }
 
+
+    fun setCellActiw(view: View, date: Date) {
+
+        val dateOld = sCellActiw.findViewById<TextView>(R.id.date)
+        val markerOld = sCellActiw.findViewById<View>(R.id.containerMarker)
+        if ((dateOld.tag as Int) < 0) {
+            dateOld.setTextColor(App.instance.resources.getColor(R.color.accent))
+        } else {
+            dateOld.setTextColor(App.instance.resources.getColor(R.color.text))
+        }
+        dateOld.setBackgroundResource(0)
+        markerOld.visibility = View.VISIBLE
+
+        val dateNew = view.findViewById<TextView>(R.id.date)
+        val markerNew = view.findViewById<View>(R.id.containerMarker)
+        dateNew.setTextColor(0xffffffff.toInt())
+        dateNew.setBackgroundResource(R.drawable.oval_active)
+        markerNew.visibility = View.INVISIBLE
+
+
+        sCellActiw = view
+
+    }
+
     companion object {
         private var sActiveTime = Date().time
+        private lateinit var sCellActiw: View
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("SetTextI18n", "ResourceType")
+    @SuppressLint("SetTextI18n", "ResourceType", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
-        val inflater = context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val cellView: View
 
         cellView = convertView ?: inflater.inflate(R.layout.cell_caldroid, null)
@@ -67,6 +90,7 @@ class CaldroidAdapter(context: Context,
                 dateText.setTextColor(0xffffffff.toInt())
                 dateText.setBackgroundResource(R.drawable.oval_active)
                 if (contMarker.visibility != View.INVISIBLE) contMarker.visibility = View.INVISIBLE
+                sCellActiw = cellView
             } else {
                 dateText.setTextColor(App.instance.resources.getColor(R.color.text))
                 dateText.setBackgroundResource(0)
@@ -89,15 +113,14 @@ class CaldroidAdapter(context: Context,
             } else {
                 if (flowView.visibility != View.GONE) flowView.visibility = View.GONE
             }
-
             val sum = await { TransactionService.INSTANCE.getSumTo(date) }
+            dateText.tag = sum
             if (sum < 0 && month == da.month) {
                 val activeDate = Date(sActiveTime)
                 if (!(activeDate.year == date.year && activeDate.month == date.month && activeDate.date == date.date)) {
                     dateText.setTextColor(App.instance.resources.getColor(R.color.accent))
                 }
             }
-
         }
 
         return cellView
