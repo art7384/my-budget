@@ -1,5 +1,6 @@
 package com.itechmobile.budget.logick.service
 
+import android.util.Log
 import com.itechmobile.budget.logick.datebase.TransactionTableOperation
 import com.itechmobile.budget.model.TracsationModel
 import java.util.*
@@ -33,7 +34,7 @@ class TransactionService private constructor() {
     /**
      * <p>Сохраняем транзакцию</p>
      */
-    fun save(model: TracsationModel):Long = TransactionTableOperation.add(model)
+    fun save(model: TracsationModel): Long = TransactionTableOperation.add(model)
 
     /**
      * <p>Сохраняем транзакциb</p>
@@ -50,17 +51,26 @@ class TransactionService private constructor() {
     /**
      * <p>Вычисляем сумму расходов за день</p>
      */
-    fun getDayMn(date: Date): Int = TransactionTableOperation.getSumMn(
-            Date(date.year, date.month, date.date),
-            Date(date.year, date.month, date.date + 1))
+    fun getDayMn(date: Date): Int {
+        val d = Date()
+        val result = TransactionTableOperation.getSumMn(
+                Date(date.year, date.month, date.date),
+                Date(d.year, d.month, d.date + 1))
+        Log.d(LOG_TAG, "Вычисляем сумму расходов за день time=${Date().time - date.time}")
+        return result
+    }
 
     /**
      * <p>Список транзакций за день</p>
      */
-    fun getDay(date: Date): List<TracsationModel> =
-            TransactionTableOperation.get(
-                    Date(date.year, date.month, date.date),
-                    Date(date.year, date.month, date.date + 1))
+    fun getDay(date: Date): List<TracsationModel> {
+        val date = Date()
+        val result = TransactionTableOperation.get(
+                Date(date.year, date.month, date.date),
+                Date(date.year, date.month, date.date + 1))
+        Log.d(LOG_TAG, "Список транзакций за день time=${Date().time - date.time}")
+        return result
+    }
 
     /**
      * <p>Возвращет модель транзакции</p>

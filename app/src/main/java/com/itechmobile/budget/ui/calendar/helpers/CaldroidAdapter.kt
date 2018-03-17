@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.itechmobile.budget.App
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.TransactionService
@@ -49,39 +50,52 @@ class CaldroidAdapter(context: Context,
         val contMarker = cellView.findViewById<View>(R.id.containerMarker)
 
         val da = this.datetimeList[position]
+        val date = Date(da.year - 1900, da.month - 1, da.day)
 
         dateText.text = da.day.toString()
-        val date = Date(da.year - 1900, da.month - 1, da.day)
-        if (TransactionService.INSTANCE.getDayPl(date) != 0) {
-            if (incomeView.visibility != View.VISIBLE) incomeView.visibility = View.VISIBLE
-        } else {
-            if (incomeView.visibility != View.GONE) incomeView.visibility = View.GONE
-        }
-        if (TransactionService.INSTANCE.getDayMn(date) != 0) {
-            if (flowView.visibility != View.VISIBLE) flowView.visibility = View.VISIBLE
-        } else {
-            if (flowView.visibility != View.GONE) flowView.visibility = View.GONE
-        }
 
-        val sum = TransactionService.INSTANCE.getSumTo(date)
-        val dateTextColor = if (sum < 0) App.instance.resources.getColor(R.color.accent)
-        else App.instance.resources.getColor(R.color.text)
+        if (incomeView.visibility != View.GONE) incomeView.visibility = View.GONE
+        if (flowView.visibility != View.GONE) flowView.visibility = View.GONE
 
-        if (month != date.month + 1) {
-            dateText.alpha = .1f
+        if (month != da.month) {
+            if (dateText.alpha != .1f) dateText.alpha = .1f
             if (contMarker.visibility != View.INVISIBLE) contMarker.visibility = View.INVISIBLE
         } else {
-            dateText.alpha = 1f
-
+            if (dateText.alpha != 1f) dateText.alpha = 1f
             val activeDate = Date(sActiveTime)
             if (activeDate.year == date.year && activeDate.month == date.month && activeDate.date == date.date) {
                 dateText.setTextColor(0xffffffff.toInt())
                 dateText.setBackgroundResource(R.drawable.oval_active)
-                contMarker.visibility = View.INVISIBLE
+                if (contMarker.visibility != View.INVISIBLE) contMarker.visibility = View.INVISIBLE
             } else {
+                dateText.setTextColor(App.instance.resources.getColor(R.color.text))
                 dateText.setBackgroundResource(0)
-                dateText.setTextColor(dateTextColor)
                 if (contMarker.visibility != View.VISIBLE) contMarker.visibility = View.VISIBLE
+            }
+        }
+
+        async {
+
+            val dayPl = await { TransactionService.INSTANCE.getDayPl(date) }
+            if (dayPl != 0) {
+                if (incomeView.visibility != View.VISIBLE) incomeView.visibility = View.VISIBLE
+            } else {
+                if (incomeView.visibility != View.GONE) incomeView.visibility = View.GONE
+            }
+
+            val dayMn = await { TransactionService.INSTANCE.getDayMn(date) }
+            if (dayMn != 0) {
+                if (flowView.visibility != View.VISIBLE) flowView.visibility = View.VISIBLE
+            } else {
+                if (flowView.visibility != View.GONE) flowView.visibility = View.GONE
+            }
+
+            val sum = await { TransactionService.INSTANCE.getSumTo(date) }
+            if (sum < 0 && month == da.month) {
+                val activeDate = Date(sActiveTime)
+                if (!(activeDate.year == date.year && activeDate.month == date.month && activeDate.date == date.date)) {
+                    dateText.setTextColor(App.instance.resources.getColor(R.color.accent))
+                }
             }
 
         }

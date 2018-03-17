@@ -33,7 +33,8 @@
             android:layout_height="6dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:background="@drawable/oval_green" />
+            android:background="@drawable/oval_green"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/flow"
@@ -42,7 +43,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:background="@drawable/oval_red" />
+            android:background="@drawable/oval_red"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </RelativeLayout>

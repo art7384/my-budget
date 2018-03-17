@@ -50,10 +50,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-//        Log.d(LOG_TAG, "Create table: $CREATE_TABLE_TRANSACTION")
-//        db.execSQL(CREATE_TABLE_TRANSACTION)
-//        Log.d(LOG_TAG, "Create table: $CREATE_TABLE_CATEGORY")
-//        db.execSQL(CREATE_TABLE_CATEGORY)
+        Log.d(LOG_TAG, "Create table: $CREATE_TABLE_TRANSACTION")
+        db.execSQL(CREATE_TABLE_TRANSACTION)
+        Log.d(LOG_TAG, "Create table: $CREATE_TABLE_CATEGORY")
+        db.execSQL(CREATE_TABLE_CATEGORY)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
