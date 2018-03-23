@@ -9,8 +9,8 @@ android {
         applicationId "com.karbon.budget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 6
-        versionName "1.6.0"
+        versionCode 7
+        versionName "1.7.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
