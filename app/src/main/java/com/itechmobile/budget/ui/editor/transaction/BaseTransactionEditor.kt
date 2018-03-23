@@ -20,7 +20,7 @@ import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.CategoryModel
 import com.itechmobile.budget.model.TracsationModel
-import com.itechmobile.budget.ui.editor.category.EmojiCategoryActivity
+import com.itechmobile.budget.ui.editor.category.NameCategoryActivity
 import com.itechmobile.budget.ui.editor.category.helpers.CategoryAdapter
 import java.util.*
 
@@ -46,6 +46,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         private val LOG_TAG = "BaseTransactionEditor"
         val EXTTRA_DATA = "EXTTRA_DATA"
         val EXTTRA_MANY_ID = "EXTTRA_MANY_ID"
+        private val REQUEST_CODE_CATEGORY = 222
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +71,20 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         }
 
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_CATEGORY) {
+            if (resultCode == Activity.RESULT_OK) {
+                val emoji = data!!.getStringExtra(NameCategoryActivity.EXTRA_EMOJI)
+                val name = data.getStringExtra(NameCategoryActivity.EXTRA_NAME)
+                CategoryService.INSTANCE.save(CategoryModel(name, emoji, IS_INCOME))
+                updateCategorisList()
+            }
+        }
+    }
+
 
     private fun init() {
         mCategory = findViewById(R.id.layautCategory_LinearLayout_content)
@@ -142,7 +157,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         mCategoryList = findViewById(R.id.layautKategory_GridView_emojis)
 
         findViewById<Button>(R.id.layautKategory_Button_addKategory).setOnClickListener {
-            startActivity(Intent(this, EmojiCategoryActivity::class.java).putExtra(EmojiCategoryActivity.EXTRA_IS_INCOME, IS_INCOME))
+            startActivityForResult(Intent(this, NameCategoryActivity::class.java), REQUEST_CODE_CATEGORY)
         }
 
         val categorys = if (IS_INCOME) {

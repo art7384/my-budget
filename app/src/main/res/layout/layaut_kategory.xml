@@ -19,13 +19,14 @@
         android:layout_weight="1"/>
 
     <Button
+        android:layout_gravity="center_horizontal"
         style="@style/MyButtonStyle.Colored"
         android:id="@+id/layautKategory_Button_addKategory"
         android:text="Добавить категорию"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"/>
 
