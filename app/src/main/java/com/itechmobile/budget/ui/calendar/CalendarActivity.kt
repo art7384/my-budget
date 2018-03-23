@@ -16,9 +16,9 @@ import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.TracsationModel
 import com.itechmobile.budget.ui.calendar.helpers.TransactionListAdapter
-import com.itechmobile.budget.ui.editor.BaseTransactionEditor
-import com.itechmobile.budget.ui.editor.GreenTransactionActivity
-import com.itechmobile.budget.ui.editor.YellowTransactionActivity
+import com.itechmobile.budget.ui.editor.transaction.BaseTransactionEditor
+import com.itechmobile.budget.ui.editor.transaction.GreenTransactionActivity
+import com.itechmobile.budget.ui.editor.transaction.YellowTransactionActivity
 import com.itechmobile.budget.ui.statistick.StatistickActivity
 import java.text.SimpleDateFormat
 import java.util.*

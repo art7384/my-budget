@@ -33,27 +33,33 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.editor.GreenTransactionActivity"
+            android:name=".ui.editor.transaction.GreenTransactionActivity"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppThemeGreen" />
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.editor.YellowTransactionActivity"
+            android:name=".ui.editor.transaction.YellowTransactionActivity"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppThemeYellow"/>
+            android:theme="@style/AppThemeYellow"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".ui.nodone.NoDoneActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.editor.EmojiCategoryActivity"
+            android:theme="@style/AppTheme"
+            android:name=".ui.editor.category.EmojiCategoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".ui.editor.category.NameCategoryActivity"
             android:screenOrientation="portrait" />
 
         <activity

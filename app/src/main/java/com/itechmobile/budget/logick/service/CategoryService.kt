@@ -47,7 +47,7 @@ class CategoryService private constructor() {
         }
         if (СategoryTableOperation.getAll(true).size < 1) {
             СategoryTableOperation.add(CategoryModel("Прочие доходы", "\uD83D\uDCB5️", true))//💵️
-            СategoryTableOperation.add(CategoryModel("Зароботок", "\uD83D\uDCB5", true))//💰
+            СategoryTableOperation.add(CategoryModel("Зароботок", "\uD83D\uDCB0", true))//💰
         }
         //category = СategoryTableOperation.getAll()[0]
     }

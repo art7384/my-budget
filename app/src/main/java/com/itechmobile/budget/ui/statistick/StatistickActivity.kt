@@ -26,10 +26,6 @@ class StatistickActivity : AppCompatActivity() {
         val thisDate = Date()
         val startDate = TransactionService.INSTANCE.startDate
 
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        val months = resources.getStringArray(R.array.months_)
-//        supportActionBar!!.title = "Статистика ${months[thisDate.month]}"
-
         val listDate = ArrayList<Date>()
 
         var itemDate = Date(startDate.year, startDate.month, 1)

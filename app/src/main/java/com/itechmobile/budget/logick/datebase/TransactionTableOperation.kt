@@ -16,11 +16,14 @@ class TransactionTableOperation private constructor() {
 
     companion object {
 
-        private val LOG_TAG = "TransactionTableOperation"
-
         val size: Int = TransactionTable().queryAll().size
 
-        val startDate: Date = TransactionTable().querySorted("date", Sort.ASCENDING).first().date
+        val startDate: Date
+            get() {
+                val tts = TransactionTable().querySorted("date", Sort.ASCENDING)
+                if(tts.isEmpty()) return Date()
+                return tts.first().date
+            }
 
         fun add(models: List<TracsationModel>) {
             var id = TransactionTable().queryAll().maxBy { it.id }?.id ?: 0L
@@ -38,8 +41,8 @@ class TransactionTableOperation private constructor() {
         }
 
         fun getSumPl(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter {
-                it.date.time in startDate.time until stopDate.time && it.money > 0
-            }.sumBy { it.money }
+            it.date.time in startDate.time until stopDate.time && it.money > 0
+        }.sumBy { it.money }
 
         fun getSumMn(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter {
             it.date.time in startDate.time until stopDate.time && it.money < 0

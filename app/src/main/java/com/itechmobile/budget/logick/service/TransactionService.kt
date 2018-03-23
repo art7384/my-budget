@@ -23,7 +23,7 @@ class TransactionService private constructor() {
     /**
      * <p>Количество записей в базе</p>
      */
-    val size: Int = TransactionTableOperation.size
+//    val size: Int = TransactionTableOperation.size
 
     /**
      * <p>Возвращаем дату первой транзакции</p>

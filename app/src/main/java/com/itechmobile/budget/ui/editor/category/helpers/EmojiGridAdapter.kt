@@ -1,4 +1,4 @@
-package com.itechmobile.budget.ui.editor.helpers
+package com.itechmobile.budget.ui.editor.category.helpers
 
 import android.view.LayoutInflater
 import android.view.View

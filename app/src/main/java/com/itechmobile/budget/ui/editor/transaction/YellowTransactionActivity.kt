@@ -1,4 +1,4 @@
-package com.itechmobile.budget.ui.editor
+package com.itechmobile.budget.ui.editor.transaction
 
 /**
  * Created by artem on 02.03.18.

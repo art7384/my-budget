@@ -1,4 +1,4 @@
-package com.itechmobile.budget.ui.editor
+package com.itechmobile.budget.ui.editor.transaction
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -20,6 +20,7 @@ import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.CategoryModel
 import com.itechmobile.budget.model.TracsationModel
+import com.itechmobile.budget.ui.editor.category.EmojiCategoryActivity
 import com.itechmobile.budget.ui.editor.category.helpers.CategoryAdapter
 import java.util.*
 
@@ -68,19 +69,6 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
             initUpdataTransaction(transactionId)
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 222) {
-            if (resultCode == Activity.RESULT_OK) {
-                val imoji = data!!.getStringExtra(EmojiCategoryActivity.EXTRA_EMOJI)
-                val name = data.getStringExtra(EmojiCategoryActivity.EXTRA_NAME)
-                CategoryService.INSTANCE.save(CategoryModel(name, imoji, IS_INCOME))
-                updateCategorisList()
-            }
-        }
     }
 
     private fun init() {
@@ -154,7 +142,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         mCategoryList = findViewById(R.id.layautKategory_GridView_emojis)
 
         findViewById<Button>(R.id.layautKategory_Button_addKategory).setOnClickListener {
-            startActivityForResult(Intent(this, EmojiCategoryActivity::class.java), 222)
+            startActivity(Intent(this, EmojiCategoryActivity::class.java).putExtra(EmojiCategoryActivity.EXTRA_IS_INCOME, IS_INCOME))
         }
 
         val categorys = if (IS_INCOME) {
