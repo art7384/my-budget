@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <!--ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -25,6 +25,12 @@
                 android:layout_margin="16dp" />
 
         </LinearLayout>
-    </ScrollView>
+    </ScrollView-->
+
+    <ListView
+        android:id="@+id/listTransactions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#00000000" />
 
 </android.support.constraint.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
@@ -16,7 +17,10 @@ import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.logick.service.TransactionService
+import com.itechmobile.budget.ui.statistick.helpers.TransactionStatistickListAdapter
 import java.util.*
+
+
 
 /**
  * Created by artem on 26.02.18.
@@ -27,6 +31,9 @@ private constructor() : Fragment() {
 
     private var mStartDate = Date()
     private var mStopDate = Date()
+
+    private lateinit var mPieChart: PieChart
+    private lateinit var mListTransactions: ListView
 
     companion object {
         fun create(start: Date, stop: Date): StatistickFragment {
@@ -41,39 +48,36 @@ private constructor() : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view = inflater!!.inflate(R.layout.statistick_fragment, null)
+        val view = inflater.inflate(R.layout.statistick_fragment, null)
+        val adapter = TransactionStatistickListAdapter(activity)
+        mListTransactions = view.findViewById(R.id.listTransactions)
+        mListTransactions.adapter = adapter
+        adapter.updateList(TransactionService.INSTANCE.getDayMn(mStartDate, mStopDate))
 
-        initPieChartMn(view)
-        initPieChartPl(view)
+        initPieChart()
 
         return view
 
     }
 
-    private fun initPieChartMn(v: View) {
-        val pieChart = v.findViewById<PieChart>(R.id.fragmentStatistick_PieChart_chartMn)
-        pieChart.data = getPieData(true)
-        pieChart.centerText = "${getSumAll(true)}"
-        setingpieChart(pieChart)
-    }
+    private fun initPieChart() {
 
-    private fun initPieChartPl(v: View) {
-        val pieChart = v.findViewById<PieChart>(R.id.fragmentStatistick_PieChart_chartPl)
-        pieChart.data = getPieData(false)
-        pieChart.centerText = "${getSumAll(false)}"
-        setingpieChart(pieChart)
-    }
+        val header = layoutInflater.inflate(R.layout.header_statistick, null)
 
-    private fun setingpieChart(pieChart: PieChart) {
-
+        mPieChart = header.findViewById(R.id.chart)
+        mPieChart.data = getPieData(true)
+        mPieChart.centerText = "${getSumAll(true)}"
         val desc = Description()
         desc.text = ""
-        pieChart.description = desc
+        mPieChart.description = desc
 
-        pieChart.legend.isEnabled = false
-        pieChart.invalidate()
-        pieChart.setNoDataText("")
+        mPieChart.legend.isEnabled = false
+        mPieChart.invalidate()
+        mPieChart.setNoDataText("")
 
+        //mPieChart.setOnC
+
+        mListTransactions.addHeaderView(header)
     }
 
     private fun getSumAll(isMn: Boolean): Int {
@@ -110,7 +114,7 @@ private constructor() : Fragment() {
                 val k = many.toFloat() / sum.toFloat()
                 if (isMn) { // если расходы
                     if (many < 0L) {
-                        if (k < .07) { //меньше 7% (<.1) объединяем
+                        if (k < .07) { //меньше 7% (<.07) объединяем
                             sumOther += (many * -1).toFloat()
                             nameOther += categoryModel.icoName
                         } else {
@@ -155,7 +159,5 @@ private constructor() : Fragment() {
         dataSet.valueTextColor = Color.WHITE
         return dataSet
     }
-
-
 }
 

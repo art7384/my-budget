@@ -5,14 +5,16 @@ apply plugin: 'realm-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
+
     defaultConfig {
         applicationId "com.karbon.budget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 6
-        versionName "1.6.0"
+        versionCode 9
+        versionName "1.8.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -22,11 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
-
 }
 
 dependencies {

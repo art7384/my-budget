@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.TransactionService
 import java.util.*
@@ -23,6 +24,10 @@ class StatistickActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistick)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = "Статистика"
+
         val thisDate = Date()
         val startDate = TransactionService.INSTANCE.startDate
 
@@ -39,6 +44,19 @@ class StatistickActivity : AppCompatActivity() {
         mViewPager.currentItem = listDate.size - 1
         mViewPager.setOnPageChangeListener(MyOnPageChangeListener(this, listDate))
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager, val items: ArrayList<Date>) : FragmentPagerAdapter(fm) {
@@ -65,7 +83,7 @@ class StatistickActivity : AppCompatActivity() {
         override fun onPageSelected(position: Int) {
 
             val months = activity.resources.getStringArray(R.array.months_)
-            activity.supportActionBar!!.title = "Статистика ${months[items[position].month]}"
+            activity.supportActionBar?.title = "Статистика ${months[items[position].month]}"
         }
 
     }

@@ -21,7 +21,7 @@ class TransactionTableOperation private constructor() {
         val startDate: Date
             get() {
                 val tts = TransactionTable().querySorted("date", Sort.ASCENDING)
-                if(tts.isEmpty()) return Date()
+                if (tts.isEmpty()) return Date()
                 return tts.first().date
             }
 
@@ -51,6 +51,12 @@ class TransactionTableOperation private constructor() {
         fun get(startDate: Date, stopDate: Date): List<TracsationModel> = TransactionParser.from(
                 TransactionTable().queryAll().filter {
                     it.date.time in startDate.time until stopDate.time
+                })
+
+        fun get(startDate: Date, stopDate: Date, isIncomes: Boolean): List<TracsationModel> = TransactionParser.from(
+                TransactionTable().queryAll().filter {
+                    it.date.time in startDate.time until stopDate.time &&
+                            if (isIncomes) it.money > 0 else it.money < 0
                 })
 
         fun get(date: Date): List<TracsationModel> = TransactionParser.from(TransactionTable().queryAll().filter {
@@ -94,9 +100,9 @@ class TransactionTableOperation private constructor() {
             it.date < date
         }.sumBy { it.money }
 
-        fun dell(id: Long) = TransactionTable().queryFirst {
+        fun dell(id: Long) = TransactionTable().delete {
             this.equalTo("id", id)
-        }?.deleteFromRealm()
+        }
 
         fun update(model: TracsationModel) {
             val table = TransactionTable().queryFirst {

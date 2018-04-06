@@ -63,6 +63,7 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:theme="@style/AppTheme"
             android:name=".ui.statistick.StatistickActivity"
             android:screenOrientation="portrait" />
 

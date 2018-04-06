@@ -40,9 +40,9 @@ class СategoryTableOperation {
             }
         }
 
-        fun dell(id: Long) = CategoryTable().queryFirst {
+        fun dell(id: Long) = CategoryTable().delete {
             this.equalTo("id", id)
-        }?.deleteFromRealm()
+        }
 
         fun get(): ArrayList<CategoryModel> = СategoryParser.from(CategoryTable().query {
             this.equalTo("isDell", false)
