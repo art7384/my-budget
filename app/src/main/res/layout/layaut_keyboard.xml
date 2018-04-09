@@ -185,8 +185,7 @@
                 android:layout_weight="1"
                 android:padding="0dp"
                 android:text="÷"
-                android:textSize="22sp"
-                android:visibility="invisible" />
+                android:textSize="22sp" />
 
             <Button
                 android:id="@+id/mult"
@@ -196,8 +195,7 @@
                 android:layout_weight="1"
                 android:padding="0dp"
                 android:text="×"
-                android:textSize="22sp"
-                android:visibility="invisible" />
+                android:textSize="22sp" />
 
             <Button
                 android:id="@+id/min"
@@ -207,19 +205,17 @@
                 android:layout_weight="1"
                 android:padding="0dp"
                 android:text="-"
-                android:textSize="22sp"
-                android:visibility="invisible" />
+                android:textSize="22sp" />
 
             <Button
-                android:id="@+id/cplus"
+                android:id="@+id/plus"
                 style="@style/Button.Cal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:padding="0dp"
                 android:text="+"
-                android:textSize="22sp"
-                android:visibility="gone" />
+                android:textSize="22sp" />
 
             <View
                 android:layout_width="1dp"

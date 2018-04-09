@@ -43,11 +43,16 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
     private lateinit var mCategory: View
     private lateinit var mCategoryList: GridView
 
+    private var mOperation: Operation? = null
+    private var mSumm: Float = 0f
+    private var mIsInputNew: Boolean = false
+
     companion object {
         private val LOG_TAG = "BaseTransactionEditor"
         val EXTTRA_DATA = "EXTTRA_DATA"
         val EXTTRA_MANY_ID = "EXTTRA_MANY_ID"
         private val REQUEST_CODE_CATEGORY = 222
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +86,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
                 val emoji = data!!.getStringExtra(NameCategoryActivity.EXTRA_EMOJI)
                 val name = data.getStringExtra(NameCategoryActivity.EXTRA_NAME)
                 val id = data.getLongExtra(NameCategoryActivity.EXTRA_ID, -1)
-                if(id == -1L){
+                if (id == -1L) {
                     CategoryService.INSTANCE.save(CategoryModel(name, emoji, IS_INCOME))
                 } else {
                     val cm = CategoryModel(name, emoji, IS_INCOME)
@@ -113,7 +118,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         }
     }
 
-    private fun clouseKey(){
+    private fun clouseKey() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(mDescriptionEt.windowToken, 0)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
@@ -153,6 +158,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         findViewById<Button>(R.id.layautKeybord_Button_8).setOnClickListener { addKey(8) }
         findViewById<Button>(R.id.layautKeybord_Button_9).setOnClickListener { addKey(9) }
         findViewById<Button>(R.id.layautKeybord_Button_0).setOnClickListener { addKey(0) }
+        findViewById<Button>(R.id.layautKeybord_Button_zp).setOnClickListener { addZp() }
         findViewById<Button>(R.id.c).setOnClickListener { dellKey() }
         mSelectCategoryBt = findViewById(R.id.selectCategory)
         mSelectCategoryBt.setOnClickListener {
@@ -161,6 +167,50 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
             clouseKey()
             updateTransaction()
         }
+
+        findViewById<Button>(R.id.delit).setOnClickListener { newOperation(Operation.DELIT) }
+        findViewById<Button>(R.id.mult).setOnClickListener { newOperation(Operation.MULT) }
+        findViewById<Button>(R.id.min).setOnClickListener { newOperation(Operation.MIN) }
+        findViewById<Button>(R.id.plus).setOnClickListener { newOperation(Operation.PLUS) }
+        findViewById<Button>(R.id.layautKeybord_Button_rav).setOnClickListener { newOperation(null) }
+
+    }
+
+
+    private fun newOperation(operation: Operation?) {
+
+        var summ = mSummTxt.text.toString().toFloat()
+        if (summ == 0f) {
+            mSummTxt.setTextColor(Color.RED)
+            Handler().postDelayed({
+                mSummTxt.setTextColor(Color.WHITE)
+            }, 300)
+            return
+        }
+
+        if (mSumm > 0) {
+            when (mOperation) {
+                Operation.DELIT -> summ = mSumm / summ
+                Operation.MULT -> summ *= mSumm
+                Operation.MIN -> summ = mSumm - summ
+                Operation.PLUS -> summ += mSumm
+            }
+
+            if (summ < 0) {
+                summ = 0f
+            }
+            mSummTxt.text = (Math.ceil(summ.toDouble() * 1000).toFloat() / 1000f).toString()
+
+        }
+
+        mSumm = summ
+        mOperation = operation
+        mIsInputNew = true
+
+        if(mSummTxt.text.toString().toFloat() - mSummTxt.text.toString().toFloat().toInt() == 0f){
+            mSummTxt.text = mSummTxt.text.toString().toFloat().toInt().toString()
+        }
+
     }
 
     private fun updateCategorisList() {
@@ -204,13 +254,13 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
 
     }
 
-    private fun updateCategory(categoryId: Long){
+    private fun updateCategory(categoryId: Long) {
         val intent = Intent(this, NameCategoryActivity::class.java)
         intent.putExtra(NameCategoryActivity.EXTRA_ID, categoryId)
         startActivityForResult(intent, REQUEST_CODE_CATEGORY)
     }
 
-    private fun selectCategory(categoryId: Long){
+    private fun selectCategory(categoryId: Long) {
         mTracsationModel.idCategory = categoryId
         if (isAddTransaction) {
             save()
@@ -234,7 +284,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
     }
 
     private fun updateTransaction() {
-        var many = mSummTxt.text.toString().toInt()
+        var many = mSummTxt.text.toString().toFloat().toInt()
         if (many == 0) return
         if (!IS_INCOME) {
             many *= -1
@@ -288,7 +338,22 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
+    private fun addZp() {
+        if (mIsInputNew) {
+            mIsInputNew = false
+            mSummTxt.text = "0."
+        } else {
+            mSummTxt.text = mSummTxt.text.toString().replace(".", "")
+            mSummTxt.text = "${mSummTxt.text}."
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun addKey(i: Int) {
+
+        if (mIsInputNew) mSummTxt.text = "0"
+        mIsInputNew = false
+
         if (mSummTxt.text == "0") {
             mSummTxt.text = "$i"
         } else {
@@ -332,5 +397,11 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         }
     }
 
+    private enum class Operation {
+        DELIT,
+        MULT,
+        MIN,
+        PLUS
+    }
 
 }
