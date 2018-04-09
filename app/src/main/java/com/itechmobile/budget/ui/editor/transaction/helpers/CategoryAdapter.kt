@@ -4,14 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.TextView
 import com.itechmobile.budget.R
 import com.itechmobile.budget.model.CategoryModel
+
 
 /**
  * Created by artem on 20.12.17.
  */
 class CategoryAdapter(var items: ArrayList<CategoryModel>) : BaseAdapter() {
+
+    var onClickPopapMenu: (btView: View, categoryModel:CategoryModel) -> Unit = {_,_->}
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
@@ -21,7 +25,12 @@ class CategoryAdapter(var items: ArrayList<CategoryModel>) : BaseAdapter() {
         }
         val emogi = view!!.findViewById<TextView>(R.id.itemCategory_TextView_emogi)
         val name = view.findViewById<TextView>(R.id.itemCategory_TextView_name)
+        val menuBt = view.findViewById<ImageButton>(R.id.itemCategory_ImageButton_menu)
         val category = getItem(position) as CategoryModel
+
+        menuBt.setOnClickListener {
+            onClickPopapMenu(it, category)
+        }
 
         emogi.text = category.icoName
         name.text = category.name

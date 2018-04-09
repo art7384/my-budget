@@ -5,6 +5,10 @@
     <string name="now_in_poket">Сколько сейчас у Вас в кармане?</string>
     <string name="in_poket_">В кармане:</string>
 
+    <string name="delete">Удалить</string>
+    <string name="update">Изменить</string>
+    <string name="select">Выбрать</string>
+
     <string name="dell_item_menu_transaction">Удалить</string>
     <string name="update_item_menu_transaction">Изменить</string>
     <string name="move_item_menu_transaction">Перенисти</string>

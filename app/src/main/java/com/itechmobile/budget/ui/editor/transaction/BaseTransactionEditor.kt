@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.PopupMenu
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -79,7 +80,15 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val emoji = data!!.getStringExtra(NameCategoryActivity.EXTRA_EMOJI)
                 val name = data.getStringExtra(NameCategoryActivity.EXTRA_NAME)
-                CategoryService.INSTANCE.save(CategoryModel(name, emoji, IS_INCOME))
+                val id = data.getLongExtra(NameCategoryActivity.EXTRA_ID, -1)
+                if(id == -1L){
+                    CategoryService.INSTANCE.save(CategoryModel(name, emoji, IS_INCOME))
+                } else {
+                    val cm = CategoryModel(name, emoji, IS_INCOME)
+                    cm.id = id
+                    CategoryService.INSTANCE.update(cm)
+                }
+
                 updateCategorisList()
             }
         }
@@ -96,15 +105,19 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         findViewById<ImageButton>(R.id.clear).setOnClickListener { finish() }
         mDescriptionEt.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(mDescriptionEt.windowToken, 0)
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-                findViewById<EditText>(R.id.helper).requestFocus()
+                clouseKey()
                 updateTransaction()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
+    }
+
+    private fun clouseKey(){
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(mDescriptionEt.windowToken, 0)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        findViewById<EditText>(R.id.helper).requestFocus()
     }
 
     private fun initUpdataTransaction(manyId: Long) {
@@ -145,6 +158,8 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         mSelectCategoryBt.setOnClickListener {
             updateCategorisList()
             selectCategory()
+            clouseKey()
+            updateTransaction()
         }
     }
 
@@ -166,20 +181,43 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
             CategoryService.INSTANCE.visibleExpenseCategorys
         }
 
-        mCategoryList.adapter = CategoryAdapter(categorys)
-        mCategoryList.setOnItemLongClickListener { parent, view, position, id ->
-            startDialogDellCategory(CategoryService.INSTANCE.get(id))
-            return@setOnItemLongClickListener true
-        }
-        mCategoryList.setOnItemClickListener { parent, view, position, id ->
-            mTracsationModel.idCategory = id
-            if (isAddTransaction) {
-                save()
-            } else {
-//                mCategoryTxt.text = CategoryService.INSTANCE.get(id).icoName
-                selectKeybord()
-                updateTransaction()
+        val adapter = CategoryAdapter(categorys)
+        mCategoryList.adapter = adapter
+        adapter.onClickPopapMenu = { btView, categoryModel ->
+            val popup = PopupMenu(this, btView)
+            popup.menuInflater.inflate(R.menu.popup_category, popup.menu)
+            popup.setOnMenuItemClickListener {
+                when {
+                    it.title == resources.getString(R.string.delete) -> startDialogDellCategory(categoryModel)
+                    it.title == resources.getString(R.string.update) -> updateCategory(categoryModel.id)
+                    it.title == resources.getString(R.string.select) -> selectCategory(categoryModel.id)
+                    else -> return@setOnMenuItemClickListener false
+                }
+                return@setOnMenuItemClickListener true
             }
+            popup.show()
+        }
+
+        mCategoryList.setOnItemClickListener { parent, view, position, id ->
+            selectCategory(id)
+        }
+
+    }
+
+    private fun updateCategory(categoryId: Long){
+        val intent = Intent(this, NameCategoryActivity::class.java)
+        intent.putExtra(NameCategoryActivity.EXTRA_ID, categoryId)
+        startActivityForResult(intent, REQUEST_CODE_CATEGORY)
+    }
+
+    private fun selectCategory(categoryId: Long){
+        mTracsationModel.idCategory = categoryId
+        if (isAddTransaction) {
+            save()
+        } else {
+//                mCategoryTxt.text = CategoryService.INSTANCE.get(id).icoName
+            selectKeybord()
+            updateTransaction()
         }
     }
 

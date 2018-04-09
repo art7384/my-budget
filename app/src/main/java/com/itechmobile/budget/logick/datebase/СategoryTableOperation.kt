@@ -19,7 +19,7 @@ class СategoryTableOperation {
             СategoryParser.toRealm(models).saveAll()
         }
 
-        fun add(model: CategoryModel): Long  {
+        fun add(model: CategoryModel): Long {
             var id = CategoryTable().queryAll().maxBy { it.id }?.id ?: 0L
             model.id = ++id
             СategoryParser.toRealm(model).save()
@@ -28,16 +28,17 @@ class СategoryTableOperation {
 
         fun update(model: CategoryModel) {
 
-            val table = CategoryTable().queryFirst {
+            CategoryTable().delete {
                 this.equalTo("id", model.id)
             }
-            if (table != null) {
-                table.name = model.name
-                table.icoName = model.icoName
-                table.isDell = model.isDell
-                table.isIncome = model.isIncome
-                table.save()
-            }
+
+            val table = CategoryTable()
+            table.id = model.id
+            table.name = model.name
+            table.icoName = model.icoName
+            table.isDell = model.isDell
+            table.isIncome = model.isIncome
+            table.save()
         }
 
         fun dell(id: Long) = CategoryTable().delete {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.widget.GridView
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.EmojiService
@@ -41,4 +42,13 @@ class EmojiCategoryActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
