@@ -53,6 +53,13 @@ class TransactionTableOperation private constructor() {
                     it.date.time in startDate.time until stopDate.time
                 })
 
+        fun get(idCategory: Long, startDate: Date, stopDate: Date, isIncomes: Boolean): List<TracsationModel> = TransactionParser.from(
+                TransactionTable().queryAll().filter {
+                    it.date.time in startDate.time until stopDate.time &&
+                            if (isIncomes) it.money > 0 else it.money < 0
+                                    && it.categoryId == idCategory
+                })
+
         fun get(startDate: Date, stopDate: Date, isIncomes: Boolean): List<TracsationModel> = TransactionParser.from(
                 TransactionTable().queryAll().filter {
                     it.date.time in startDate.time until stopDate.time &&

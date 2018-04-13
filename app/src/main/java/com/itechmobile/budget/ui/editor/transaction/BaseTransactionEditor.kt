@@ -247,6 +247,9 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
             }
             popup.show()
         }
+        adapter.onClickItem = { _, categoryModel ->
+            selectCategory(categoryModel.id)
+        }
 
         mCategoryList.setOnItemClickListener { parent, view, position, id ->
             selectCategory(id)

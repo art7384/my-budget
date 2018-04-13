@@ -7,8 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.TransactionService
+import com.ogaclejapan.smarttablayout.SmartTabLayout
+import com.ogaclejapan.smarttablayout.utils.v4.Bundler
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,6 +32,7 @@ class StatistickActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = "Статистика"
+        supportActionBar?.elevation = 0f
 
         val thisDate = Date()
         val startDate = TransactionService.INSTANCE.startDate
@@ -39,10 +45,29 @@ class StatistickActivity : AppCompatActivity() {
             itemDate = Date(itemDate.year, itemDate.month + 1, 1)
         }
 
+        val months = resources.getStringArray(R.array.months_)
+
+        val creator = FragmentPagerItems.with(this)
+        for (d in listDate) {
+            var m = d.month + 1
+            var y = d.year
+            if(m > 11) {
+                m = 0
+                y += 1
+            }
+            creator.add(months[d.month], StatistickFragment::class.java,  Bundler()
+                    .putLong(StatistickFragment.START_TIME, d.time)
+                    .putLong(StatistickFragment.STOP_TIME, Date(y, m, 1).time)
+                    .get())
+        }
+
         mViewPager = findViewById(R.id.container)
-        mViewPager.adapter = SectionsPagerAdapter(supportFragmentManager, listDate)
+        mViewPager.adapter = FragmentPagerItemAdapter(supportFragmentManager, creator.create())
+
+        val viewPagerTab = findViewById<View>(R.id.viewpagertab) as SmartTabLayout
+        viewPagerTab.setViewPager(mViewPager)
+
         mViewPager.currentItem = listDate.size - 1
-        mViewPager.setOnPageChangeListener(MyOnPageChangeListener(this, listDate))
 
     }
 

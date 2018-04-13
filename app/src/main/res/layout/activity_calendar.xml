@@ -38,7 +38,7 @@
             android:layout_height="36dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="8dp"
-            android:background="@mipmap/ic_equalizer_white_36dp" />
+            android:background="@drawable/ic_donut_small_white_36dp"/>
 
     </LinearLayout>
 

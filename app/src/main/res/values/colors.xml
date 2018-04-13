@@ -20,6 +20,7 @@
     <color name="bg">#F9F9FA</color>
 
     <color name="text">#3E3E3E</color>
+    <color name="title">#8e8e8e</color>
     <color name="text_gray">#B9B9B9</color>
     <color name="text_pale_gray">#BABABA</color>
     <color name="text_cal">#E9E6E6</color>

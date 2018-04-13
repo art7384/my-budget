@@ -55,6 +55,15 @@ class TransactionService private constructor() {
             Date(Date(date.year, date.month, date.date).time + 24 * 60 * 60 * 1000))
 
     /**
+     * <p>Список расходов за период, по категории</p>
+     */
+    fun getDayMn(idCategory: Long, start: Date, stop: Date): List<TracsationModel> = TransactionTableOperation.get(
+            idCategory,
+            Date(start.year, start.month, start.date),
+            Date(stop.year, stop.month, stop.date),
+            false)
+
+    /**
      * <p>Список расходов за период</p>
      */
     fun getDayMn(start: Date, stop: Date): List<TracsationModel> = TransactionTableOperation.get(

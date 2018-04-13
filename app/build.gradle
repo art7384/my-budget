@@ -13,8 +13,8 @@ android {
         applicationId "com.karbon.budget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 11
-        versionName "1.9.1"
+        versionCode 13
+        versionName "1.9.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -63,6 +63,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     implementation 'co.metalab.asyncawait:asyncawait:1.0.0'
+
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    //Optional: see how to use the utility.
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    //Optional: see how to use the utility.
+    //compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'
 
 }
 
