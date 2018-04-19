@@ -2,6 +2,12 @@
 
     <string name="app_name">В кармане</string>
 
+    <string name="monthly">Ежимесечно</string>
+    <string name="weekly">Ежинедельно</string>
+    <string name="dayly">Ежедневно</string>
+
+    <string name="title_statistic">Статистика</string>
+
     <string name="now_in_poket">Сколько сейчас у Вас в кармане?</string>
     <string name="in_poket_">В кармане:</string>
 
