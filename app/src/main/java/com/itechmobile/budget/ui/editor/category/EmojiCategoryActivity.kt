@@ -28,7 +28,7 @@ class EmojiCategoryActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        mEmojiGrid = findViewById(R.id.activityEmojiCategory_GridView_emojis)
+        mEmojiGrid = this.findViewById(R.id.activityEmojiCategory_GridView_emojis)
 
         val items = EmojiService.INSTANCE.emojis
         val itemsList = ArrayList<String>()
