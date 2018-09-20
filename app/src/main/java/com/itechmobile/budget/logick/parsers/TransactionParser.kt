@@ -20,7 +20,7 @@ class TransactionParser {
         fun toRealm(trMd: TracsationModel): TransactionTable {
 
             val tt = TransactionTable(trMd.name,
-                    trMd.money,
+                    trMd.price,
                     trMd.date,
                     trMd.isDone,
                     trMd.idCategory)

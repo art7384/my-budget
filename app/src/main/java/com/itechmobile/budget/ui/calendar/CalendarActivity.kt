@@ -54,7 +54,7 @@ class CalendarActivity : AppCompatActivity() {
         mTransactionsList.adapter = mListAdapter
         mTransactionsList.setOnItemClickListener { parent, view, position, id ->
             val model = TransactionService.INSTANCE.get(id) ?: return@setOnItemClickListener
-            val intent = if (model.money < 0) Intent(this, YellowTransactionActivity::class.java)
+            val intent = if (model.price < 0) Intent(this, YellowTransactionActivity::class.java)
             else Intent(this, GreenTransactionActivity::class.java)
             intent.putExtra(BaseTransactionEditor.EXTTRA_MANY_ID, model.id)
             startActivity(intent)

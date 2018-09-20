@@ -45,11 +45,11 @@ class TransactionStatickTitleListAdapter(var mCnx: Context) : BaseAdapter() {
             val tm = items[position].tracsationModel!!
 
             txtDdescription.text = tm.name
-            if (tm.money < 0) {
-                txtSumm.text = (tm.money * (-1)).toString()
+            if (tm.price < 0) {
+                txtSumm.text = (tm.price * (-1)).toString()
                 mMarker.setBackgroundColor(mCnx.resources.getColor(R.color.yellow))
             } else {
-                txtSumm.text = tm.money.toString()
+                txtSumm.text = tm.price.toString()
                 mMarker.setBackgroundColor(mCnx.resources.getColor(R.color.green))
             }
 

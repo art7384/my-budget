@@ -37,11 +37,11 @@ class TransactionListAdapter(private val mCnx: Context) : BaseAdapter() {
         val mMarker = v.findViewById<View>(R.id.marker)
 
         txtDdescription.text = item.name
-        if (item.money < 0) {
-            txtSumm.text = (item.money * (-1)).toString()
+        if (item.price < 0) {
+            txtSumm.text = (item.price * (-1)).toString()
             mMarker.setBackgroundColor(mCnx.resources.getColor(R.color.yellow))
         } else {
-            txtSumm.text = item.money.toString()
+            txtSumm.text = item.price.toString()
             mMarker.setBackgroundColor(mCnx.resources.getColor(R.color.green))
         }
 
@@ -72,7 +72,7 @@ class TransactionListAdapter(private val mCnx: Context) : BaseAdapter() {
             if (item.id == model.id) {
                 item.isDone = model.isDone
                 item.name = model.name
-                item.money = model.money
+                item.price = model.price
                 item.date = model.date
                 notifyDataSetChanged()
                 return

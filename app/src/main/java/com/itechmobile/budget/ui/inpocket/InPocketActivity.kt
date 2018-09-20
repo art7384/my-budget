@@ -11,7 +11,7 @@ import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.TracsationModel
-import com.itechmobile.budget.ui.calendar.CalendarActivity
+import com.itechmobile.budget.ui.list.ListTracsationActivity
 import java.util.*
 
 /**
@@ -39,7 +39,7 @@ class InPocketActivity : AppCompatActivity(), TextView.OnEditorActionListener {
                 val model = TracsationModel(v.text.toString().toInt(), "В кармане", Date(), category.id)
                 model.isDone = true
                 TransactionService.INSTANCE.save(model)
-                startActivity(Intent(this, CalendarActivity::class.java))
+                startActivity(Intent(this, ListTracsationActivity::class.java))
                 finish()
                 overridePendingTransition(R.anim.for_alpha, R.anim.to_alpha)
             } else {

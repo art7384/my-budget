@@ -130,7 +130,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         mSelectCategoryBt.text = getString(R.string.change_category)
         updateDate()
 
-        mSummTxt.text = mTracsationModel.money.toString()
+        mSummTxt.text = mTracsationModel.price.toString()
         mDescriptionEt.setText(mTracsationModel.name)
         mDelete.visibility = View.VISIBLE
     }
@@ -292,7 +292,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         if (!IS_INCOME) {
             many *= -1
         }
-        mTracsationModel.money = many
+        mTracsationModel.price = many
         mTracsationModel.name = mDescriptionEt.text.toString()
         if (!isAddTransaction) {
             TransactionService.INSTANCE.update(mTracsationModel)
@@ -305,7 +305,7 @@ abstract class BaseTransactionEditor : AppCompatActivity() {
         if (!IS_INCOME) {
             many *= -1
         }
-        mTracsationModel.money = many
+        mTracsationModel.price = many
         mTracsationModel.name = mDescriptionEt.text.toString()
         if (isAddTransaction) {
             TransactionService.INSTANCE.save(mTracsationModel)

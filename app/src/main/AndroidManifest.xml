@@ -53,19 +53,19 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:theme="@style/AppTheme"
             android:name=".ui.editor.category.EmojiCategoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
-            android:theme="@style/AppTheme"
             android:name=".ui.editor.category.NameCategoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
-            android:theme="@style/AppTheme"
             android:name=".ui.statistick.StatistickActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.calendar.CalendarActivity"
@@ -73,10 +73,16 @@
             android:theme="@style/Theme.NoActionBar" />
 
         <activity
+            android:name=".ui.list.ListTracsationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoActionBar" />
+
+        <activity
             android:name=".ui.inpocket.InPocketActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.regular.RegularActivity"
+        <activity
+            android:name=".ui.regular.RegularActivity"
             android:screenOrientation="portrait" />
 
     </application>

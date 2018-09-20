@@ -10,8 +10,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.itechmobile.budget.R
 import com.itechmobile.budget.logick.datebase.TransactionTable
-import com.itechmobile.budget.ui.calendar.CalendarActivity
 import com.itechmobile.budget.ui.inpocket.InPocketActivity
+import com.itechmobile.budget.ui.list.ListTracsationActivity
 import com.vicpin.krealmextensions.queryAll
 
 
@@ -47,7 +47,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
         mView.layoutParams = ConstraintLayout.LayoutParams(mView.width, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200f, resources.displayMetrics).toInt())
 
         if (TransactionTable().queryAll().isNotEmpty())
-            startActivity(Intent(this, CalendarActivity::class.java))
+            startActivity(Intent(this, ListTracsationActivity::class.java))
         else
             startActivity(Intent(this, InPocketActivity::class.java))
         finish()

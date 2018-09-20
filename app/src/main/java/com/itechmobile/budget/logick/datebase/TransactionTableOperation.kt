@@ -107,6 +107,10 @@ class TransactionTableOperation private constructor() {
             it.date < date
         }.sumBy { it.money }
 
+        fun getSum(startDate: Date, stopDate: Date): Int = TransactionTable().queryAll().filter {
+            it.date.time in startDate.time until stopDate.time
+        }.sumBy { it.money }
+
         fun dell(id: Long) = TransactionTable().delete {
             this.equalTo("id", id)
         }
@@ -117,7 +121,7 @@ class TransactionTableOperation private constructor() {
             }
             if (table != null) {
                 table.name = model.name
-                table.money = model.money
+                table.money = model.price
                 table.date = model.date
                 table.isDone = model.isDone
                 table.categoryId = model.idCategory

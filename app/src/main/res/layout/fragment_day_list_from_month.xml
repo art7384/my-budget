@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:background="#518AFF"
+        android:textColor="#fff"
+        android:id="@+id/fragmentDayListFromMonth_TextView_text"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:fontFamily="@font/epsil"
+        android:text="Сентябарь 2018"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>

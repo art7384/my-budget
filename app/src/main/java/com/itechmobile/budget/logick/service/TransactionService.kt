@@ -79,6 +79,19 @@ class TransactionService private constructor() {
             Date(stop.year, stop.month, stop.date),
             true)
 
+
+    /**
+     * <p>Список транзакций за период</p>
+     */
+    fun getForMonth(date: Date): List<TracsationModel> {
+        val startDate = Date(date.year, date.month, 1)
+        val endCal = GregorianCalendar(date.year + 1900, date.month, 1)
+        endCal.add(Calendar.MONTH, 1)
+        endCal.add(Calendar.DATE, -1)
+
+        return TransactionTableOperation.get(startDate, endCal.time)
+    }
+
     /**
      * <p>Список транзакций за день</p>
      */
