@@ -23,27 +23,21 @@ class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val layoutInflater = LayoutInflater.from(viewGroup.context)
-
         when (viewType) {
             RowType.ITEM.ordinal -> {
                 val view = layoutInflater.inflate(R.layout.item_list_transaction, viewGroup, false)
                 return ItemViewHolder(view)
-
             }
             RowType.HEADER.ordinal -> {
                 val view = layoutInflater.inflate(R.layout.item_header_transaction, viewGroup, false)
                 return HeaderViewHolder(view)
-
             }
             RowType.FOOTER.ordinal -> {
-
                 val view = layoutInflater.inflate(R.layout.item_footer_transaction, viewGroup, false)
                 return FooterViewHolder(view)
-
             }
             else -> throw RuntimeException("there is no type that matches the type $viewType make sure your using types correctly")
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -69,9 +63,10 @@ class TransactionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun newItems(items: ArrayList<IItem>) {
+        if(items.size == 0 && mItems.size == 0) return
         mItems.clear()
         mItems.addAll(items)
-        notifyItemRangeInserted(0, mItems.size)
+        notifyDataSetChanged()
     }
 
     interface IItem {

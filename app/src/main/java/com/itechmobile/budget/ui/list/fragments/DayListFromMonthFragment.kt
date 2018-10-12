@@ -1,6 +1,7 @@
 package com.itechmobile.budget.ui.list.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,7 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.itechmobile.budget.R
+import com.itechmobile.budget.ui.editor.transaction.BaseTransactionEditor
+import com.itechmobile.budget.ui.editor.transaction.GreenTransactionActivity
+import com.itechmobile.budget.ui.editor.transaction.YellowTransactionActivity
 import com.itechmobile.budget.ui.list.helpers.TransactionAdapter
+import java.util.*
 
 
 class DayListFromMonthFragment
@@ -54,8 +59,22 @@ private constructor() : Fragment(), DayListFromMonthContract.View {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        mPresenter.updateTransaction()
+    }
+
     override fun newTransaction(items: ArrayList<TransactionAdapter.IItem>) {
         (mRecyclerView.adapter as TransactionAdapter).newItems(items)
+    }
+
+    override fun onClickAddTransaction(date: Date, isMinus: Boolean) {
+        val newActivityClass =
+                if (isMinus) YellowTransactionActivity::class.java
+                else GreenTransactionActivity::class.java
+        val intent = Intent(activity, newActivityClass)
+        intent.putExtra(BaseTransactionEditor.EXTTRA_DATA, date.time)
+        startActivity(intent)
     }
 
     private fun initUI(view: View) {

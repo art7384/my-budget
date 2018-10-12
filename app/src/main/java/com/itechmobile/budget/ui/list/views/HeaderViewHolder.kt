@@ -17,5 +17,4 @@ class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             mModel = value
             mTxtName.text = "${mModel.dataForMonth}, ${mModel.dayForWeek}"
         }
-
 }

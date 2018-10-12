@@ -19,6 +19,7 @@ import com.itechmobile.budget.ui.calendar.helpers.TransactionListAdapter
 import com.itechmobile.budget.ui.editor.transaction.BaseTransactionEditor
 import com.itechmobile.budget.ui.editor.transaction.GreenTransactionActivity
 import com.itechmobile.budget.ui.editor.transaction.YellowTransactionActivity
+import com.itechmobile.budget.ui.list.ListTracsationActivity
 import com.itechmobile.budget.ui.statistick.StatistickActivity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -61,6 +62,10 @@ class CalendarActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.statistick).setOnClickListener {
             startActivity(Intent(this, StatistickActivity::class.java))
+        }
+
+        findViewById<View>(R.id.activityCalendar_FrameLayout_list).setOnClickListener {
+            startActivity(Intent(this, ListTracsationActivity::class.java))
         }
 
         mTransactionsList.addFooterView(layoutInflater.inflate(R.layout.view_footer, null))

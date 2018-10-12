@@ -8,7 +8,6 @@ import android.support.multidex.MultiDexApplication
 import android.support.text.emoji.EmojiCompat
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig
 import com.itechmobile.budget.logick.datebase.DBHelper
-import com.itechmobile.budget.logick.service.AnalyticsService
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -55,7 +54,7 @@ class App : MultiDexApplication() {
 
         Holder.instance = this
 
-        AnalyticsService.INSTANCE.init(this)
+        //AnalyticsService.INSTANCE.init(this)
         EmojiCompat.init(BundledEmojiCompatConfig(this))
 
         initRealm()

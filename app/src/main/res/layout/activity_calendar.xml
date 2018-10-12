@@ -32,13 +32,31 @@
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
-        <View
+        <FrameLayout
             android:id="@+id/statistick"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical">
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_donut_small_white_36dp" />
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/activityCalendar_FrameLayout_list"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/ic_donut_small_white_36dp"/>
+            android:layout_marginEnd="8dp">
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_baseline_list" />
+        </FrameLayout>
 
     </LinearLayout>
 

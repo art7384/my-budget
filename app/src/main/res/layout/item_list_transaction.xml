@@ -28,28 +28,28 @@
                 android:background="#000" />
 
             <LinearLayout
-                android:layout_marginLeft="8dp"
-                android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:fontFamily="@font/roboto_medium"
                     android:id="@+id/itemTransaction_TextView_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="1000"
                     android:textColor="#3E3E3E"
                     android:textSize="14sp" />
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:fontFamily="@font/roboto_regular"
                     android:id="@+id/itemTransaction_TextView_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="1000"
                     android:textColor="#BABABA"
                     android:textSize="12sp" />
@@ -57,11 +57,11 @@
             </LinearLayout>
 
             <android.support.text.emoji.widget.EmojiTextView
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center_vertical"
                 android:id="@+id/itemTransaction_EmojiTextView_ico"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
                 android:text="A"
                 android:textSize="24sp" />
         </LinearLayout>
