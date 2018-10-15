@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.itechmobile.budget.App
 import com.itechmobile.budget.R
+import com.itechmobile.budget.logick.heders.NumberFormatHeder
 import com.itechmobile.budget.logick.service.TransactionService
 import com.itechmobile.budget.model.TracsationFooterModel
 import java.util.*
@@ -30,7 +31,7 @@ class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             } else {
                 mTxtPrice.setTextColor(App.instance.resources.getColor(R.color.green))
             }
-            mTxtPrice.text = price.toString()
+            mTxtPrice.text = NumberFormatHeder.currency(price)
             mBtPlus.setOnClickListener {
                 mModel.onClickPlus?.onClick(mModel.date)
             }

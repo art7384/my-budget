@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.itechmobile.budget.R
+import com.itechmobile.budget.logick.heders.NumberFormatHeder
 import com.itechmobile.budget.logick.service.CategoryService
 import com.itechmobile.budget.model.CategoryModel
 import com.itechmobile.budget.model.TracsationModel
@@ -27,7 +28,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         set(value) {
             mTransactionModel = value
             mTxtName.text = mTransactionModel.name
-            mTxtPrice.text = mTransactionModel.price.toString()
+            mTxtPrice.text = NumberFormatHeder.currency(mTransactionModel.price)
             mCategoryModel = CategoryService.INSTANCE.get(mTransactionModel.idCategory)
             mCategoryIco.text = mCategoryModel.icoName
             mColorView.setBackgroundColor(if (mCategoryModel.isIncome) 0xff2DBF00.toInt() else 0xffFFCD00.toInt())

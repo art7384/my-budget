@@ -7,14 +7,14 @@ apply plugin: 'kotlin-kapt'
 android {
 
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
 
     defaultConfig {
         applicationId "com.karbon.budget"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 13
-        versionName "1.9.4b"
+        versionCode 14
+        versionName "1.10.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -39,6 +39,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebase_version"
     implementation "com.google.firebase:firebase-ads:$firebase_version"
     implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation "com.google.firebase:firebase-database:$firebase_version"
+
     implementation "com.google.android.gms:play-services-auth:$play_services_version"
 
     implementation "com.android.support:cardview-v7:$android_support_version"

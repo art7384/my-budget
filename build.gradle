@@ -3,7 +3,7 @@
 buildscript {
 
     ext.android_support_version = '26.1.0'
-    ext.kotlin_version = '1.2.31'
+    ext.kotlin_version = '1.2.51'
     ext.firebase_version = '11.6.2'
     ext.play_services_version = '11.6.2'
 
@@ -18,7 +18,7 @@ buildscript {
     }
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "io.realm:realm-gradle-plugin:4.3.1"

@@ -66,6 +66,7 @@ class CalendarActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.activityCalendar_FrameLayout_list).setOnClickListener {
             startActivity(Intent(this, ListTracsationActivity::class.java))
+            finish()
         }
 
         mTransactionsList.addFooterView(layoutInflater.inflate(R.layout.view_footer, null))
