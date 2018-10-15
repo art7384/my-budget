@@ -17,8 +17,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.CategoryService
-import com.itechmobile.budget.logick.service.TransactionService
+import com.itechmobile.budget.logick.service.category.CategoryService
+import com.itechmobile.budget.logick.service.transaction.TransactionService
 import com.itechmobile.budget.model.CategoryModel
 import com.itechmobile.budget.model.TracsationModel
 import com.itechmobile.budget.ui.editor.category.NameCategoryActivity

@@ -18,8 +18,8 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.CategoryService
-import com.itechmobile.budget.logick.service.TransactionService
+import com.itechmobile.budget.logick.service.category.CategoryService
+import com.itechmobile.budget.logick.service.transaction.TransactionService
 import com.itechmobile.budget.ui.statistick.helpers.TransactionStatickTitleListAdapter
 import java.util.*
 

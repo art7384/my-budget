@@ -11,7 +11,7 @@ import android.widget.TextView
 import co.metalab.asyncawait.async
 import com.itechmobile.budget.App
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.TransactionService
+import com.itechmobile.budget.logick.service.transaction.TransactionService
 import com.roomorama.caldroid.CaldroidGridAdapter
 import java.util.*
 

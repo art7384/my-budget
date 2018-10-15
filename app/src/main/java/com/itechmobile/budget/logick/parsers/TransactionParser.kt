@@ -1,6 +1,6 @@
 package com.itechmobile.budget.logick.parsers
 
-import com.itechmobile.budget.logick.datebase.TransactionTable
+import com.itechmobile.budget.logick.database.TransactionTable
 import com.itechmobile.budget.model.TracsationModel
 
 /**

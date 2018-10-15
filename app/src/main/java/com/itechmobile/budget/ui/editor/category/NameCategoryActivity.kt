@@ -9,7 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.CategoryService
+import com.itechmobile.budget.logick.service.category.CategoryService
 import com.itechmobile.budget.model.CategoryModel
 
 /**

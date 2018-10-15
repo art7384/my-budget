@@ -1,7 +1,7 @@
 package com.itechmobile.budget.ui.list.fragments
 
 import android.annotation.SuppressLint
-import com.itechmobile.budget.logick.service.TransactionService
+import com.itechmobile.budget.logick.service.transaction.TransactionService
 import com.itechmobile.budget.model.TracsationFooterModel
 import com.itechmobile.budget.model.TracsationHeaderModel
 import com.itechmobile.budget.ui.list.helpers.TransactionAdapter

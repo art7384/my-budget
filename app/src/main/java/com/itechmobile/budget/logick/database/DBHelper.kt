@@ -1,4 +1,4 @@
-package com.itechmobile.budget.logick.datebase
+package com.itechmobile.budget.logick.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -43,7 +43,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                 CategoryKey._ID + " integer primary key autoincrement, " +
                 CategoryKey.NAME + " text, " +
                 CategoryKey.ICO_NAME + " text, " +
-                CategoryKey.IS_INCOME + " integer,  " +
+                CategoryKey.IS_INCOME + " integer, " +
                 CategoryKey.IS_VISIBLE + " integer" +
                 ");"
 

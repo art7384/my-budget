@@ -1,7 +1,6 @@
-package com.itechmobile.budget.logick.service
+package com.itechmobile.budget.logick.service.category
 
-import com.itechmobile.budget.logick.datebase.TransactionTableOperation
-import com.itechmobile.budget.logick.datebase.СategoryTableOperation
+import com.itechmobile.budget.logick.service.transaction.TransactionTableOperation
 import com.itechmobile.budget.model.CategoryModel
 
 /**

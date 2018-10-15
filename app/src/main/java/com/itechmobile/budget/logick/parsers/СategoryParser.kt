@@ -1,6 +1,6 @@
 package com.itechmobile.budget.logick.parsers
 
-import com.itechmobile.budget.logick.datebase.CategoryTable
+import com.itechmobile.budget.logick.database.CategoryTable
 import com.itechmobile.budget.model.CategoryModel
 
 /**

@@ -1,6 +1,5 @@
-package com.itechmobile.budget.logick.service
+package com.itechmobile.budget.logick.service.transaction
 
-import com.itechmobile.budget.logick.datebase.TransactionTableOperation
 import com.itechmobile.budget.model.TracsationModel
 import java.util.*
 

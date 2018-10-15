@@ -7,7 +7,7 @@ import android.support.multidex.MultiDex
 import android.support.multidex.MultiDexApplication
 import android.support.text.emoji.EmojiCompat
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig
-import com.itechmobile.budget.logick.datebase.DBHelper
+import com.itechmobile.budget.logick.database.DBHelper
 import io.realm.Realm
 import io.realm.RealmConfiguration
 

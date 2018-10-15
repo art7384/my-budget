@@ -1,5 +1,6 @@
-package com.itechmobile.budget.logick.datebase
+package com.itechmobile.budget.logick.service.category
 
+import com.itechmobile.budget.logick.database.CategoryTable
 import com.itechmobile.budget.logick.parsers.СategoryParser
 import com.itechmobile.budget.model.CategoryModel
 import com.vicpin.krealmextensions.*

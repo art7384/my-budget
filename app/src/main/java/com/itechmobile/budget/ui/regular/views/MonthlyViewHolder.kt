@@ -3,7 +3,7 @@ package com.itechmobile.budget.ui.regular.views
 import android.view.View
 import android.widget.TextView
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.CategoryService
+import com.itechmobile.budget.logick.service.category.CategoryService
 import com.itechmobile.budget.model.RegularModel
 import com.itechmobile.budget.ui.regular.helpers.RegularAdapter
 

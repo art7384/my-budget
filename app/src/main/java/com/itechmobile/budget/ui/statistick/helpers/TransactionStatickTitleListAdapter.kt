@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.CategoryService
+import com.itechmobile.budget.logick.service.category.CategoryService
 import com.itechmobile.budget.model.CategoryModel
 import com.itechmobile.budget.model.TracsationModel
 

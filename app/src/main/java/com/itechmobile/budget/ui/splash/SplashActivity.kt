@@ -9,7 +9,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.datebase.TransactionTable
+import com.itechmobile.budget.logick.database.TransactionTable
 import com.itechmobile.budget.ui.inpocket.InPocketActivity
 import com.itechmobile.budget.ui.list.ListTracsationActivity
 import com.vicpin.krealmextensions.queryAll

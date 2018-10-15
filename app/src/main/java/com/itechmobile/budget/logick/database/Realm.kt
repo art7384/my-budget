@@ -1,4 +1,4 @@
-package com.itechmobile.budget.logick.datebase
+package com.itechmobile.budget.logick.database
 
 import io.realm.RealmObject
 import java.util.*

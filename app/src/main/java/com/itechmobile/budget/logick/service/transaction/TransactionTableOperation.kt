@@ -1,6 +1,7 @@
-package com.itechmobile.budget.logick.datebase
+package com.itechmobile.budget.logick.service.transaction
 
 import android.annotation.SuppressLint
+import com.itechmobile.budget.logick.database.TransactionTable
 import com.itechmobile.budget.logick.parsers.TransactionParser
 import com.itechmobile.budget.model.TracsationModel
 import com.vicpin.krealmextensions.*

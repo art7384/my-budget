@@ -8,8 +8,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import com.itechmobile.budget.R
-import com.itechmobile.budget.logick.service.CategoryService
-import com.itechmobile.budget.logick.service.TransactionService
+import com.itechmobile.budget.logick.service.category.CategoryService
+import com.itechmobile.budget.logick.service.transaction.TransactionService
 import com.itechmobile.budget.model.TracsationModel
 import com.itechmobile.budget.ui.list.ListTracsationActivity
 import java.util.*
